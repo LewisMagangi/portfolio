@@ -1,0 +1,462 @@
+// Personal Portfolio Website Database Schema
+// For use with Prisma ORM and Neon PostgreSQL
+
+Project PersonalPortfolio {
+  database_type: 'PostgreSQL'
+  Note: 'Database schema for Lewis Magangi personal portfolio website'
+}
+
+// ===================================
+// USER & AUTHENTICATION
+// ===================================
+
+Table users {
+  id String [pk, note: 'UUID primary key']
+  email String [unique, not null]
+  name String [not null]
+  password String [not null, note: 'Hashed password']
+  role UserRole [not null, default: 'VISITOR']
+  avatar String [note: 'Profile image URL']
+  bio Text
+  location String
+  website String
+  github String
+  linkedin String
+  twitter String
+  is_active Boolean [default: true]
+  email_verified Boolean [default: false]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [default: `now()`, not null]
+  last_login DateTime
+  
+  indexes {
+    (email, is_active) [name: 'user_email_active_idx']
+    created_at [name: 'user_created_idx']
+  }
+}
+
+Enum UserRole {
+  ADMIN
+  EDITOR
+  VISITOR
+}
+
+// ===================================
+// PROJECTS & PORTFOLIO
+// ===================================
+
+Table projects {
+  id String [pk, note: 'UUID primary key']
+  title String [not null]
+  slug String [unique, not null]
+  description Text [not null]
+  detailed_description Text
+  thumbnail String [note: 'Main project image']
+  github_url String
+  live_url String
+  status ProjectStatus [not null, default: 'ACTIVE']
+  featured Boolean [default: false]
+  order_index Int [default: 0, note: 'For sorting featured projects']
+  start_date DateTime
+  end_date DateTime
+  created_by String [ref: > users.id]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    (featured, order_index) [name: 'project_featured_order_idx']
+    slug [unique, name: 'project_slug_idx']
+    status [name: 'project_status_idx']
+  }
+}
+
+Enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  IN_PROGRESS
+  ARCHIVED
+}
+
+Table project_technologies {
+  id String [pk]
+  project_id String [ref: > projects.id, not null]
+  technology_id String [ref: > technologies.id, not null]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    (project_id, technology_id) [unique, name: 'project_tech_unique']
+  }
+}
+
+Table technologies {
+  id String [pk]
+  name String [unique, not null]
+  category TechCategory [not null]
+  icon String [note: 'Icon URL or identifier']
+  color String [note: 'Brand color hex code']
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    name [unique]
+    category [name: 'tech_category_idx']
+  }
+}
+
+Enum TechCategory {
+  BACKEND
+  FRONTEND
+  DATABASE
+  DEVOPS
+  SECURITY
+  OTHER
+}
+
+Table project_highlights {
+  id String [pk]
+  project_id String [ref: > projects.id, not null]
+  highlight String [not null]
+  order_index Int [default: 0]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    project_id [name: 'highlight_project_idx']
+  }
+}
+
+Table project_images {
+  id String [pk]
+  project_id String [ref: > projects.id, not null]
+  image_url String [not null]
+  caption String
+  order_index Int [default: 0]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    project_id [name: 'image_project_idx']
+  }
+}
+
+// ===================================
+// EXPERIENCE & EDUCATION
+// ===================================
+
+Table experiences {
+  id String [pk]
+  company String [not null]
+  role String [not null]
+  location String
+  employment_type EmploymentType [not null]
+  start_date DateTime [not null]
+  end_date DateTime [note: 'NULL for current position']
+  is_current Boolean [default: false]
+  description Text
+  created_at DateTime [default: `now()`]
+  updated_at DateTime [default: `now()`]
+  
+  indexes {
+    (start_date, end_date) [name: 'experience_date_range_idx']
+    is_current [name: 'experience_current_idx']
+  }
+}
+
+Enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  VOLUNTEER
+}
+
+Table experience_achievements {
+  id String [pk]
+  experience_id String [ref: > experiences.id, not null]
+  achievement String [not null]
+  order_index Int [default: 0]
+  created_at DateTime [default: `now()`]
+}
+
+Table education {
+  id String [pk]
+  institution String [not null]
+  degree String [not null]
+  field_of_study String
+  start_date DateTime [not null]
+  end_date DateTime
+  is_current Boolean [default: false]
+  grade String
+  description Text
+  created_at DateTime [default: `now()`]
+  updated_at DateTime [default: `now()`]
+  
+  indexes {
+    (start_date, end_date) [name: 'education_date_range_idx']
+  }
+}
+
+Table education_highlights {
+  id String [pk]
+  education_id String [ref: > education.id, not null]
+  highlight String [not null]
+  order_index Int [default: 0]
+  created_at DateTime [default: `now()`]
+}
+
+// ===================================
+// BLOG & CONTENT
+// ===================================
+
+Table blog_posts {
+  id String [pk]
+  title String [not null]
+  slug String [unique, not null]
+  excerpt String [not null]
+  content Text [not null]
+  cover_image String
+  author_id String [ref: > users.id, not null]
+  status PostStatus [not null, default: 'DRAFT']
+  published_at DateTime
+  read_time Int [note: 'Estimated read time in minutes']
+  views Int [default: 0]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    slug [unique]
+    (status, published_at) [name: 'post_published_idx']
+    author_id [name: 'post_author_idx']
+  }
+}
+
+Enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+Table blog_categories {
+  id String [pk]
+  name String [unique, not null]
+  slug String [unique, not null]
+  description Text
+  created_at DateTime [default: `now()`]
+}
+
+Table blog_post_categories {
+  id String [pk]
+  post_id String [ref: > blog_posts.id, not null]
+  category_id String [ref: > blog_categories.id, not null]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    (post_id, category_id) [unique, name: 'post_category_unique']
+  }
+}
+
+Table blog_tags {
+  id String [pk]
+  name String [unique, not null]
+  slug String [unique, not null]
+  created_at DateTime [default: `now()`]
+}
+
+Table blog_post_tags {
+  id String [pk]
+  post_id String [ref: > blog_posts.id, not null]
+  tag_id String [ref: > blog_tags.id, not null]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    (post_id, tag_id) [unique, name: 'post_tag_unique']
+  }
+}
+
+Table blog_comments {
+  id String [pk]
+  post_id String [ref: > blog_posts.id, not null]
+  user_id String [ref: > users.id]
+  author_name String [not null]
+  author_email String [not null]
+  content Text [not null]
+  parent_id String [ref: > blog_comments.id, note: 'For nested comments']
+  status CommentStatus [not null, default: 'PENDING']
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    post_id [name: 'comment_post_idx']
+    (status, created_at) [name: 'comment_status_date_idx']
+  }
+}
+
+Enum CommentStatus {
+  PENDING
+  APPROVED
+  SPAM
+  DELETED
+}
+
+// ===================================
+// TESTIMONIALS & RECOMMENDATIONS
+// ===================================
+
+Table testimonials {
+  id String [pk]
+  name String [not null]
+  role String [not null]
+  company String
+  content Text [not null]
+  avatar String
+  rating Int [note: '1-5 stars', default: 5]
+  featured Boolean [default: false]
+  status TestimonialStatus [not null, default: 'PENDING']
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    (featured, status) [name: 'testimonial_featured_status_idx']
+  }
+}
+
+Enum TestimonialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ===================================
+// SKILLS & EXPERTISE
+// ===================================
+
+Table skills {
+  id String [pk]
+  name String [unique, not null]
+  category SkillCategory [not null]
+  proficiency_level Int [note: '1-5 scale', default: 3]
+  years_of_experience Float
+  icon String
+  order_index Int [default: 0]
+  created_at DateTime [default: `now()`]
+  
+  indexes {
+    (category, order_index) [name: 'skill_category_order_idx']
+  }
+}
+
+Enum SkillCategory {
+  BACKEND
+  FRONTEND
+  DATABASE
+  DEVOPS
+  SECURITY
+  TOOLS
+  SOFT_SKILLS
+}
+
+// ===================================
+// CONTACT & MESSAGES
+// ===================================
+
+Table contact_messages {
+  id String [pk]
+  name String [not null]
+  email String [not null]
+  subject String
+  message Text [not null]
+  status MessageStatus [not null, default: 'NEW']
+  ip_address String
+  user_agent String
+  replied Boolean [default: false]
+  replied_at DateTime
+  created_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    (status, created_at) [name: 'message_status_date_idx']
+    email [name: 'message_email_idx']
+  }
+}
+
+Enum MessageStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+  SPAM
+}
+
+// ===================================
+// ANALYTICS & TRACKING
+// ===================================
+
+Table page_views {
+  id String [pk]
+  page_path String [not null]
+  referrer String
+  user_agent String
+  ip_address String
+  session_id String
+  visited_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    (page_path, visited_at) [name: 'pageview_path_date_idx']
+    session_id [name: 'pageview_session_idx']
+  }
+}
+
+Table downloads {
+  id String [pk]
+  file_type DownloadType [not null]
+  ip_address String
+  user_agent String
+  downloaded_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    (file_type, downloaded_at) [name: 'download_type_date_idx']
+  }
+}
+
+Enum DownloadType {
+  RESUME
+  CV
+  PORTFOLIO
+  OTHER
+}
+
+// ===================================
+// SETTINGS & CONFIGURATION
+// ===================================
+
+Table site_settings {
+  id String [pk]
+  key String [unique, not null]
+  value Text
+  description String
+  updated_at DateTime [default: `now()`, not null]
+  
+  indexes {
+    key [unique]
+  }
+}
+
+// ===================================
+// SUBSCRIPTIONS & NEWSLETTER
+// ===================================
+
+Table newsletter_subscribers {
+  id String [pk]
+  email String [unique, not null]
+  name String
+  status SubscriptionStatus [not null, default: 'ACTIVE']
+  subscribed_at DateTime [default: `now()`, not null]
+  unsubscribed_at DateTime
+  
+  indexes {
+    email [unique]
+    (status, subscribed_at) [name: 'subscriber_status_date_idx']
+  }
+}
+
+Enum SubscriptionStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+}

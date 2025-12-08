@@ -1,0 +1,515 @@
+
+// This is your Prisma schema file for the Personal Portfolio Website
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ===================================
+// USER & AUTHENTICATION
+// ===================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(VISITOR)
+  avatar        String?
+  bio           String?   @db.Text
+  location      String?
+  website       String?
+  github        String?
+  linkedin      String?
+  twitter       String?
+  isActive      Boolean   @default(true) @map("is_active")
+  emailVerified Boolean   @default(false) @map("email_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  lastLogin     DateTime? @map("last_login")
+
+  // Relations
+  projects      Project[]
+  blogPosts     BlogPost[]
+  comments      BlogComment[]
+
+  @@index([email, isActive], name: "user_email_active_idx")
+  @@index([createdAt], name: "user_created_idx")
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VISITOR
+}
+
+// ===================================
+// PROJECTS & PORTFOLIO
+// ===================================
+
+model Project {
+  id                  String        @id @default(uuid())
+  title               String
+  slug                String        @unique
+  description         String        @db.Text
+  detailedDescription String?       @map("detailed_description") @db.Text
+  thumbnail           String?
+  githubUrl           String?       @map("github_url")
+  liveUrl             String?       @map("live_url")
+  status              ProjectStatus @default(ACTIVE)
+  featured            Boolean       @default(false)
+  orderIndex          Int           @default(0) @map("order_index")
+  startDate           DateTime?     @map("start_date")
+  endDate             DateTime?     @map("end_date")
+  createdBy           String?       @map("created_by")
+  createdAt           DateTime      @default(now()) @map("created_at")
+  updatedAt           DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  creator       User?                   @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  technologies  ProjectTechnology[]
+  highlights    ProjectHighlight[]
+  images        ProjectImage[]
+
+  @@index([featured, orderIndex], name: "project_featured_order_idx")
+  @@index([slug], name: "project_slug_idx")
+  @@index([status], name: "project_status_idx")
+  @@map("projects")
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  IN_PROGRESS
+  ARCHIVED
+}
+
+model ProjectTechnology {
+  id           String   @id @default(uuid())
+  projectId    String   @map("project_id")
+  technologyId String   @map("technology_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  technology Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, technologyId], name: "project_tech_unique")
+  @@map("project_technologies")
+}
+
+model Technology {
+  id        String       @id @default(uuid())
+  name      String       @unique
+  category  TechCategory
+  icon      String?
+  color     String?
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  // Relations
+  projects ProjectTechnology[]
+
+  @@index([category], name: "tech_category_idx")
+  @@map("technologies")
+}
+
+enum TechCategory {
+  BACKEND
+  FRONTEND
+  DATABASE
+  DEVOPS
+  SECURITY
+  OTHER
+}
+
+model ProjectHighlight {
+  id         String   @id @default(uuid())
+  projectId  String   @map("project_id")
+  highlight  String
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], name: "highlight_project_idx")
+  @@map("project_highlights")
+}
+
+model ProjectImage {
+  id         String   @id @default(uuid())
+  projectId  String   @map("project_id")
+  imageUrl   String   @map("image_url")
+  caption    String?
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], name: "image_project_idx")
+  @@map("project_images")
+}
+
+// ===================================
+// EXPERIENCE & EDUCATION
+// ===================================
+
+model Experience {
+  id             String         @id @default(uuid())
+  company        String
+  role           String
+  location       String?
+  employmentType EmploymentType @map("employment_type")
+  startDate      DateTime       @map("start_date")
+  endDate        DateTime?      @map("end_date")
+  isCurrent      Boolean        @default(false) @map("is_current")
+  description    String?        @db.Text
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  // Relations
+  achievements ExperienceAchievement[]
+
+  @@index([startDate, endDate], name: "experience_date_range_idx")
+  @@index([isCurrent], name: "experience_current_idx")
+  @@map("experiences")
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  VOLUNTEER
+}
+
+model ExperienceAchievement {
+  id           String   @id @default(uuid())
+  experienceId String   @map("experience_id")
+  achievement  String
+  orderIndex   Int      @default(0) @map("order_index")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@map("experience_achievements")
+}
+
+model Education {
+  id            String    @id @default(uuid())
+  institution   String
+  degree        String
+  fieldOfStudy  String?   @map("field_of_study")
+  startDate     DateTime  @map("start_date")
+  endDate       DateTime? @map("end_date")
+  isCurrent     Boolean   @default(false) @map("is_current")
+  grade         String?
+  description   String?   @db.Text
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  highlights EducationHighlight[]
+
+  @@index([startDate, endDate], name: "education_date_range_idx")
+  @@map("education")
+}
+
+model EducationHighlight {
+  id          String   @id @default(uuid())
+  educationId String   @map("education_id")
+  highlight   String
+  orderIndex  Int      @default(0) @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  education Education @relation(fields: [educationId], references: [id], onDelete: Cascade)
+
+  @@map("education_highlights")
+}
+
+// ===================================
+// BLOG & CONTENT
+// ===================================
+
+model BlogPost {
+  id          String     @id @default(uuid())
+  title       String
+  slug        String     @unique
+  excerpt     String
+  content     String     @db.Text
+  coverImage  String?    @map("cover_image")
+  authorId    String     @map("author_id")
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?  @map("published_at")
+  readTime    Int?       @map("read_time")
+  views       Int        @default(0)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  author     User                 @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categories BlogPostCategory[]
+  tags       BlogPostTag[]
+  comments   BlogComment[]
+
+  @@index([slug], name: "post_slug_idx")
+  @@index([status, publishedAt], name: "post_published_idx")
+  @@index([authorId], name: "post_author_idx")
+  @@map("blog_posts")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  posts BlogPostCategory[]
+
+  @@map("blog_categories")
+}
+
+model BlogPostCategory {
+  id         String   @id @default(uuid())
+  postId     String   @map("post_id")
+  categoryId String   @map("category_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  post     BlogPost     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, categoryId], name: "post_category_unique")
+  @@map("blog_post_categories")
+}
+
+model BlogTag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  posts BlogPostTag[]
+
+  @@map("blog_tags")
+}
+
+model BlogPostTag {
+  id        String   @id @default(uuid())
+  postId    String   @map("post_id")
+  tagId     String   @map("tag_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, tagId], name: "post_tag_unique")
+  @@map("blog_post_tags")
+}
+
+model BlogComment {
+  id          String        @id @default(uuid())
+  postId      String        @map("post_id")
+  userId      String?       @map("user_id")
+  authorName  String        @map("author_name")
+  authorEmail String        @map("author_email")
+  content     String        @db.Text
+  parentId    String?       @map("parent_id")
+  status      CommentStatus @default(PENDING)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  post    BlogPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user    User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  parent  BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies BlogComment[] @relation("CommentReplies")
+
+  @@index([postId], name: "comment_post_idx")
+  @@index([status, createdAt], name: "comment_status_date_idx")
+  @@map("blog_comments")
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  SPAM
+  DELETED
+}
+
+// ===================================
+// TESTIMONIALS & RECOMMENDATIONS
+// ===================================
+
+model Testimonial {
+  id        String            @id @default(uuid())
+  name      String
+  role      String
+  company   String?
+  content   String            @db.Text
+  avatar    String?
+  rating    Int               @default(5)
+  featured  Boolean           @default(false)
+  status    TestimonialStatus @default(PENDING)
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  @@index([featured, status], name: "testimonial_featured_status_idx")
+  @@map("testimonials")
+}
+
+enum TestimonialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ===================================
+// SKILLS & EXPERTISE
+// ===================================
+
+model Skill {
+  id                 String        @id @default(uuid())
+  name               String        @unique
+  category           SkillCategory
+  proficiencyLevel   Int           @default(3) @map("proficiency_level")
+  yearsOfExperience  Float?        @map("years_of_experience")
+  icon               String?
+  orderIndex         Int           @default(0) @map("order_index")
+  createdAt          DateTime      @default(now()) @map("created_at")
+
+  @@index([category, orderIndex], name: "skill_category_order_idx")
+  @@map("skills")
+}
+
+enum SkillCategory {
+  BACKEND
+  FRONTEND
+  DATABASE
+  DEVOPS
+  SECURITY
+  TOOLS
+  SOFT_SKILLS
+}
+
+// ===================================
+// CONTACT & MESSAGES
+// ===================================
+
+model ContactMessage {
+  id         String        @id @default(uuid())
+  name       String
+  email      String
+  subject    String?
+  message    String        @db.Text
+  status     MessageStatus @default(NEW)
+  ipAddress  String?       @map("ip_address")
+  userAgent  String?       @map("user_agent")
+  replied    Boolean       @default(false)
+  repliedAt  DateTime?     @map("replied_at")
+  createdAt  DateTime      @default(now()) @map("created_at")
+
+  @@index([status, createdAt], name: "message_status_date_idx")
+  @@index([email], name: "message_email_idx")
+  @@map("contact_messages")
+}
+
+enum MessageStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+  SPAM
+}
+
+// ===================================
+// ANALYTICS & TRACKING
+// ===================================
+
+model PageView {
+  id        String   @id @default(uuid())
+  pagePath  String   @map("page_path")
+  referrer  String?
+  userAgent String?  @map("user_agent")
+  ipAddress String?  @map("ip_address")
+  sessionId String?  @map("session_id")
+  visitedAt DateTime @default(now()) @map("visited_at")
+
+  @@index([pagePath, visitedAt], name: "pageview_path_date_idx")
+  @@index([sessionId], name: "pageview_session_idx")
+  @@map("page_views")
+}
+
+model Download {
+  id           String       @id @default(uuid())
+  fileType     DownloadType @map("file_type")
+  ipAddress    String?      @map("ip_address")
+  userAgent    String?      @map("user_agent")
+  downloadedAt DateTime     @default(now()) @map("downloaded_at")
+
+  @@index([fileType, downloadedAt], name: "download_type_date_idx")
+  @@map("downloads")
+}
+
+enum DownloadType {
+  RESUME
+  CV
+  PORTFOLIO
+  OTHER
+}
+
+// ===================================
+// SETTINGS & CONFIGURATION
+// ===================================
+
+model SiteSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String?  @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+// ===================================
+// SUBSCRIPTIONS & NEWSLETTER
+// ===================================
+
+model NewsletterSubscriber {
+  id             String             @id @default(uuid())
+  email          String             @unique
+  name           String?
+  status         SubscriptionStatus @default(ACTIVE)
+  subscribedAt   DateTime           @default(now()) @map("subscribed_at")
+  unsubscribedAt DateTime?          @map("unsubscribed_at")
+
+  @@index([status, subscribedAt], name: "subscriber_status_date_idx")
+  @@map("newsletter_subscribers")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+}
