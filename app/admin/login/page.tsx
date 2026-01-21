@@ -74,7 +74,7 @@ export default function AdminLoginPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="admin@portfolio.com"
+                placeholder="Enter your email"
                 className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
                 required
               />
@@ -110,12 +110,6 @@ export default function AdminLoginPage() {
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
-
-          <div className="mt-6 text-center text-sm text-slate-400">
-            <p>Demo credentials:</p>
-            <p>Email: lewis@example.com</p>
-            <p>Password: admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>
