@@ -299,52 +299,56 @@ async function main() {
   console.log('✅ Created education records');
 
   // Create blog categories
-  const webDevCategory = await prisma.blogCategory.create({
-    data: {
-      name: 'Web Development',
-      slug: 'web-development',
-      description: 'Articles about modern web development practices and technologies',
-    },
-  });
-
-  await prisma.blogCategory.create({
-    data: {
-      name: 'Security',
-      slug: 'security',
-      description: 'Cybersecurity insights and best practices',
-    },
-  });
-
-  const tutorialsCategory = await prisma.blogCategory.create({
-    data: {
-      name: 'Tutorials',
-      slug: 'tutorials',
-      description: 'Step-by-step guides and how-tos',
-    },
+  await prisma.blogCategory.createMany({
+    data: [
+      {
+        name: 'Web Development',
+        slug: 'web-development',
+        description: 'Articles about modern web development practices and technologies',
+      },
+      {
+        name: 'Security',
+        slug: 'security',
+        description: 'Cybersecurity insights and best practices',
+      },
+      {
+        name: 'Tutorials',
+        slug: 'tutorials',
+        description: 'Step-by-step guides and how-tos',
+      },
+    ],
+    skipDuplicates: true,
   });
   console.log('✅ Created blog categories');
 
   // Create blog tags
-  const djangoTag = await prisma.blogTag.create({
-    data: { name: 'Django', slug: 'django' },
-  });
-
-  const reactTag = await prisma.blogTag.create({
-    data: { name: 'React', slug: 'react' },
-  });
-
-  const accessibilityTag = await prisma.blogTag.create({
-    data: { name: 'Accessibility', slug: 'accessibility' },
+  await prisma.blogTag.createMany({
+    data: [
+      { name: 'Django', slug: 'django' },
+      { name: 'React', slug: 'react' },
+      { name: 'Accessibility', slug: 'accessibility' },
+    ],
+    skipDuplicates: true,
   });
   console.log('✅ Created blog tags');
 
   // Create blog posts
-  await prisma.blogPost.create({
-    data: {
-      title: 'Building Accessible Voice Interfaces with Whisper and Coqui TTS',
-      slug: 'building-accessible-voice-interfaces',
-      excerpt: 'How we achieved WCAG 2.1 AA compliance while implementing local voice processing for enhanced privacy.',
-      content: `# Building Accessible Voice Interfaces
+  // First, get category and tag IDs
+  const webDevCategory = await prisma.blogCategory.findUnique({ where: { slug: 'web-development' } });
+  const tutorialsCategory = await prisma.blogCategory.findUnique({ where: { slug: 'tutorials' } });
+  const djangoTag = await prisma.blogTag.findUnique({ where: { slug: 'django' } });
+  const reactTag = await prisma.blogTag.findUnique({ where: { slug: 'react' } });
+  const accessibilityTag = await prisma.blogTag.findUnique({ where: { slug: 'accessibility' } });
+
+  if (webDevCategory && tutorialsCategory && djangoTag && reactTag && accessibilityTag) {
+    await prisma.blogPost.upsert({
+      where: { slug: 'building-accessible-voice-interfaces' },
+      update: {},
+      create: {
+        title: 'Building Accessible Voice Interfaces with Whisper and Coqui TTS',
+        slug: 'building-accessible-voice-interfaces',
+        excerpt: 'How we achieved WCAG 2.1 AA compliance while implementing local voice processing for enhanced privacy.',
+        content: `# Building Accessible Voice Interfaces
 
 In this article, I'll share our journey of building a privacy-first voice exam platform that meets WCAG 2.1 AA standards...
 
@@ -355,85 +359,85 @@ Traditional voice interfaces rely on cloud services, which raises privacy concer
 ## Our Solution
 
 We implemented local processing using Whisper for speech-to-text and Coqui TTS for text-to-speech...`,
-      coverImage: '/images/blog/voice-interfaces.jpg',
-      authorId: admin.id,
-      status: PostStatus.PUBLISHED,
-      publishedAt: new Date('2025-11-01'),
-      readTime: 8,
-      categories: {
-        create: [
-          { categoryId: webDevCategory.id },
-          { categoryId: tutorialsCategory.id },
-        ],
+        coverImage: '/images/blog/voice-interfaces.jpg',
+        authorId: admin.id,
+        status: PostStatus.PUBLISHED,
+        publishedAt: new Date('2025-11-01'),
+        readTime: 8,
+        categories: {
+          create: [
+            { categoryId: webDevCategory.id },
+            { categoryId: tutorialsCategory.id },
+          ],
+        },
+        tags: {
+          create: [
+            { tagId: accessibilityTag.id },
+          ],
+        },
       },
-      tags: {
-        create: [
-          { tagId: accessibilityTag.id },
-        ],
-      },
-    },
-  });
+    });
 
-  await prisma.blogPost.create({
-    data: {
-      title: 'Django to Next.js: A Full-Stack Journey',
-      slug: 'django-to-nextjs-journey',
-      excerpt: 'Lessons learned from working across both backend and frontend ecosystems in production environments.',
-      content: `# From Django to Next.js
+    await prisma.blogPost.upsert({
+      where: { slug: 'django-to-nextjs-journey' },
+      update: {},
+      create: {
+        title: 'Django to Next.js: A Full-Stack Journey',
+        slug: 'django-to-nextjs-journey',
+        excerpt: 'Lessons learned from working across both backend and frontend ecosystems in production environments.',
+        content: `# From Django to Next.js
 
 My journey working with both Django and Next.js has taught me valuable lessons about full-stack development...`,
-      coverImage: '/images/blog/django-nextjs.jpg',
-      authorId: admin.id,
-      status: PostStatus.PUBLISHED,
-      publishedAt: new Date('2025-10-15'),
-      readTime: 6,
-      categories: {
-        create: [
-          { categoryId: webDevCategory.id },
-        ],
+        coverImage: '/images/blog/django-nextjs.jpg',
+        authorId: admin.id,
+        status: PostStatus.PUBLISHED,
+        publishedAt: new Date('2025-10-15'),
+        readTime: 6,
+        categories: {
+          create: [
+            { categoryId: webDevCategory.id },
+          ],
+        },
+        tags: {
+          create: [
+            { tagId: djangoTag.id },
+            { tagId: reactTag.id },
+          ],
+        },
       },
-      tags: {
-        create: [
-          { tagId: djangoTag.id },
-          { tagId: reactTag.id },
-        ],
-      },
-    },
-  });
+    });
+  }
   console.log('✅ Created blog posts');
 
   // Create testimonials
-  await prisma.testimonial.create({
-    data: {
-      name: 'Project Team Lead',
-      role: 'Solar-Powered Water ATM',
-      content: 'Lewis demonstrated exceptional technical leadership in migrating our platform from Flask to Django. His attention to security and scalability transformed our codebase.',
-      rating: 5,
-      featured: true,
-      status: 'APPROVED',
-    },
-  });
-
-  await prisma.testimonial.create({
-    data: {
-      name: 'Academic Supervisor',
-      role: 'University Project',
-      content: 'Outstanding work on the Dynamic Cryptosuite Selection System. Lewis shows deep understanding of cryptographic principles and software architecture.',
-      rating: 5,
-      featured: true,
-      status: 'APPROVED',
-    },
-  });
-
-  await prisma.testimonial.create({
-    data: {
-      name: 'ALX Mentor',
-      role: 'Software Engineering Program',
-      content: 'Lewis consistently delivered high-quality code and showed strong problem-solving abilities. His contributions to team projects were invaluable.',
-      rating: 5,
-      featured: true,
-      status: 'APPROVED',
-    },
+  await prisma.testimonial.createMany({
+    data: [
+      {
+        name: 'Project Team Lead',
+        role: 'Solar-Powered Water ATM',
+        content: 'Lewis demonstrated exceptional technical leadership in migrating our platform from Flask to Django. His attention to security and scalability transformed our codebase.',
+        rating: 5,
+        featured: true,
+        status: 'APPROVED',
+      },
+      {
+        name: 'Academic Supervisor',
+        role: 'University Project',
+        content: 'Outstanding work on the Dynamic Cryptosuite Selection System. Lewis shows deep understanding of cryptographic principles and software architecture.',
+        rating: 5,
+        featured: true,
+        status: 'APPROVED',
+      },
+      {
+        name: 'ALX Mentor',
+        role: 'Software Engineering Program',
+        content: 'Lewis consistently delivered high-quality code and showed strong problem-solving abilities. His contributions to team projects were invaluable.',
+        rating: 5,
+        featured: true,
+        status: 'APPROVED',
+      },
+    ],
+    skipDuplicates: true,
   });
   console.log('✅ Created testimonials');
 
@@ -443,9 +447,9 @@ My journey working with both Django and Next.js has taught me valuable lessons a
       category: 'BACKEND',
       skills: [
         { name: 'Python', proficiencyLevel: 5, yearsOfExperience: 3 },
-        { name: 'Django', proficiencyLevel: 5, yearsOfExperience: 2.5 },
+        { name: 'Django', proficiencyLevel: 5, yearsOfExperience: 2 },
         { name: 'Django REST Framework', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Flask', proficiencyLevel: 4, yearsOfExperience: 1.5 },
+        { name: 'Flask', proficiencyLevel: 4, yearsOfExperience: 1 },
         { name: 'Node.js', proficiencyLevel: 3, yearsOfExperience: 1 },
       ],
     },
@@ -454,41 +458,43 @@ My journey working with both Django and Next.js has taught me valuable lessons a
       skills: [
         { name: 'React', proficiencyLevel: 4, yearsOfExperience: 2 },
         { name: 'Next.js', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'TypeScript', proficiencyLevel: 4, yearsOfExperience: 1.5 },
-        { name: 'TailwindCSS', proficiencyLevel: 5, yearsOfExperience: 2 },
+        { name: 'TypeScript', proficiencyLevel: 4, yearsOfExperience: 1 },
+        { name: 'TailwindCSS', proficiencyLevel: 3, yearsOfExperience: 1 },
       ],
     },
     {
       category: 'DATABASE',
       skills: [
-        { name: 'PostgreSQL', proficiencyLevel: 5, yearsOfExperience: 2.5 },
-        { name: 'MySQL', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Prisma ORM', proficiencyLevel: 4, yearsOfExperience: 1 },
+        { name: 'PostgreSQL', proficiencyLevel: 4, yearsOfExperience: 2 },
+        { name: 'Prisma', proficiencyLevel: 4, yearsOfExperience: 1 },
         { name: 'MongoDB', proficiencyLevel: 3, yearsOfExperience: 1 },
       ],
     },
     {
       category: 'DEVOPS',
       skills: [
-        { name: 'Docker', proficiencyLevel: 4, yearsOfExperience: 1.5 },
+        { name: 'Docker', proficiencyLevel: 3, yearsOfExperience: 1 },
         { name: 'Git', proficiencyLevel: 5, yearsOfExperience: 3 },
-        { name: 'CI/CD', proficiencyLevel: 3, yearsOfExperience: 1 },
       ],
     },
   ];
 
+  const allSkills = [];
   for (const category of skillCategories) {
     for (const skill of category.skills) {
-      await prisma.skill.create({
-        data: {
-          name: skill.name,
-          category: category.category as SkillCategory,
-          proficiencyLevel: skill.proficiencyLevel,
-          yearsOfExperience: skill.yearsOfExperience,
-        },
+      allSkills.push({
+        name: skill.name,
+        category: category.category as SkillCategory,
+        proficiencyLevel: skill.proficiencyLevel,
+        yearsOfExperience: skill.yearsOfExperience,
       });
     }
   }
+
+  await prisma.skill.createMany({
+    data: allSkills,
+    skipDuplicates: true,
+  });
   console.log('✅ Created skills');
 
   console.log('🎉 Database seeding completed!');
