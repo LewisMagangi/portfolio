@@ -16,6 +16,14 @@ export async function POST() {
       maxAge: 0 // Expire immediately
     });
 
+    // Clear the user ID cookie
+    response.cookies.set('user_id', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0 // Expire immediately
+    });
+
     return response;
   } catch (error) {
     console.error('Logout error:', error);

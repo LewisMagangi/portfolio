@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { TestimonialStatus } from '@/lib/generated/prisma';
+import { requireAdmin } from '@/lib/auth';
 
 export async function GET(
   request: NextRequest,
@@ -37,27 +38,13 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Check authentication
-    const authResponse = await fetch(`${request.nextUrl.origin}/api/auth/me`, {
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
-    });
+    // Check authentication and authorization
+    const authResult = await requireAdmin(request);
 
-    if (!authResponse.ok) {
+    if (!authResult.authorized) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const authData = await authResponse.json();
-    const user = authData.user;
-
-    if (!user || user.role !== 'ADMIN') {
-      return NextResponse.json(
-        { success: false, error: 'Admin access required' },
-        { status: 403 }
+        { success: false, error: authResult.error },
+        { status: authResult.statusCode || 401 }
       );
     }
 
@@ -106,27 +93,13 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Check authentication
-    const authResponse = await fetch(`${request.nextUrl.origin}/api/auth/me`, {
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
-    });
+    // Check authentication and authorization
+    const authResult = await requireAdmin(request);
 
-    if (!authResponse.ok) {
+    if (!authResult.authorized) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const authData = await authResponse.json();
-    const user = authData.user;
-
-    if (!user || user.role !== 'ADMIN') {
-      return NextResponse.json(
-        { success: false, error: 'Admin access required' },
-        { status: 403 }
+        { success: false, error: authResult.error },
+        { status: authResult.statusCode || 401 }
       );
     }
 
