@@ -37,6 +37,30 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check authentication
+    const authResponse = await fetch(`${request.nextUrl.origin}/api/auth/me`, {
+      headers: {
+        cookie: request.headers.get('cookie') || '',
+      },
+    });
+
+    if (!authResponse.ok) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const authData = await authResponse.json();
+    const user = authData.user;
+
+    if (!user || user.role !== 'ADMIN') {
+      return NextResponse.json(
+        { success: false, error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const {
       name,
@@ -82,6 +106,30 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check authentication
+    const authResponse = await fetch(`${request.nextUrl.origin}/api/auth/me`, {
+      headers: {
+        cookie: request.headers.get('cookie') || '',
+      },
+    });
+
+    if (!authResponse.ok) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const authData = await authResponse.json();
+    const user = authData.user;
+
+    if (!user || user.role !== 'ADMIN') {
+      return NextResponse.json(
+        { success: false, error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     await prisma.testimonial.delete({
       where: { id: params.id }
     });
