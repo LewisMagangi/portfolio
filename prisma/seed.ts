@@ -119,8 +119,10 @@ async function main() {
   console.log('✅ Created technologies');
 
   // Create projects
-  await prisma.project.create({
-    data: {
+  await prisma.project.upsert({
+    where: { slug: 'solar-powered-water-atm' },
+    update: {},
+    create: {
       title: 'Solar-Powered Water ATM System',
       slug: 'solar-powered-water-atm',
       description: 'Python-based web application enabling secure water access through solar-powered dispensing units with real-time monitoring.',
@@ -149,8 +151,10 @@ async function main() {
     },
   });
 
-  await prisma.project.create({
-    data: {
+  await prisma.project.upsert({
+    where: { slug: 'sustainable-fishing-platform' },
+    update: {},
+    create: {
       title: 'Sustainable Fishing Platform',
       slug: 'sustainable-fishing-platform',
       description: 'Multi-app Django platform for community-driven sustainable fishing with catch management and educational content.',
@@ -179,8 +183,10 @@ async function main() {
     },
   });
 
-  await prisma.project.create({
-    data: {
+  await prisma.project.upsert({
+    where: { slug: 'wamumbi-charity-platform' },
+    update: {},
+    create: {
       title: 'Wamumbi Charity Platform',
       slug: 'wamumbi-charity-platform',
       description: 'Modern Next.js web app for charity foundation with secure donation processing and admin dashboard.',
