@@ -1,6 +1,7 @@
 // app/api/testimonials/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { requireAuth } from '@/lib/auth';
 import { TestimonialStatus } from '@/lib/generated/prisma';
 
 export async function GET(
@@ -37,6 +38,9 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Verify authentication
+    requireAuth(request);
+
     const body = await request.json();
     const {
       name,
@@ -69,6 +73,12 @@ export async function PUT(
       message: 'Testimonial updated successfully'
     });
   } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
     console.error('Error updating testimonial:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to update testimonial' },
@@ -82,6 +92,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Verify authentication
+    requireAuth(request);
+
     await prisma.testimonial.delete({
       where: { id: params.id }
     });
@@ -91,6 +104,12 @@ export async function DELETE(
       message: 'Testimonial deleted successfully'
     });
   } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
     console.error('Error deleting testimonial:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete testimonial' },

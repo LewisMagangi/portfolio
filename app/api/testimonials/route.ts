@@ -1,6 +1,7 @@
 // app/api/testimonials/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { requireAuth } from '@/lib/auth';
 import { TestimonialStatus } from '@/lib/generated/prisma';
 
 export async function GET(request: NextRequest) {
@@ -42,6 +43,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify authentication
+    requireAuth(request);
+
     const body = await request.json();
     const {
       name,
@@ -80,6 +84,12 @@ export async function POST(request: NextRequest) {
       message: 'Testimonial created successfully'
     }, { status: 201 });
   } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
     console.error('Error creating testimonial:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create testimonial' },
