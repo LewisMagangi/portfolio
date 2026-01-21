@@ -17,6 +17,22 @@ export interface AuthUser {
   cv: string | null;
 }
 
+// User select fields to avoid duplication
+const USER_SELECT_FIELDS = {
+  id: true,
+  email: true,
+  name: true,
+  role: true,
+  avatar: true,
+  bio: true,
+  location: true,
+  website: true,
+  github: true,
+  linkedin: true,
+  twitter: true,
+  cv: true
+} as const;
+
 export async function authenticateRequest(request: NextRequest): Promise<{
   authenticated: boolean;
   user: AuthUser | null;
@@ -39,44 +55,19 @@ export async function authenticateRequest(request: NextRequest): Promise<{
           id: userIdCookie,
           isActive: true
         },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          avatar: true,
-          bio: true,
-          location: true,
-          website: true,
-          github: true,
-          linkedin: true,
-          twitter: true,
-          cv: true
-        }
+        select: USER_SELECT_FIELDS
       });
     }
 
     // Fallback to first admin user if no specific user found
+    // This maintains backward compatibility with existing auth system
     if (!user) {
       user = await prisma.user.findFirst({
         where: {
           role: 'ADMIN',
           isActive: true
         },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          role: true,
-          avatar: true,
-          bio: true,
-          location: true,
-          website: true,
-          github: true,
-          linkedin: true,
-          twitter: true,
-          cv: true
-        }
+        select: USER_SELECT_FIELDS
       });
     }
 
