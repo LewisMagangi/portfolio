@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Plus, Edit, Trash2, ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -97,13 +98,14 @@ export default function AdminProjectsPage() {
         {projects.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <Card key={project.id} className="overflow-hidden">
+              <Card key={project.id} className="bg-slate-800 border-slate-700">
                 {project.thumbnail && (
                   <div className="h-48 bg-slate-700 relative">
-                    <img
+                    <Image
                       src={project.thumbnail}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      style={{ objectFit: 'cover' }}
                     />
                     {project.featured && (
                       <span className="absolute top-4 right-4 px-3 py-1 bg-cyan-500 text-white rounded-full text-xs font-semibold">
@@ -133,12 +135,12 @@ export default function AdminProjectsPage() {
                       {project.status}
                     </span>
                     {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">
                         <Github size={16} />
                       </a>
                     )}
                     {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label="View live site">
                         <ExternalLink size={16} />
                       </a>
                     )}

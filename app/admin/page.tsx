@@ -1,20 +1,18 @@
 // app/admin/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  LayoutDashboard, 
-  FolderKanban, 
-  FileText, 
-  MessageSquare, 
-  User, 
+import {
+  FolderKanban,
+  FileText,
+  MessageSquare,
+  User,
   Settings,
   LogOut,
   TrendingUp,
   Eye,
-  Download,
   Mail
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,12 +37,7 @@ export default function AdminDashboard() {
     views: 0
   });
 
-  useEffect(() => {
-    fetchUser();
-    fetchStats();
-  }, []);
-
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await fetch('/api/auth/me');
       if (response.ok) {
@@ -59,7 +52,12 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchUser();
+    fetchStats();
+  }, [fetchUser]);
 
   const fetchStats = async () => {
     try {
@@ -167,75 +165,111 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <Link href="/admin/projects">
-            <Card className="hover:border-cyan-500 transition-colors cursor-pointer">
+            <Card className="hover:border-cyan-500 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
                   <FolderKanban className="text-cyan-400" size={24} />
                 </div>
-                <CardTitle>Manage Projects</CardTitle>
-                <CardDescription>Add, edit, or delete portfolio projects</CardDescription>
+                <CardTitle>Projects</CardTitle>
+                <CardDescription>Manage portfolio projects</CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
           <Link href="/admin/blog">
-            <Card className="hover:border-blue-500 transition-colors cursor-pointer">
+            <Card className="hover:border-blue-500 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                   <FileText className="text-blue-400" size={24} />
                 </div>
-                <CardTitle>Manage Blog</CardTitle>
-                <CardDescription>Create and publish new articles</CardDescription>
+                <CardTitle>Blog Posts</CardTitle>
+                <CardDescription>Create and publish articles</CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/admin/messages">
-            <Card className="hover:border-purple-500 transition-colors cursor-pointer">
-              <CardHeader>
-                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <MessageSquare className="text-purple-400" size={24} />
-                </div>
-                <CardTitle>Messages</CardTitle>
-                <CardDescription>View and respond to contact inquiries</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/experience">
-            <Card className="hover:border-green-500 transition-colors cursor-pointer">
+          <Link href="/admin/experiences">
+            <Card className="hover:border-green-500 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
                   <TrendingUp className="text-green-400" size={24} />
                 </div>
-                <CardTitle>Experience & Education</CardTitle>
-                <CardDescription>Update work history and education</CardDescription>
+                <CardTitle>Experiences</CardTitle>
+                <CardDescription>Manage work history</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/admin/education">
+            <Card className="hover:border-indigo-500 transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <User className="text-indigo-400" size={24} />
+                </div>
+                <CardTitle>Education</CardTitle>
+                <CardDescription>Manage education entries</CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
           <Link href="/admin/skills">
-            <Card className="hover:border-yellow-500 transition-colors cursor-pointer">
+            <Card className="hover:border-yellow-500 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-4">
                   <Settings className="text-yellow-400" size={24} />
                 </div>
                 <CardTitle>Skills</CardTitle>
-                <CardDescription>Manage technical skills and proficiency</CardDescription>
+                <CardDescription>Manage technical skills</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/admin/testimonials">
+            <Card className="hover:border-pink-500 transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <MessageSquare className="text-pink-400" size={24} />
+                </div>
+                <CardTitle>Testimonials</CardTitle>
+                <CardDescription>Manage client reviews</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/admin/messages">
+            <Card className="hover:border-purple-500 transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <Mail className="text-purple-400" size={24} />
+                </div>
+                <CardTitle>Messages</CardTitle>
+                <CardDescription>View contact inquiries</CardDescription>
               </CardHeader>
             </Card>
           </Link>
 
           <Link href="/admin/analytics">
-            <Card className="hover:border-orange-500 transition-colors cursor-pointer">
+            <Card className="hover:border-orange-500 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp className="text-orange-400" size={24} />
+                  <Eye className="text-orange-400" size={24} />
                 </div>
                 <CardTitle>Analytics</CardTitle>
-                <CardDescription>View site traffic and metrics</CardDescription>
+                <CardDescription>View site metrics</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/admin/cv">
+            <Card className="hover:border-teal-500 transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <div className="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <FileText className="text-teal-400" size={24} />
+                </div>
+                <CardTitle>CV Management</CardTitle>
+                <CardDescription>Upload and manage CV</CardDescription>
               </CardHeader>
             </Card>
           </Link>
