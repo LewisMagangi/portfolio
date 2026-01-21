@@ -1,54 +1,50 @@
 // app/api/auth/me/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-
-  if (!authHeader || !authHeader.toLowerCase().startsWith('bearer ')) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Unauthorized',
-      },
-      { status: 401 }
-    );
-  }
-
-  const token = authHeader.slice(7).trim();
-
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Server configuration error',
-      },
-      { status: 500 }
-    );
-  }
-
   try {
-    const decoded = jwt.verify(token, jwtSecret) as jwt.JwtPayload;
+    // Get token from cookie
+    const token = request.cookies.get('auth_token')?.value;
 
-    const user = {
-      id: (decoded.sub as string) || (decoded.id as string) || '',
-      name: (decoded.name as string) || '',
-      email: (decoded.email as string) || '',
-      role: (decoded.role as string) || 'user',
-      avatar: decoded.avatar ?? null,
-    };
+    if (!token) {
+      return NextResponse.json(
+        { success: false, error: 'Not authenticated' },
+        { status: 401 }
+      );
+    }
+
+    // Verify JWT token
+    const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+    const decoded = jwt.verify(token, secret) as { userId: string; email: string; role: string };
+
+    // Fetch user from database
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true
+      }
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'User not found' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      user,
+      user
     });
   } catch (error) {
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Invalid or expired token',
-      },
+      { success: false, error: 'Invalid token' },
       { status: 401 }
     );
   }

@@ -1,6 +1,7 @@
 // app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
@@ -48,6 +49,18 @@ export async function POST(request: NextRequest) {
     const { password: _password, ...userWithoutPassword } = user;
     void _password;
 
+    // Generate JWT token
+    const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+    const token = jwt.sign(
+      { 
+        userId: user.id, 
+        email: user.email, 
+        role: user.role 
+      },
+      secret,
+      { expiresIn: '7d' }
+    );
+
     // Create response with user data
     const response = NextResponse.json({
       success: true,
@@ -55,8 +68,8 @@ export async function POST(request: NextRequest) {
       user: userWithoutPassword
     });
 
-    // Set authentication cookie
-    response.cookies.set('auth_token', 'authenticated', {
+    // Set authentication cookie with JWT
+    response.cookies.set('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

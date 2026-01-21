@@ -1,6 +1,7 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import jwt from 'jsonwebtoken';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,7 +18,22 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // If has token and on login page, redirect to dashboard
+    // Verify JWT token
+    if (token && pathname !== '/admin/login') {
+      try {
+        const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+        jwt.verify(token, secret);
+      } catch (error) {
+        // Invalid or expired token - clear cookie and redirect to login
+        const loginUrl = new URL('/admin/login', request.url);
+        loginUrl.searchParams.set('from', pathname);
+        const response = NextResponse.redirect(loginUrl);
+        response.cookies.delete('auth_token');
+        return response;
+      }
+    }
+
+    // If has valid token and on login page, redirect to dashboard
     if (token && pathname === '/admin/login') {
       return NextResponse.redirect(new URL('/admin', request.url));
     }
