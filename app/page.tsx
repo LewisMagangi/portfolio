@@ -10,6 +10,18 @@ interface Project {
   technologies?: Array<{ technology?: { name: string } } | string>;
 }
 
+interface Skill {
+  id: string;
+  name: string;
+  category: string;
+  proficiencyLevel: number;
+  yearsOfExperience: number;
+}
+
+interface SkillsData {
+  [category: string]: Skill[];
+}
+
 interface BlogPost {
   id?: string;
   title: string;
@@ -48,6 +60,8 @@ const PortfolioWebsite = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [projects, setProjects] = useState<Project[]>(defaultProjects);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [skills, setSkills] = useState<SkillsData>({});
+  const [skillsLoading, setSkillsLoading] = useState(true);
 
   useEffect(() => {
     // Fetch from API in background (non-blocking)
@@ -107,14 +121,68 @@ const PortfolioWebsite = () => {
     }
   };
 
-  const skills = {
-    "Backend": ["Python", "Django", "Django REST Framework", "Flask", "Node.js", "Express"],
-    "Frontend": ["React", "Next.js", "TypeScript", "JavaScript", "TailwindCSS", "SCSS"],
-    "Database": ["PostgreSQL", "MySQL", "SQLite", "Prisma ORM", "MongoDB", "Redis"],
-    "DevOps": ["Docker", "CI/CD", "Git", "Shell Scripting", "Linux", "AWS"],
-    "Security": ["Authentication", "JWT", "CSRF Protection", "Encryption", "WCAG 2.1"],
-    "Other": ["REST APIs", "GraphQL", "Testing", "Agile", "System Design", "WebSockets"]
+  const handleDownloadCV = async () => {
+    try {
+      // Track the download and get the CV file
+      const response = await fetch('/api/cv/download');
+
+      if (response.ok) {
+        // Create a blob from the response and download it
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+
+        // Get filename from response headers or use default
+        const contentDisposition = response.headers.get('content-disposition');
+        let filename = 'Lewis_Magangi_CV.pdf';
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+          if (filenameMatch) {
+            filename = filenameMatch[1];
+          }
+        }
+
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Clean up the object URL
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error('Failed to download CV');
+        alert('CV download is currently not available. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error downloading CV:', error);
+      alert('Failed to download CV. Please try again later.');
+    }
   };
+
+  const fetchSkills = async () => {
+    try {
+      console.log('Fetching skills from API...');
+      const response = await fetch('/api/skills');
+      const data = await response.json();
+      console.log('Skills API response:', data);
+      if (data.success) {
+        setSkills(data.data);
+        console.log('Skills set:', data.data);
+      } else {
+        console.error('API returned error:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+    } finally {
+      setSkillsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
 
   const experience = [
     {
@@ -248,7 +316,10 @@ const PortfolioWebsite = () => {
               >
                 Get In Touch
               </button>
-              <button className="px-8 py-3 border-2 border-cyan-500 hover:bg-cyan-500/10 rounded-lg font-semibold transition-all flex items-center gap-2">
+              <button 
+                onClick={handleDownloadCV}
+                className="px-8 py-3 border-2 border-cyan-500 hover:bg-cyan-500/10 rounded-lg font-semibold transition-all flex items-center gap-2"
+              >
                 <Download size={20} />
                 Download Resume
               </button>
@@ -430,22 +501,40 @@ const PortfolioWebsite = () => {
       {/* Skills Section */}
       <section id="skills" className="py-20 px-4 bg-slate-800/50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Technical Skills
-          </h2>
+          <div className="flex justify-between items-center mb-12">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Technical Skills
+            </h2>
+            <button
+              onClick={fetchSkills}
+              className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
+            >
+              Refresh Skills
+            </button>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Object.entries(skills).map(([category, skillList]) => (
-              <div key={category} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
-                <h3 className="text-xl font-bold mb-4 text-cyan-400">{category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {skillList.map((skill, index) => (
-                    <span key={index} className="px-3 py-1 bg-slate-800 rounded-lg text-sm text-slate-300 hover:bg-cyan-500/20 transition-colors">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+            {skillsLoading ? (
+              <div className="col-span-full flex justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-4 border-cyan-500 border-t-transparent" />
               </div>
-            ))}
+            ) : Object.entries(skills).length === 0 ? (
+              <div className="col-span-full text-center py-12 text-slate-400">
+                No skills found. Add some skills in the admin panel.
+              </div>
+            ) : (
+              Object.entries(skills).map(([category, skillList]) => (
+                <div key={category} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
+                  <h3 className="text-xl font-bold mb-4 text-cyan-400">{category}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {skillList.map((skill) => (
+                      <span key={skill.id} className="px-3 py-1 bg-slate-800 rounded-lg text-sm text-slate-300 hover:bg-cyan-500/20 transition-colors">
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>

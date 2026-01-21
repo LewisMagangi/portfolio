@@ -52,18 +52,62 @@ export async function GET(
   }
 }
 
-export async function PATCH(
+export async function PUT(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
     const body = await request.json();
+    const {
+      title,
+      slug: newSlug,
+      description,
+      detailedDescription,
+      thumbnail,
+      githubUrl,
+      liveUrl,
+      status,
+      featured,
+      technologies,
+      highlights,
+      startDate,
+      endDate
+    } = body;
 
+    // First, delete existing technologies and highlights
+    await prisma.projectTechnology.deleteMany({
+      where: { project: { slug: params.slug } }
+    });
+    await prisma.projectHighlight.deleteMany({
+      where: { project: { slug: params.slug } }
+    });
+
+    // Update project with new data
     const project = await prisma.project.update({
       where: { slug: params.slug },
       data: {
-        ...body,
-        updatedAt: new Date()
+        title,
+        slug: newSlug,
+        description,
+        detailedDescription,
+        thumbnail,
+        githubUrl,
+        liveUrl,
+        status: status || 'ACTIVE',
+        featured: featured || false,
+        startDate: startDate ? new Date(startDate) : null,
+        endDate: endDate ? new Date(endDate) : null,
+        technologies: {
+          create: technologies?.map((techId: string) => ({
+            technologyId: techId
+          })) || []
+        },
+        highlights: {
+          create: highlights?.map((text: string, index: number) => ({
+            highlight: text,
+            orderIndex: index
+          })) || []
+        }
       },
       include: {
         technologies: {
@@ -71,7 +115,9 @@ export async function PATCH(
             technology: true
           }
         },
-        highlights: true
+        highlights: {
+          orderBy: { orderIndex: 'asc' }
+        }
       }
     });
 

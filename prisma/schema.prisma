@@ -28,6 +28,7 @@ model User {
   github        String?
   linkedin      String?
   twitter       String?
+  cv            String?   // Path to CV file
   isActive      Boolean   @default(true) @map("is_active")
   emailVerified Boolean   @default(false) @map("email_verified")
   createdAt     DateTime  @default(now()) @map("created_at")
