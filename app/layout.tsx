@@ -16,6 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: "Lewis Magangi | Full-Stack Software Engineer",
   description: "Full-Stack Software Engineer with expertise in Django, React, and Next.js. Building secure, scalable applications.",
   keywords: ["Software Engineer", "Full-Stack Developer", "Django", "React", "Next.js", "Python"],
