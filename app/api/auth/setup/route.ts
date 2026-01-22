@@ -50,13 +50,18 @@ export async function HEAD(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('Setup API called');
   try {
+    console.log('Checking for existing admin...');
     // Check if any admin users already exist
     const existingAdmin = await prisma.user.findFirst({
       where: { role: UserRole.ADMIN }
     });
 
+    console.log('Existing admin check result:', !!existingAdmin);
+
     if (existingAdmin) {
+      console.log('Admin already exists, returning 403');
       return NextResponse.json(
         {
           success: false,
@@ -69,8 +74,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, password } = body;
 
+    console.log('Received data:', { name, email, passwordLength: password?.length });
+
     // Validate required fields
     if (!name || !email || !password) {
+      console.log('Missing required fields');
       return NextResponse.json(
         {
           success: false,
@@ -83,6 +91,7 @@ export async function POST(request: NextRequest) {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.log('Invalid email format');
       return NextResponse.json(
         {
           success: false,
@@ -94,6 +103,7 @@ export async function POST(request: NextRequest) {
 
     // Validate password strength
     if (password.length < 8) {
+      console.log('Password too short');
       return NextResponse.json(
         {
           success: false,
@@ -103,9 +113,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    console.log('Hashing password...');
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log('Creating admin user...');
     // Create admin user
     const adminUser = await prisma.user.create({
       data: {
@@ -124,6 +136,8 @@ export async function POST(request: NextRequest) {
         createdAt: true
       }
     });
+
+    console.log('Admin user created successfully:', adminUser);
 
     return NextResponse.json({
       success: true,
