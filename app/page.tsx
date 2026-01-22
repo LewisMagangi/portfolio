@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Github, Linkedin, Mail, Download, ChevronDown, ExternalLink, Send } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, Download, ChevronDown, ExternalLink, Send, Twitter } from 'lucide-react';
 
 interface Project {
   id?: string;
@@ -325,13 +325,19 @@ const PortfolioWebsite = () => {
               </button>
             </div>
             <div className="flex justify-center gap-6">
-              <a href="https://github.com" title="GitHub Profile" className="hover:text-cyan-400 transition-colors">
+              <a href="https://github.com/LewisMagangi" title="GitHub Profile" className="hover:text-cyan-400 transition-colors">
                 <Github size={28} />
               </a>
-              <a href="https://linkedin.com" title="LinkedIn Profile" className="hover:text-cyan-400 transition-colors">
+              <a href="https://www.linkedin.com/in/lewis-magangi/" title="LinkedIn Profile" className="hover:text-cyan-400 transition-colors">
                 <Linkedin size={28} />
               </a>
-              <a href="mailto:lewis@example.com" title="Send Email" className="hover:text-cyan-400 transition-colors">
+              <a href="https://twitter.com/Lewis_Magangi" title="Twitter Profile" className="hover:text-cyan-400 transition-colors">
+                <Twitter size={28} />
+              </a>
+              <a href="https://lewismagangi.vercel.app/" title="Portfolio Website" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                <ExternalLink size={28} />
+              </a>
+              <a href="mailto:lewismomanyi34@gmail.com" title="Send Email" className="hover:text-cyan-400 transition-colors">
                 <Mail size={28} />
               </a>
             </div>
@@ -650,13 +656,19 @@ const PortfolioWebsite = () => {
               © 2025 Lewis Magangi. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="https://github.com" title="GitHub Profile" className="text-slate-400 hover:text-cyan-400 transition-colors">
+              <a href="https://github.com/LewisMagangi" title="GitHub Profile" className="text-slate-400 hover:text-cyan-400 transition-colors">
                 <Github size={24} />
               </a>
-              <a href="https://linkedin.com" title="LinkedIn Profile" className="text-slate-400 hover:text-cyan-400 transition-colors">
+              <a href="https://www.linkedin.com/in/lewis-magangi/" title="LinkedIn Profile" className="text-slate-400 hover:text-cyan-400 transition-colors">
                 <Linkedin size={24} />
               </a>
-              <a href="mailto:lewis@example.com" title="Send Email" className="text-slate-400 hover:text-cyan-400 transition-colors">
+              <a href="https://twitter.com/Lewis_Magangi" title="Twitter Profile" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                <Twitter size={24} />
+              </a>
+              <a href="https://lewismagangi.vercel.app/" title="Portfolio Website" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                <ExternalLink size={24} />
+              </a>
+              <a href="mailto:lewismomanyi34@gmail.com" title="Send Email" className="text-slate-400 hover:text-cyan-400 transition-colors">
                 <Mail size={24} />
               </a>
             </div>
