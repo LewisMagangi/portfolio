@@ -262,14 +262,14 @@ export default function AdminDashboard() {
             </Card>
           </Link>
 
-          <Link href="/admin/cv">
-            <Card className="hover:border-teal-500 transition-colors cursor-pointer h-full">
+          <Link href="/admin/profile">
+            <Card className="hover:border-green-500 transition-colors cursor-pointer h-full">
               <CardHeader>
-                <div className="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <FileText className="text-teal-400" size={24} />
+                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <User className="text-green-400" size={24} />
                 </div>
-                <CardTitle>CV Management</CardTitle>
-                <CardDescription>Upload and manage CV</CardDescription>
+                <CardTitle>Profile</CardTitle>
+                <CardDescription>Manage your account settings</CardDescription>
               </CardHeader>
             </Card>
           </Link>
