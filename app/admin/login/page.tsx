@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,7 +11,6 @@ import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,7 +36,8 @@ export default function AdminLoginPage() {
 
       if (data.success) {
         toast.success('Login successful!');
-        router.push('/admin');
+        // Force a full page navigation to ensure cookies are properly set
+        window.location.href = '/admin';
       } else {
         toast.error(data.message || 'Login failed');
       }
