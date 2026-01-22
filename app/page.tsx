@@ -48,6 +48,40 @@ interface Education {
   highlights: EducationHighlight[];
 }
 
+interface Experience {
+  id: string;
+  company: string;
+  role: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent: boolean;
+  description?: string;
+  achievements: Array<{ achievement: string }>;
+}
+
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  text: string;
+  featured?: boolean;
+  status?: string;
+}
+
+interface Experience {
+  id: string;
+  company: string;
+  role: string;
+  location?: string;
+  employmentType: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent: boolean;
+  description?: string;
+  achievements: Array<{ achievement: string }>;
+}
+
 // Default projects to show immediately
 const defaultProjects: Project[] = [
   {
@@ -80,15 +114,19 @@ const PortfolioWebsite = () => {
   const [skills, setSkills] = useState<SkillsData>({});
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [education, setEducation] = useState<Education[]>([]);
+  const [experience, setExperience] = useState<Experience[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   useEffect(() => {
     // Fetch from API in background (non-blocking)
     const fetchData = async () => {
       try {
-        const [projectsRes, blogRes, educationRes] = await Promise.all([
+        const [projectsRes, blogRes, educationRes, experienceRes, testimonialsRes] = await Promise.all([
           fetch('/api/projects'),
           fetch('/api/blog'),
-          fetch('/api/education')
+          fetch('/api/education'),
+          fetch('/api/experiences'),
+          fetch('/api/testimonials')
         ]);
 
         if (projectsRes.ok) {
@@ -109,6 +147,20 @@ const PortfolioWebsite = () => {
           const educationData = await educationRes.json();
           if (educationData.success && educationData.data?.length > 0) {
             setEducation(educationData.data);
+          }
+        }
+
+        if (experienceRes.ok) {
+          const experienceData = await experienceRes.json();
+          if (experienceData.success && experienceData.data?.length > 0) {
+            setExperience(experienceData.data);
+          }
+        }
+
+        if (testimonialsRes.ok) {
+          const testimonialsData = await testimonialsRes.json();
+          if (testimonialsData.success && testimonialsData.data?.length > 0) {
+            setTestimonials(testimonialsData.data);
           }
         }
       } catch (error) {
@@ -210,31 +262,6 @@ const PortfolioWebsite = () => {
     fetchSkills();
   }, []);
 
-  const experience = [
-    {
-      company: "Wamumbi",
-      role: "Volunteer Software Engineer",
-      period: "April 2025 - Present",
-      location: "Remote, Nairobi Kenya",
-      achievements: [
-        "Co-developing fullstack web app using Next.js, Clerk, and Prisma ORM with PostgreSQL",
-        "Building custom admin dashboard with role-based access",
-        "Integrating Paystack for secure donation processing"
-      ]
-    },
-    {
-      company: "KenGen Kenya",
-      role: "Intern, Networking Department",
-      period: "May 2024 - Aug 2024",
-      location: "Stima Plaza Headquarters, Nairobi",
-      achievements: [
-        "Troubleshooted Cisco phones and PC networks",
-        "Configured Cisco devices including routers and access points",
-        "Supported network maintenance and documentation"
-      ]
-    }
-  ];
-
   // Default education data (used as fallback if API fails)
   const defaultEducation = [
     {
@@ -260,23 +287,30 @@ const PortfolioWebsite = () => {
   // Use fetched education or fallback to default
   const displayEducation = education.length > 0 ? education : defaultEducation;
 
-  const testimonials = [
+  // Default testimonials data (used as fallback if API fails)
+  const defaultTestimonials = [
     {
+      id: '1',
       name: "Project Team Lead",
       role: "Solar-Powered Water ATM",
       text: "Lewis demonstrated exceptional technical leadership in migrating our platform from Flask to Django. His attention to security and scalability transformed our codebase."
     },
     {
+      id: '2',
       name: "Academic Supervisor",
       role: "University Project",
       text: "Outstanding work on the Dynamic Cryptosuite Selection System. Lewis shows deep understanding of cryptographic principles and software architecture."
     },
     {
+      id: '3',
       name: "ALX Mentor",
       role: "Software Engineering Program",
       text: "Lewis consistently delivered high-quality code and showed strong problem-solving abilities. His contributions to team projects were invaluable."
     }
   ];
+
+  // Use fetched testimonials or fallback to default
+  const displayTestimonials = testimonials.length > 0 ? testimonials : defaultTestimonials;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
@@ -494,28 +528,38 @@ const PortfolioWebsite = () => {
             Experience
           </h2>
           <div className="space-y-8">
-            {experience.map((exp, index) => (
-              <div key={index} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
-                <div className="flex flex-wrap justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-cyan-400">{exp.role}</h3>
-                    <p className="text-lg text-slate-300">{exp.company}</p>
+            {experience.length > 0 ? experience.map((exp, index) => {
+              const startYear = new Date(exp.startDate).getFullYear();
+              const endYear = exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present';
+              const period = `${startYear} - ${endYear}`;
+              
+              return (
+                <div key={exp.id || index} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
+                  <div className="flex flex-wrap justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-cyan-400">{exp.role}</h3>
+                      <p className="text-lg text-slate-300">{exp.company}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-slate-400">{period}</p>
+                      <p className="text-slate-500 text-sm">{exp.location}</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-slate-400">{exp.period}</p>
-                    <p className="text-slate-500 text-sm">{exp.location}</p>
-                  </div>
+                  <ul className="space-y-2">
+                    {exp.achievements.map((achievement, i) => (
+                      <li key={i} className="text-slate-300 flex items-start">
+                        <span className="text-cyan-400 mr-2">▹</span>
+                        {achievement.achievement}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="space-y-2">
-                  {exp.achievements.map((achievement, i) => (
-                    <li key={i} className="text-slate-300 flex items-start">
-                      <span className="text-cyan-400 mr-2">▹</span>
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
+              );
+            }) : (
+              <div className="text-center text-slate-400">
+                No experience data available. Add some through the admin interface.
               </div>
-            ))}
+            )}
           </div>
 
           <div className="mt-16">
@@ -593,8 +637,8 @@ const PortfolioWebsite = () => {
             Testimonials
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
+            {displayTestimonials.map((testimonial, index) => (
+              <div key={testimonial.id || index} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
                 <p className="text-slate-300 mb-4 italic">&ldquo;{testimonial.text}&rdquo;</p>
                 <div className="border-t border-slate-600 pt-4">
                   <p className="font-semibold text-cyan-400">{testimonial.name}</p>
