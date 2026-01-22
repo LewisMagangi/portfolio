@@ -241,6 +241,7 @@ const PortfolioWebsite = () => {
       id: '1',
       institution: "ALX Software Engineering",
       degree: "Software Engineering",
+      fieldOfStudy: "Computer Science",
       startDate: "2022-02-01",
       endDate: "2025-02-01",
       highlights: [{ id: '1', text: "Backend Specialization" }, { id: '2', text: "Full-stack Development" }, { id: '3', text: "System Design" }]
@@ -249,6 +250,7 @@ const PortfolioWebsite = () => {
       id: '2',
       institution: "Jaramogi Oginga Odinga University",
       degree: "Bachelor's in Computer Forensics Science",
+      fieldOfStudy: "Computer Forensics",
       startDate: "2020-09-01",
       endDate: "2024-10-01",
       highlights: [{ id: '1', text: "Cybersecurity" }, { id: '2', text: "Digital Forensics" }, { id: '3', text: "Network Security" }]
