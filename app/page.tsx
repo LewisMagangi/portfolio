@@ -31,6 +31,23 @@ interface BlogPost {
   readTime?: string;
 }
 
+interface EducationHighlight {
+  id: string;
+  text: string;
+}
+
+interface Education {
+  id: string;
+  institution: string;
+  degree: string;
+  fieldOfStudy?: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent?: boolean;
+  description?: string;
+  highlights: EducationHighlight[];
+}
+
 // Default projects to show immediately
 const defaultProjects: Project[] = [
   {
@@ -62,14 +79,16 @@ const PortfolioWebsite = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [skills, setSkills] = useState<SkillsData>({});
   const [skillsLoading, setSkillsLoading] = useState(true);
+  const [education, setEducation] = useState<Education[]>([]);
 
   useEffect(() => {
     // Fetch from API in background (non-blocking)
     const fetchData = async () => {
       try {
-        const [projectsRes, blogRes] = await Promise.all([
+        const [projectsRes, blogRes, educationRes] = await Promise.all([
           fetch('/api/projects'),
-          fetch('/api/blog')
+          fetch('/api/blog'),
+          fetch('/api/education')
         ]);
 
         if (projectsRes.ok) {
@@ -83,6 +102,13 @@ const PortfolioWebsite = () => {
           const blogData = await blogRes.json();
           if (blogData.posts?.length > 0) {
             setBlogPosts(blogData.posts);
+          }
+        }
+
+        if (educationRes.ok) {
+          const educationData = await educationRes.json();
+          if (educationData.success && educationData.data?.length > 0) {
+            setEducation(educationData.data);
           }
         }
       } catch (error) {
@@ -209,20 +235,30 @@ const PortfolioWebsite = () => {
     }
   ];
 
-  const education = [
+  // Default education data (used as fallback if API fails)
+  const defaultEducation = [
     {
+      id: '1',
       institution: "ALX Software Engineering",
       degree: "Software Engineering",
-      period: "Feb 2022 - Feb 2025",
-      highlights: ["Backend Specialization", "Full-stack Development", "System Design"]
+      fieldOfStudy: "Computer Science",
+      startDate: "2022-02-01",
+      endDate: "2025-02-01",
+      highlights: [{ id: '1', text: "Backend Specialization" }, { id: '2', text: "Full-stack Development" }, { id: '3', text: "System Design" }]
     },
     {
+      id: '2',
       institution: "Jaramogi Oginga Odinga University",
       degree: "Bachelor's in Computer Forensics Science",
-      period: "Sept 2020 - Oct 2024",
-      highlights: ["Cybersecurity", "Digital Forensics", "Network Security"]
+      fieldOfStudy: "Computer Forensics",
+      startDate: "2020-09-01",
+      endDate: "2024-10-01",
+      highlights: [{ id: '1', text: "Cybersecurity" }, { id: '2', text: "Digital Forensics" }, { id: '3', text: "Network Security" }]
     }
   ];
+  
+  // Use fetched education or fallback to default
+  const displayEducation = education.length > 0 ? education : defaultEducation;
 
   const testimonials = [
     {
@@ -485,20 +521,25 @@ const PortfolioWebsite = () => {
           <div className="mt-16">
             <h3 className="text-3xl font-bold mb-8 text-center text-cyan-400">Education</h3>
             <div className="grid md:grid-cols-2 gap-8">
-              {education.map((edu, index) => (
-                <div key={index} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
-                  <h4 className="text-xl font-bold text-cyan-400 mb-2">{edu.institution}</h4>
-                  <p className="text-lg text-slate-300 mb-2">{edu.degree}</p>
-                  <p className="text-slate-400 mb-4">{edu.period}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {edu.highlights.map((highlight, i) => (
-                      <span key={i} className="px-3 py-1 bg-slate-800 rounded-full text-xs text-cyan-400">
-                        {highlight}
-                      </span>
-                    ))}
+              {displayEducation.map((edu) => {
+                const startYear = new Date(edu.startDate).getFullYear();
+                const endYear = edu.endDate ? new Date(edu.endDate).getFullYear() : 'Present';
+                const period = `${startYear} - ${endYear}`;
+                return (
+                  <div key={edu.id} className="bg-slate-700/50 rounded-xl p-6 border border-slate-600">
+                    <h4 className="text-xl font-bold text-cyan-400 mb-2">{edu.institution}</h4>
+                    <p className="text-lg text-slate-300 mb-2">{edu.degree}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}</p>
+                    <p className="text-slate-400 mb-4">{period}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {edu.highlights.map((highlight) => (
+                        <span key={highlight.id} className="px-3 py-1 bg-slate-800 rounded-full text-xs text-cyan-400">
+                          {highlight.text}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
