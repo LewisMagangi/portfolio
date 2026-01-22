@@ -1,7 +1,7 @@
 // app/admin/setup/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,32 @@ export default function SetupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    // Check if admin already exists
+    checkAdminExists();
+  }, []);
+
+  const checkAdminExists = async () => {
+    try {
+      const response = await fetch('/api/auth/setup', {
+        method: 'HEAD', // Use HEAD to just check if setup is allowed
+      });
+
+      if (response.status === 403) {
+        // Admin already exists, redirect to login
+        router.push('/admin/login?message=Admin account already exists');
+        return;
+      }
+    } catch (error) {
+      // If check fails, allow setup to proceed (better to allow than block)
+      console.warn('Failed to check admin existence:', error);
+    } finally {
+      setCheckingAdmin(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +96,17 @@ export default function SetupPage() {
       [e.target.name]: e.target.value
     }));
   };
+
+  if (checkingAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-600" />
+          <p className="mt-2 text-gray-600">Checking setup status...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

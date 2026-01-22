@@ -4,7 +4,50 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { UserRole } from '@/lib/generated/prisma';
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
+  try {
+    // Check if any admin users already exist
+    const existingAdmin = await prisma.user.findFirst({
+      where: { role: UserRole.ADMIN }
+    });
+
+    if (existingAdmin) {
+      return NextResponse.json(
+        { success: false, error: 'Admin user already exists' },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Setup is available'
+    });
+  } catch (error) {
+    console.error('Error checking admin existence:', error);
+    return NextResponse.json(
+      { success: false, error: 'Server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function HEAD(request: NextRequest) {
+  try {
+    // Check if any admin users already exist
+    const existingAdmin = await prisma.user.findFirst({
+      where: { role: UserRole.ADMIN }
+    });
+
+    if (existingAdmin) {
+      return new Response(null, { status: 403 });
+    }
+
+    return new Response(null, { status: 200 });
+  } catch (error) {
+    // If check fails, allow setup (better to allow than block)
+    return new Response(null, { status: 200 });
+  }
+}
   try {
     // Check if any admin users already exist
     const existingAdmin = await prisma.user.findFirst({

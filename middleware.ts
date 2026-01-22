@@ -2,29 +2,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/prisma';
-import { UserRole } from '@/lib/generated/prisma';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if route is admin route
   if (pathname.startsWith('/admin')) {
-    // Allow access to setup page if no admin users exist
+    // Allow access to setup page (setup page will handle its own security)
     if (pathname === '/admin/setup') {
-      try {
-        const adminCount = await prisma.user.count({
-          where: { role: UserRole.ADMIN }
-        });
-        if (adminCount === 0) {
-          // No admin exists, allow access to setup
-          return NextResponse.next();
-        }
-      } catch (error) {
-        // If database check fails, allow access to setup for safety
-        console.warn('Database check failed in middleware, allowing setup access');
-        return NextResponse.next();
-      }
+      return NextResponse.next();
     }
 
     // Get token from cookie
