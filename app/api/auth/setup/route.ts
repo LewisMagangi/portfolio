@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
       where: { role: UserRole.ADMIN }
     });
 
-    if (existingAdmin) {
+    // Allow setup if no admin exists OR if force parameter is provided in development
+    const url = new URL(request.url);
+    const force = url.searchParams.get('force') === 'true';
+
+    if (existingAdmin && !force) {
       return NextResponse.json(
         { success: false, error: 'Admin user already exists' },
         { status: 403 }
@@ -20,7 +24,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Setup is available'
+      message: existingAdmin ? 'Setup available (force mode)' : 'Setup is available',
+      existingAdmin: !!existingAdmin
     });
   } catch (error) {
     console.error('Error checking admin existence:', error);
@@ -38,12 +43,16 @@ export async function HEAD(request: NextRequest) {
       where: { role: UserRole.ADMIN }
     });
 
-    if (existingAdmin) {
+    // Check for force parameter
+    const url = new URL(request.url);
+    const force = url.searchParams.get('force') === 'true';
+
+    if (existingAdmin && !force) {
       return new Response(null, { status: 403 });
     }
 
     return new Response(null, { status: 200 });
-  } catch (error) {
+  } catch {
     // If check fails, allow setup (better to allow than block)
     return new Response(null, { status: 200 });
   }
@@ -60,8 +69,12 @@ export async function POST(request: NextRequest) {
 
     console.log('Existing admin check result:', !!existingAdmin);
 
-    if (existingAdmin) {
-      console.log('Admin already exists, returning 403');
+    // Check for force parameter
+    const url = new URL(request.url);
+    const force = url.searchParams.get('force') === 'true';
+
+    if (existingAdmin && !force) {
+      console.log('Admin already exists and force not enabled, returning 403');
       return NextResponse.json(
         {
           success: false,
@@ -69,6 +82,10 @@ export async function POST(request: NextRequest) {
         },
         { status: 403 }
       );
+    }
+
+    if (existingAdmin && force) {
+      console.log('Admin exists but force enabled, will update existing admin');
     }
 
     const body = await request.json();
@@ -117,31 +134,57 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log('Creating admin user...');
-    // Create admin user
-    const adminUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        role: UserRole.ADMIN,
-        isActive: true,
-        emailVerified: true,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true
-      }
-    });
+    let adminUser;
 
-    console.log('Admin user created successfully:', adminUser);
+    if (existingAdmin && force) {
+      console.log('Updating existing admin user...');
+      // Update existing admin user
+      adminUser = await prisma.user.update({
+        where: { id: existingAdmin.id },
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          role: UserRole.ADMIN,
+          isActive: true,
+          emailVerified: true,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      });
+      console.log('Admin user updated successfully:', adminUser);
+    } else {
+      console.log('Creating new admin user...');
+      // Create new admin user
+      adminUser = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          role: UserRole.ADMIN,
+          isActive: true,
+          emailVerified: true,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true
+        }
+      });
+      console.log('Admin user created successfully:', adminUser);
+    }
 
     return NextResponse.json({
       success: true,
-      message: 'Admin user created successfully. You can now log in.',
+      message: existingAdmin && force ? 'Admin user updated successfully. You can now log in.' : 'Admin user created successfully. You can now log in.',
       user: adminUser
     }, { status: 201 });
 

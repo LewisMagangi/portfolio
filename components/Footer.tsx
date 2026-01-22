@@ -1,6 +1,6 @@
 // components/Footer.tsx
 import Link from 'next/link';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Twitter, Mail, ExternalLink } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -15,7 +15,7 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://github.com"
+                href="https://github.com/LewisMagangi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
@@ -24,7 +24,7 @@ export function Footer() {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/lewis-magangi/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
@@ -33,7 +33,7 @@ export function Footer() {
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://twitter.com/Lewis_Magangi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
@@ -42,7 +42,16 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="mailto:contact@example.com"
+                href="https://lewismagangi.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors"
+                aria-label="Portfolio"
+              >
+                <ExternalLink className="h-5 w-5" />
+              </a>
+              <a
+                href="mailto:lewismomanyi34@gmail.com"
                 className="text-slate-400 hover:text-white transition-colors"
                 aria-label="Email"
               >
