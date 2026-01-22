@@ -1,9 +1,9 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if route is admin route
@@ -26,8 +26,10 @@ export function middleware(request: NextRequest) {
     // Verify JWT token
     if (token && pathname !== '/admin/login') {
       try {
-        const secret = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-        jwt.verify(token, secret);
+        const secret = new TextEncoder().encode(
+          process.env.JWT_SECRET || 'your-secret-key-change-in-production'
+        );
+        const { payload } = await jwtVerify(token, secret);
       } catch (error) {
         // Invalid or expired token - clear cookie and redirect to login
         const loginUrl = new URL('/admin/login', request.url);
