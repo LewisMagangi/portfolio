@@ -14,7 +14,11 @@ const pool = globalForPrisma.pool ?? new Pool({
 
 // Create adapter and Prisma client
 const adapter = new PrismaPg(pool)
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
+
+// In production/serverless, create new client per request to avoid connection issues
+export const prisma = process.env.NODE_ENV === 'production'
+  ? new PrismaClient({ adapter })
+  : globalForPrisma.prisma ?? new PrismaClient({ adapter })
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
