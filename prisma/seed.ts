@@ -19,25 +19,35 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // Create admin user
-  const adminPassword = await bcrypt.hash('admin123', 10);
-  const admin = await prisma.user.upsert({
-    where: { email: 'lewis@example.com' },
-    update: {},
-    create: {
-      email: 'lewis@example.com',
-      name: 'Lewis Magangi',
-      password: adminPassword,
-      role: UserRole.ADMIN,
-      bio: 'Full-Stack Software Engineer with expertise in Django, React, and Next.js. Passionate about building secure, scalable applications.',
-      location: 'Nairobi, Kenya',
-      github: 'https://github.com/lewismagangi',
-      linkedin: 'https://linkedin.com/in/lewismagangi',
-      isActive: true,
-      emailVerified: true,
-    },
-  });
-  console.log('✅ Created admin user');
+  let admin = null;
+
+  // Only create admin user in development
+  if (process.env.NODE_ENV === 'development') {
+    // Create admin user
+    const adminPassword = await bcrypt.hash('admin123', 10);
+    admin = await prisma.user.upsert({
+      where: { email: 'lewis@example.com' },
+      update: {},
+      create: {
+        email: 'lewis@example.com',
+        name: 'Lewis Magangi',
+        password: adminPassword,
+        role: UserRole.ADMIN,
+        bio: 'Full-Stack Software Engineer with expertise in Django, React, and Next.js. Passionate about building secure, scalable applications.',
+        location: 'Nairobi, Kenya',
+        github: 'https://github.com/lewismagangi',
+        linkedin: 'https://linkedin.com/in/lewismagangi',
+        isActive: true,
+        emailVerified: true,
+      },
+    });
+    console.log('✅ Created admin user (development only)');
+  } else {
+    console.log('ℹ️  Skipping admin user creation in production');
+  }
+
+  // Only create sample data if admin exists (development mode)
+  if (admin) {
 
   // Create technologies
   const technologies = await Promise.all([
@@ -498,6 +508,7 @@ My journey working with both Django and Next.js has taught me valuable lessons a
   console.log('✅ Created skills');
 
   console.log('🎉 Database seeding completed!');
+  }
 }
 
 main()

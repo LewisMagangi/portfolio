@@ -8,6 +8,11 @@ export function middleware(request: NextRequest) {
 
   // Check if route is admin route
   if (pathname.startsWith('/admin')) {
+    // Allow access to setup page (setup page will handle its own security)
+    if (pathname === '/admin/setup') {
+      return NextResponse.next();
+    }
+
     // Get token from cookie
     const token = request.cookies.get('auth_token')?.value;
 
