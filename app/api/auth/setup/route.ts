@@ -48,6 +48,8 @@ export async function HEAD(request: NextRequest) {
     return new Response(null, { status: 200 });
   }
 }
+
+export async function POST(request: NextRequest) {
   try {
     // Check if any admin users already exist
     const existingAdmin = await prisma.user.findFirst({

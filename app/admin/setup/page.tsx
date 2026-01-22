@@ -25,27 +25,27 @@ export default function SetupPage() {
 
   useEffect(() => {
     // Check if admin already exists
-    checkAdminExists();
-  }, []);
+    const checkAdminExists = async () => {
+      try {
+        const response = await fetch('/api/auth/setup', {
+          method: 'HEAD', // Use HEAD to just check if setup is allowed
+        });
 
-  const checkAdminExists = async () => {
-    try {
-      const response = await fetch('/api/auth/setup', {
-        method: 'HEAD', // Use HEAD to just check if setup is allowed
-      });
-
-      if (response.status === 403) {
-        // Admin already exists, redirect to login
-        router.push('/admin/login?message=Admin account already exists');
-        return;
+        if (response.status === 403) {
+          // Admin already exists, redirect to login
+          router.push('/admin/login?message=Admin account already exists');
+          return;
+        }
+      } catch (err) {
+        // If check fails, allow setup to proceed (better to allow than block)
+        console.warn('Failed to check admin existence:', err);
+      } finally {
+        setCheckingAdmin(false);
       }
-    } catch (error) {
-      // If check fails, allow setup to proceed (better to allow than block)
-      console.warn('Failed to check admin existence:', error);
-    } finally {
-      setCheckingAdmin(false);
-    }
-  };
+    };
+
+    checkAdminExists();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +83,7 @@ export default function SetupPage() {
       } else {
         setError(data.error || 'Failed to create admin account');
       }
-    } catch (error) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
