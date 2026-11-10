@@ -1345,3 +1345,17 @@ html.gb-cursor-on :is(input[type="text"], input[type="email"], input[type="searc
 @keyframes gb-cs-glint { 0%, 40%, 100% { opacity: .75; } 60% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .gb-cs:not(.is-flipped) .gb-cs-book, .gb-cs:not(.is-flipped) .gb-cs-book svg { animation: none; border-color: var(--line-strong); } }
 .gb-cs.is-hint:not(.is-flipped) .gb-cs-book svg { animation: gb-cs-bookflip 1.3s cubic-bezier(.19,1,.22,1) 2; transform-origin: 30% 50%; }
+
+/* v8.8: chess clocks on the replays, so a viewer can tell a game in play from one that is over */
+.gb-gt-player .gb-gt-result { margin-left: auto; }
+.gb-gt-player .gb-gt-result + .gb-gt-clock { margin-left: 8px; }
+.gb-gt-clock { min-width: 64px; text-align: right; color: var(--ink-subtle); transition: background 300ms var(--ease-tilda, ease), color 300ms var(--ease-tilda, ease); }
+.gb-gt-clock.is-running { background: var(--ink); color: var(--bg); }
+.gb-gt-clock.is-low { background: color-mix(in srgb, var(--danger) 85%, var(--bg)); color: #fff; }
+.gb-gt-clock.is-flag { color: var(--danger); text-decoration: line-through; text-decoration-thickness: 1px; }
+.gb-gt-state { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; line-height: 16px; font-weight: 500; color: var(--ink-muted); }
+.gb-gt-state::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-subtle); }
+.gb-gt-state.is-play::before { background: var(--success); animation: gb-gt-pulse 1.6s ease-in-out infinite; }
+.gb-gt-state.is-final { color: var(--ink); }
+.gb-gt-state.is-final::before { background: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .gb-gt-state.is-play::before { animation: none; } .gb-gt-clock { transition: none; } }

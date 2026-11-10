@@ -1705,6 +1705,16 @@ void main() {
   }
   function gtStore(k, v) { try { if (v === undefined) return window.localStorage.getItem(k); window.localStorage.setItem(k, v); } catch (e) { return null; } }
   var GT_PACE = { bullet: 520, blitz: 720, rapid: 900 };
+  /* Clocks come from Lichess in tenths of a second: one reading after every move, then (when the game ended on time or by
+     resignation) one more for the side to move, which is 0 when they flagged. */
+  function gtClocks(c, k, last) {
+    if (!c || !c.length) return null;
+    var w = c[0], b = c.length > 1 ? c[1] : c[0];
+    for (var p = 1; p <= k && p <= c.length; p++) { if (p % 2) w = c[p - 1]; else b = c[p - 1]; }
+    var flag = null;
+    if (k >= last && c.length > last) { if ((last + 1) % 2) { w = c[last]; flag = w === 0 ? "white" : null; } else { b = c[last]; flag = b === 0 ? "black" : null; } }
+    return { white: w, black: b, flag: flag, toMove: k % 2 === 0 ? "white" : "black", next: c[k] };
+  }
   function GameTheatre(p) {
     var games = p.games || [], user = p.user || "Lique", P = p.pieces || {};
     var gs = React.useState(0), gi = gs[0], setGi = gs[1];
@@ -1716,9 +1726,21 @@ void main() {
     var vs = React.useState(false), inView = vs[0], setInView = vs[1];
     var ls = React.useState({ state: "idle" }), live = ls[0], setLive = ls[1];
     var root = React.useRef(null), boardRef = React.useRef(null), wheelAcc = React.useRef(0);
+    var rs = React.useState(null), runVal = rs[0], setRunVal = rs[1];
     var g = games[gi] || {};
     var line = React.useMemo(function () { return gtPlay(String(g.moves || "").split(" ").filter(Boolean), String(g.san || "").split(" ")); }, [gi]);
     var last = line.length - 1, pos = line[Math.min(k, last)] || line[0];
+    var clockList = React.useMemo(function () { return typeof g.clocks === "string" ? g.clocks.split(",").map(Number) : (g.clocks || null); }, [gi]);
+    var clk = gtClocks(clockList, k, last);
+    /* While a replay plays, the clock of the side to move runs down toward the time it will show after its next move. */
+    React.useEffect(function () {
+      setRunVal(null);
+      if (mode !== "replay" || !auto || !inView || !clk || k >= last || clk.next == null) return;
+      var from = clk[clk.toMove], to = Math.min(from, clk.next), dur = k === 0 ? 900 : (GT_PACE[g.speed] || 700), t0 = 0, raf = 0;
+      function frame(t) { if (!t0) t0 = t; var f = Math.min(1, (t - t0) / dur); setRunVal(Math.round(from - (from - to) * f)); if (f < 1) raf = requestAnimationFrame(frame); }
+      raf = requestAnimationFrame(frame);
+      return function () { cancelAnimationFrame(raf); };
+    }, [k, gi, auto, inView, mode]);
     React.useEffect(function () {
       if (!root.current || !("IntersectionObserver" in window)) { setInView(true); return; }
       var io = new IntersectionObserver(function (es) { setInView(es[0].isIntersecting); }, { threshold: 0.25 });
@@ -1802,7 +1824,7 @@ void main() {
       var lm = live.lm && String(live.lm).match(/^([a-h][1-8])([a-h][1-8])/); if (lm) { hlFrom = gtIdx(lm[1]); hlTo = gtIdx(lm[2]); }
       var meWhite = live.white && live.white.user && String(live.white.user.name).toLowerCase() === user.toLowerCase();
       flip = !meWhite;
-      var side = function (c, me) { var pl = live[c] || {}; return { name: pl.user ? pl.user.name : "Anonymous", title: pl.user && pl.user.title, rating: pl.rating, clock: live[c === "white" ? "wc" : "bc"], color: c, me: me }; };
+      var side = function (c, me) { var pl = live[c] || {}; return { name: pl.user ? pl.user.name : "Anonymous", title: pl.user && pl.user.title, rating: pl.rating, clock: live[c === "white" ? "wc" : "bc"] != null ? live[c === "white" ? "wc" : "bc"] * 10 : null, color: c, me: me, running: (/ w /.test(live.fen) ? "white" : "black") === c }; };
       top = side(meWhite ? "black" : "white", false); bottom = side(meWhite ? "white" : "black", true);
     } else {
       board = pos.b; hlFrom = pos.from != null ? pos.from : -1; hlTo = pos.to != null ? pos.to : -1; moved = k > 0 ? pos.to : -1;
@@ -1811,9 +1833,13 @@ void main() {
       var done = k >= last;
       top = { name: g.opp, rating: g.oppRating, color: g.me === "white" ? "black" : "white", result: done ? "0" : null };
       bottom = { name: user, rating: g.myRating, color: g.me, me: true, result: done ? "1" : null };
+      if (clk) [top, bottom].forEach(function (pl) {
+        var running = !done && clk.toMove === pl.color;
+        pl.clock = running && runVal != null ? runVal : clk[pl.color]; pl.running = running; pl.flag = clk.flag === pl.color;
+      });
     }
     var order = []; for (var i = 0; i < 64; i++) order.push(flip ? 63 - i : i);
-    function fmt(s) { if (s == null) return null; s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+    function fmt(d) { if (d == null) return null; d = Math.max(0, Math.round(d)); var sec = Math.floor(d / 10), m = Math.floor(sec / 60), ss = ("0" + (sec % 60)).slice(-2); return d < 200 ? m + ":" + ss + "." + (d % 10) : m + ":" + ss; }
     function player(pl, where) {
       return h("div", { className: cx("gb-gt-player", "is-" + where) },
         h("span", { className: cx("gb-gt-dot", pl.color === "white" ? "is-white" : "is-black"), "aria-hidden": true }),
@@ -1821,7 +1847,7 @@ void main() {
         h("strong", { className: "gb-gt-name", translate: "no" }, pl.name || ""),
         pl.rating ? h("span", { className: "gb-gt-rating" }, pl.rating) : null,
         pl.result ? h("span", { className: cx("gb-gt-result", pl.result === "1" && "is-win"), "aria-label": pl.result === "1" ? "won" : "lost" }, pl.result) : null,
-        pl.clock != null ? h("span", { className: "gb-gt-clock" }, fmt(pl.clock)) : null);
+        pl.clock != null ? h("span", { className: cx("gb-gt-clock", pl.running && "is-running", pl.flag && "is-flag", pl.clock < 200 && pl.running && "is-low"), "aria-label": (pl.name || "") + " clock " + fmt(pl.clock) + (pl.running ? ", running" : "") + (pl.flag ? ", out of time" : "") }, fmt(pl.clock)) : null);
     }
     var themes = [{ id: "gambit", label: "Gambit board, the site's greys" }, { id: "lichess", label: "Lichess board, brown" }, { id: "chesscom", label: "Chess.com style board, green" }];
     var dx = 0, dy = 0;
@@ -1832,7 +1858,7 @@ void main() {
         h("div", { className: "gb-gt-lights", role: "group", "aria-label": "Board colours" }, themes.map(function (t) {
           return h("button", { key: t.id, type: "button", className: cx("gb-gt-light", "is-" + t.id), "aria-label": t.label, "aria-pressed": theme === t.id, title: t.label, onClick: function () { pickTheme(t.id); } });
         })),
-        h("span", { className: "gb-gt-label", "aria-live": "polite" }, isLive ? (playing ? h(React.Fragment, null, h("span", { className: "gb-gt-livedot", "aria-hidden": true }), "Live on Lichess") : "Live view") : (g.label ? g.label.charAt(0).toUpperCase() + g.label.slice(1) : "")),
+        h("span", { className: "gb-gt-label", "aria-live": "polite" }, isLive ? (playing ? h(React.Fragment, null, h("span", { className: "gb-gt-livedot", "aria-hidden": true }), "Live on Lichess") : "Live view") : h(React.Fragment, null, g.label ? g.label.charAt(0).toUpperCase() + g.label.slice(1) : "", h("span", { className: cx("gb-gt-state", k >= last ? "is-final" : "is-play") }, k >= last ? "Final" : (auto ? "In play" : "Paused")))),
         h("div", { className: "gb-gt-icons" },
           h("button", { type: "button", className: "gb-gt-icon", onClick: toggleSound, "aria-pressed": sound, "aria-label": sound ? "Sound on" : "Sound off" },
             h("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h("path", { d: "M4 9v6h4l5 4V5L8 9z" }), sound ? h("path", { d: "M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" }) : h("path", { d: "M17 9l5 6M22 9l-5 6" }))),
@@ -1862,7 +1888,7 @@ void main() {
           h("button", { type: "button", className: "gb-iconbtn", onClick: function () { if (!auto && k >= last) setK(0); setAuto(!auto); }, "aria-pressed": auto, "aria-label": auto ? "Pause" : "Play" }, h(Icon, { name: auto ? "pause" : "play", size: 16 })),
           h("button", { type: "button", className: "gb-iconbtn", onClick: function () { step(k + 1); }, disabled: k >= last, "aria-label": "Next move" }, h(Icon, { name: "right", size: 18 })),
           h("button", { type: "button", className: "gb-iconbtn", onClick: function () { step(last); }, disabled: k >= last, "aria-label": "Last move" }, h(Icon, { name: "right", size: 16 }), h(Icon, { name: "right", size: 16 })),
-          h("span", { className: "gb-gt-now" }, k === 0 ? "Start" : Math.ceil(k / 2) + (k % 2 ? ". " : "... ") + pos.san, h("em", null, "Move " + Math.ceil(k / 2) + " of " + Math.ceil(last / 2)))),
+          h("span", { className: "gb-gt-now" }, k === 0 ? "Start" : Math.ceil(k / 2) + (k % 2 ? ". " : "... ") + pos.san, h("em", null, k >= last ? "Game over, " + String(g.how || "").toLowerCase() : "Move " + Math.ceil(k / 2) + " of " + Math.ceil(last / 2)))),
         h("div", { className: "gb-gt-meta" }, h("span", null, g.opening), h("span", null, g.clock ? (parseInt(g.clock, 10) / 60) + "+" + g.clock.split("+")[1] + " " + g.speed : ""), h("span", null, k >= last ? g.how : g.date), h("a", { className: "gb-gt-open", href: g.url, target: "_blank", rel: "noopener noreferrer" }, "Open on Lichess ↗")),
         h("div", { className: "gb-gt-picker" }, speeds.map(function (sp) {
           var list = games.map(function (x, j) { return { x: x, j: j }; }).filter(function (o) { return o.x.speed === sp; });

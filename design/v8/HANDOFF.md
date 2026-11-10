@@ -114,6 +114,7 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 - **GameTheatre** (`function GameTheatre`, plus the helpers `gtPlay`, `gtBoard` and `gtSound`):
   - **Replays:** a watching pace of 520, 720 or 900ms per move. Each game rests 2.6s on its final position, then the next starts. Replays run only while the board is on screen.
   - **Labels:** "2nd best rated blitz win" and so on. Players and ratings are shown Lichess-style.
+  - **Clocks:** each player has a clock (`clocks` in the data, tenths of a second). The side to move's clock is highlighted and runs down with the replay, turning red under 20s. Both clocks stop at the end, and a flagged clock shows 0:00.0 struck through. A pill reads In play, Paused or Final, and the move line ends with how the game finished, so a viewer can always tell whether a game is still going.
   - **Scrolling:** the wheel over the board steps through moves (a non-passive listener on the board only). Arrows, Space, Home and End work when the board has focus.
   - **Board colours:** three window-style buttons for Gambit greys (the default), Lichess `#f0d9b5`/`#b58863` and Chess.com-style `#ebecd0`/`#739552`. The choice persists in localStorage.
   - **Sound:** a toggle, off by default. Sounds are **synthesised with WebAudio**.
