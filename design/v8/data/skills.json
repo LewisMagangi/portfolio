@@ -1,0 +1,323 @@
+{
+  "levels": {
+    "SHIPPED": "Used in delivered work",
+    "TRAINED": "Finished a certified course",
+    "LEARNING": "In progress"
+  },
+  "groups": [
+    {
+      "id": "backend",
+      "title": "Back end and APIs",
+      "note": "Where most of my hours go: the endpoints, auth and business rules a product runs on.",
+      "skills": [
+        {
+          "name": "Python and Django",
+          "how": "Django 5, Django REST Framework",
+          "level": "SHIPPED",
+          "evidence": [
+            "Project Nexus",
+            "Solar Water ATM",
+            "Sustainable Fishing"
+          ]
+        },
+        {
+          "name": "TypeScript APIs with tRPC",
+          "how": "Typed endpoints validated with Zod",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "API documentation",
+          "how": "OpenAPI and Swagger, 51 endpoints documented",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "Authentication",
+          "how": "JWT with blacklisting, OAuth, email verification, Clerk",
+          "level": "SHIPPED",
+          "evidence": [
+            "Project Nexus",
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "Flask",
+          "how": "Migrated a Flask prototype to Django",
+          "level": "SHIPPED",
+          "evidence": [
+            "Solar Water ATM"
+          ]
+        },
+        {
+          "name": "C and Unix",
+          "how": "A working shell, process control, system calls",
+          "level": "SHIPPED",
+          "evidence": [
+            "Simple Shell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "title": "Front end",
+      "note": "Interfaces that load fast, read clearly and work with a keyboard.",
+      "skills": [
+        {
+          "name": "Next.js and React",
+          "how": "App Router, server components",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "Project Nexus",
+            "This site"
+          ]
+        },
+        {
+          "name": "TypeScript",
+          "how": "Strict types end to end, shared with the API",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "This site"
+          ]
+        },
+        {
+          "name": "Tailwind and shadcn/ui",
+          "how": "Design tokens mapped to components",
+          "level": "SHIPPED",
+          "evidence": [
+            "This site"
+          ]
+        },
+        {
+          "name": "Accessibility",
+          "how": "ARIA, focus order, contrast checks",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "This site"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "title": "Data",
+      "note": "Schemas you can trust, so every record can be traced back to where it came from.",
+      "skills": [
+        {
+          "name": "PostgreSQL",
+          "how": "Hosted on Neon, with referential integrity",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "Project Nexus"
+          ]
+        },
+        {
+          "name": "Prisma",
+          "how": "Prisma 7, lazy init, idempotent seeding of 17 tables",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "This site"
+          ]
+        },
+        {
+          "name": "Data modelling",
+          "how": "Third normal form from DBML, lookup tables",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "Data pipelines",
+          "how": "ETL and ELT in Python, deployed and maintained",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track"
+          ]
+        },
+        {
+          "name": "Data quality",
+          "how": "Great Expectations checks on incoming data",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track"
+          ]
+        },
+        {
+          "name": "Data versioning",
+          "how": "DVC pipelines for data and models",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "title": "AI and ML",
+      "note": "Newest, and growing fastest. Trained through three DataCamp tracks, 22 courses in all.",
+      "skills": [
+        {
+          "name": "LLM APIs",
+          "how": "OpenAI API, structured outputs, rate limits",
+          "level": "TRAINED",
+          "evidence": [
+            "Associate AI Engineer"
+          ]
+        },
+        {
+          "name": "Embeddings and vector search",
+          "how": "Semantic search with Pinecone",
+          "level": "TRAINED",
+          "evidence": [
+            "Associate AI Engineer"
+          ]
+        },
+        {
+          "name": "LangChain and agents",
+          "how": "Prompts, chains, tools, MCP",
+          "level": "TRAINED",
+          "evidence": [
+            "Associate AI Engineer"
+          ]
+        },
+        {
+          "name": "Hugging Face",
+          "how": "Running models and datasets from the Hub",
+          "level": "TRAINED",
+          "evidence": [
+            "Associate AI Engineer"
+          ]
+        },
+        {
+          "name": "Supervised learning",
+          "how": "Classification, regression and pipelines in scikit-learn",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track"
+          ]
+        },
+        {
+          "name": "MLOps with MLflow",
+          "how": "Experiment tracking, model registry, deployment",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track",
+            "ML in Production"
+          ]
+        },
+        {
+          "name": "Model monitoring",
+          "how": "Data drift, concept drift, root cause analysis",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track",
+            "ML in Production"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "note": "My degree is in computer forensics, so security is a default, not an add on.",
+      "skills": [
+        {
+          "name": "Vulnerability patching",
+          "how": "Patched CVE-2025-66478 in production",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "Injection and XSS fixes",
+          "how": "Input validation, hardened password resets",
+          "level": "SHIPPED",
+          "evidence": [
+            "Solar Water ATM"
+          ]
+        },
+        {
+          "name": "Cryptography",
+          "how": "Dynamic cryptosuite selection, best project in class",
+          "level": "SHIPPED",
+          "evidence": [
+            "Cryptosuite"
+          ]
+        },
+        {
+          "name": "Digital forensics",
+          "how": "Evidence handling, networks, incident analysis",
+          "level": "TRAINED",
+          "evidence": [
+            "BSc Computer Forensics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "Testing and delivery",
+      "note": "How the work reaches users without surprises.",
+      "skills": [
+        {
+          "name": "Automated testing",
+          "how": "pytest and Jest, run on every push",
+          "level": "SHIPPED",
+          "evidence": [
+            "Project Nexus",
+            "Solar Water ATM"
+          ]
+        },
+        {
+          "name": "CI with GitHub Actions",
+          "how": "Pre-commit and pre-push checks, CI for ML with DVC",
+          "level": "SHIPPED",
+          "evidence": [
+            "Project Nexus",
+            "ML Engineer track"
+          ]
+        },
+        {
+          "name": "Docker",
+          "how": "Containers, custom images, secure image builds",
+          "level": "TRAINED",
+          "evidence": [
+            "ML Engineer track"
+          ]
+        },
+        {
+          "name": "Git and code review",
+          "how": "150+ commits and 46 pull requests on one project",
+          "level": "SHIPPED",
+          "evidence": [
+            "Project Nexus",
+            "Wamumbi"
+          ]
+        },
+        {
+          "name": "Vercel deployment",
+          "how": "Preview and production deploys",
+          "level": "SHIPPED",
+          "evidence": [
+            "Wamumbi",
+            "Project Nexus",
+            "This site"
+          ]
+        }
+      ]
+    }
+  ]
+}

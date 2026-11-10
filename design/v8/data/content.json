@@ -1,0 +1,123 @@
+{
+  "pricing": {
+    "note": "Typical price per project in US dollars. What each tier includes is unchanged from v7. FAQ: 'Most projects land between $600 and $1,200 depending on scope.'",
+    "tiers": [
+      { "name": "Bronze", "price": "$600", "for": "A website or web app with the engineering behind it.", "includes": ["Web development, design to deployment", "Software engineering: APIs, integrations and tests"] },
+      { "name": "Silver", "price": "$900", "base": "Bronze", "for": "For products that hold data people depend on.", "includes": ["Data governance and analysis", "Cybersecurity review and hardening"] },
+      { "name": "Gold", "price": "$1,200", "base": "Silver", "for": "For teams adding AI or machine learning to the product.", "includes": ["Software, AI and ML engineering: models and AI features in production"] }
+    ]
+  },
+
+  "homeSkillsTeaser": {
+    "heading": "What I build it with.",
+    "lead": "Four disciplines sit behind every project above. Each skill links to the work that proves it.",
+    "columns": [
+      { "title": "Back end", "items": "Python, Django, tRPC, secure auth" },
+      { "title": "Front end", "items": "Next.js, React, TypeScript, accessibility" },
+      { "title": "Data", "items": "PostgreSQL, Prisma, data modelling" },
+      { "title": "AI, ML and security", "items": "LLM APIs, MLflow, vulnerability patching" }
+    ],
+    "link": { "label": "See all 32 skills and where I used each one", "href": "/skills" }
+  },
+
+  "homeMilestones": {
+    "lead": "Forensics first, then full stack, now AI and ML. Ten moves since 2020, lit as you read. Open any move for the short version, or follow it to the full story on the career page.",
+    "note": "Each item links to /career#<anchor>. Career page timeline items get id = slug(title) so these anchors resolve.",
+    "items": [
+      { "year": "2020", "date": "Sep 2020", "title": "BSc Computer Forensics begins at JOOUST", "kind": "Education", "detail": "Software engineering was my first choice; security became the foundation I build on.", "chips": ["Networks", "Forensics", "Cryptography"], "anchor": "bsc-computer-forensics-science-begins" },
+      { "year": "2022", "date": "Feb 2022", "title": "ALX Software Engineering, first run", "kind": "Training", "detail": "A Mastercard Foundation scholarship. Shell, Git and C from month one.", "chips": ["C", "Bash", "Git"], "anchor": "alx-software-engineering-first-run" },
+      { "year": "2023", "date": "Sep 2023 to Mar 2024", "title": "Dynamic Cryptosuite Selection", "kind": "Project", "detail": "Benchmarked ciphers on time, CPU and memory. The panel called it the best project in the class.", "chips": ["Applied crypto", "Benchmarking"], "anchor": "dynamic-cryptosuite-selection-capstone", "key": true, "mark": "!", "markLabel": "Best project in class" },
+      { "year": "2024", "date": "May to Aug 2024", "title": "ICT attachment, KenGen", "kind": "Work", "detail": "Moved key department records to Google Drive and supported networking while senior staff were away.", "chips": ["Networks", "Service desk"], "anchor": "ict-attachment-kengen" },
+      { "year": "2024", "date": "Oct 2024", "title": "Graduated, BSc Computer Forensics Science", "kind": "Education", "detail": "Specialised in cybersecurity.", "chips": [], "anchor": "graduated-bsc-computer-forensics-science", "key": true, "mark": "!", "markLabel": "Milestone" },
+      { "year": "2025", "date": "Apr 2025 to now", "title": "Full stack engineer, Wamumbi", "kind": "Work", "detail": "Took a charity platform from mock data to a live dashboard the foundation can trust.", "chips": ["Next.js", "tRPC", "PostgreSQL"], "anchor": "full-stack-engineer-wamumbi", "key": true, "mark": "!", "markLabel": "Turning point" },
+      { "year": "2025", "date": "Jun to Jul 2025", "title": "#3 and #5 at the Enactus Kenya National Expo", "kind": "Award", "detail": "Led three developers on the Solar Water ATM (#3) and built Sustainable Fishing (#5).", "chips": ["Team lead", "Django"], "anchor": "enactus-kenya-national-expo-3-and-5", "tone": "award", "key": true, "mark": "!!", "markLabel": "Brilliant move" },
+      { "year": "2025", "date": "Aug to Dec 2025", "title": "ALX ProDev back end and front end, with Project Nexus", "kind": "Training", "detail": "Both diplomas at once, then a solo social platform that earned one of the highest scores in the cohort.", "chips": ["Django REST", "Next.js", "CI"], "anchor": "project-nexus-capstone", "key": true, "mark": "!", "markLabel": "Strong move" },
+      { "year": "2026", "date": "Aug 2026", "title": "Associate AI Engineer for Developers", "kind": "Certificate", "detail": "Ten DataCamp courses: LLM APIs, embeddings, Pinecone, LangChain and MCP.", "chips": ["OpenAI API", "LangChain", "MCP"], "anchor": "associate-ai-engineer-for-developers" },
+      { "year": "2026", "date": "Nov 2026", "title": "Machine Learning Engineer, DataCamp", "kind": "Now", "detail": "Twelve courses and 43 hours, from scikit-learn to monitoring models in production.", "chips": ["MLOps", "scikit-learn", "Docker"], "anchor": "machine-learning-engineer-datacamp", "tone": "active", "markLabel": "Latest move" }
+    ]
+  },
+
+  "careerLastMove": { "date": "Nov 2026", "title": "Machine Learning Engineer, DataCamp", "kind": "Certificate", "detail": "The full career track: twelve courses and 43 hours, from supervised learning to monitoring models in production. Reading AI Engineering and Hands-On Machine Learning alongside.", "chips": ["scikit-learn", "MLOps", "MLflow", "ETL", "Great Expectations", "DVC", "Docker", "CI/CD for ML"], "markLabel": "Latest move" },
+
+  "educationProgrammes": {
+    "note": "Added after the existing BSc and ALX Software Engineering cards, oldest first. The two DataCamp tracks follow as CourseStory flip cards (see course-stories.json). OctoPrep and Educative are not on Education.",
+    "lead": "Oldest first. The two DataCamp tracks at the end turn over: select the book to play every course in the order I took it.",
+    "added": [
+      { "title": "ALX Professional Foundations", "org": "ALX Africa", "dates": "May to Aug 2025", "result": "12 weeks", "links": [{ "label": "Certificate", "href": "https://drive.google.com/file/d/16VlBXtuOLrIXIHKagBLaKBms13suKB8F/view?usp=sharing" }], "groups": [
+        { "name": "Working well", "items": ["Self leadership", "Time management", "Agile teams", "Conflict and negotiation", "Peer coaching"] },
+        { "name": "Solving problems", "items": ["Design thinking", "Human centred design", "User interviews", "Wireframes and prototypes", "Writing a PRD"] },
+        { "name": "Communicating", "items": ["Technical writing", "Data storytelling", "Pitching", "Video basics", "Ethics in tech"] },
+        { "name": "Career", "items": ["Personal brand", "Personal website", "CV", "Elevator pitch", "Figma", "Miro"] } ] },
+      { "title": "ALX ProDev Backend", "org": "ALX Africa, Professional Diploma", "dates": "Aug to Dec 2025", "result": "Taken alongside ProDev Frontend", "links": [{ "label": "Certificate", "href": "https://drive.google.com/file/d/1Ez-h4ARvLdx4Up-1K3V6K4Cemb_EDivp/view?usp=sharing" }], "groups": [
+        { "name": "Python and data", "items": ["Async Python", "Generators", "Decorators", "Context managers", "Advanced SQL", "Query optimisation"] },
+        { "name": "APIs", "items": ["Django REST Framework", "Serializers", "Seeders", "Django signals", "Advanced ORM"] },
+        { "name": "Security", "items": ["JWT", "Permissions", "Middleware"] },
+        { "name": "Delivery", "items": ["Pytest", "Unit and integration tests", "Docker", "Shell scripting", "Git flow", "CI/CD"] },
+        { "name": "Capstone", "items": ["Project Nexus back end", "One of the highest scores in the cohort"] } ] },
+      { "title": "ALX ProDev Frontend", "org": "ALX Africa, Professional Diploma", "dates": "Aug to Dec 2025", "result": "Taken alongside ProDev Backend", "links": [{ "label": "Certificate", "href": "https://drive.google.com/file/d/1is5GuLZcnJN5TUmcVOFE3h7Gln-DvuBl/view?usp=sharing" }], "groups": [
+        { "name": "Interfaces", "items": ["Semantic HTML", "CSS Grid and Flexbox", "Tailwind", "Responsive design", "Accessibility", "SEO"] },
+        { "name": "React and Next.js", "items": ["Next.js", "React", "TypeScript", "Hooks", "Component architecture"] },
+        { "name": "State and data", "items": ["Redux", "Context API", "REST", "GraphQL"] },
+        { "name": "Planning", "items": ["Figma wireframes", "Prototyping", "Project planning"] },
+        { "name": "Capstone", "items": ["Project Nexus front end"] } ] },
+      { "title": "ALX Founder Academy and Freelancer Academy", "org": "ALX Africa", "dates": "Oct to Dec 2025", "result": "Two certificates", "links": [{ "label": "Founder Academy", "href": "https://drive.google.com/file/d/1TYBCsJgmoNgJI3-RqZoCziH9U1DcUHST/view?usp=sharing" }, { "label": "Freelancer Academy", "href": "https://drive.google.com/file/d/1IXzLmaORNV1FFR8Sj47bIFmZ8q6YTcQ4/view?usp=sharing" }], "groups": [
+        { "name": "Founder Academy", "items": ["Lean Canvas", "Customer discovery"] },
+        { "name": "Freelancer Academy", "items": ["Proposals", "Pricing", "Client communication"] } ] }
+    ],
+    "latest": { "heading": "Latest", "text": "The DataCamp Machine Learning Engineer track, finished on 9 November 2026, ten weeks after the Associate AI Engineer track." }
+  },
+
+  "aiMlPage": {
+    "banner": { "eyebrow": "Finished, DataCamp career track", "title": "Machine Learning Engineer", "status": "Completed 9 Nov 2026", "text": "My longest track yet: twelve courses and 43 hours over six weeks, from 1 October to 9 November 2026. It covers supervised learning, MLOps, data pipelines and quality, monitoring, Docker and CI/CD for machine learning. Every course has its own certificate on the Education page." },
+    "newCard": { "issuer": "DataCamp, career track", "meta": "Nov 2026, 43 hr", "title": "Machine Learning Engineer", "summary": "Twelve courses on building, shipping and looking after machine learning models in production.", "skills": [
+      { "h": "Supervised learning", "t": "classification, regression, fine tuning, preprocessing and pipelines in scikit-learn" },
+      { "h": "MLOps", "t": "designing, developing, deploying and maintaining models in production, and the deployment life cycle" },
+      { "h": "MLflow", "t": "experiment tracking, packaged models, the model registry and MLflow Projects" },
+      { "h": "Data pipelines", "t": "ETL and ELT in Python, from building to deploying and maintaining a pipeline" },
+      { "h": "Data quality", "t": "Great Expectations: connecting to data and writing expectations that run in practice" },
+      { "h": "DVC", "t": "versioning data, configuring storage and automating pipelines" },
+      { "h": "Model monitoring", "t": "covariate shift and concept drift detection, performance estimation, root cause analysis" },
+      { "h": "Docker", "t": "running containers, writing your own images and keeping them secure" },
+      { "h": "CI/CD for ML", "t": "GitHub Actions, continuous integration for models, comparing training runs, tuning hyperparameters" },
+      { "h": "Shell", "t": "files and data on the command line, batch processing and building small tools" } ] }
+  },
+
+  "certificates": {
+    "note": "Certificates page: nine professional certificates, newest first, then an 'Other certificates' section. Home carousel shows the first nine below (no Educative). The existing certificate images live in the canvas; the new ML Engineer one is public/certificates/machine-learning-engineer.png.",
+    "professional": [
+      { "title": "Machine Learning Engineer", "issuer": "DataCamp, career track", "date": "Nov 2026", "length": "43 HR", "image": "/certificates/machine-learning-engineer.png", "note": "Twelve courses, each verifiable on the Education page", "learned": ["Supervised learning with scikit-learn", "MLOps concepts & deployment", "MLflow tracking & registry", "ETL & ELT pipelines", "Data quality with Great Expectations", "DVC versioning", "Drift detection & monitoring", "Docker", "CI/CD for ML", "Shell"] },
+      { "title": "Machine Learning in Production in Python", "issuer": "DataCamp, skill track", "date": "Oct 2026", "length": "14 HR" },
+      { "title": "Associate AI Engineer for Developers", "issuer": "DataCamp, track", "date": "Aug 2026", "length": "29 HR", "verify": "https://drive.google.com/file/d/1hwtO1PBwQ1Dx-2wGyDWw6puYhVRIpx-Z/view?usp=sharing" },
+      { "title": "ProDev Backend, Professional Diploma", "issuer": "ALX", "date": "Dec 2025", "verify": "https://drive.google.com/file/d/1Ez-h4ARvLdx4Up-1K3V6K4Cemb_EDivp/view?usp=sharing" },
+      { "title": "ProDev Frontend, Professional Diploma", "issuer": "ALX", "date": "Dec 2025", "verify": "https://drive.google.com/file/d/1is5GuLZcnJN5TUmcVOFE3h7Gln-DvuBl/view?usp=sharing" },
+      { "title": "Freelancer Academy", "issuer": "ALX Ventures and Mastercard Foundation", "date": "Dec 2025", "verify": "https://drive.google.com/file/d/1IXzLmaORNV1FFR8Sj47bIFmZ8q6YTcQ4/view?usp=sharing" },
+      { "title": "Founder Academy", "issuer": "ALX Ventures and Mastercard Foundation", "date": "Nov 2025", "verify": "https://drive.google.com/file/d/1TYBCsJgmoNgJI3-RqZoCziH9U1DcUHST/view?usp=sharing" },
+      { "title": "Professional Foundations", "issuer": "ALX", "date": "Aug 2025", "verify": "https://drive.google.com/file/d/16VlBXtuOLrIXIHKagBLaKBms13suKB8F/view?usp=sharing" },
+      { "title": "Software Engineering, back end specialisation", "issuer": "ALX", "date": "Feb 2025", "verify": "https://drive.google.com/file/d/1e0UUNaqJtpvcOBaAJ1R6KU5MtFpKwHhS/view?usp=sharing" }
+    ],
+    "other": [
+      { "title": "Database Design Fundamentals for Software Engineers", "issuer": "Educative", "when": "Sep 2026" },
+      { "title": "Career Preparation Program, Cohort 3", "issuer": "OctoPrep", "when": "27 Oct to 19 Dec 2025" },
+      { "title": "Chess Championship, certificate of participation for JOOUST", "issuer": "Kenya University Sports Association, Western Conference", "when": "Nov 2021, Masinde Muliro University", "tag": "Board 3, 3 of 5", "href": "https://drive.google.com/file/d/1T-LmqogVA1arZuytaOaE8Zuyg-PQjLst/view?usp=sharing" }
+    ]
+  },
+
+  "references": {
+    "irene": { "featured": false, "relation": "ALX ProDev Backend and Frontend, Project Nexus", "date": "Jan 2026", "mark": "IA", "name": "Irene Aragona", "role": "ALX", "result": "Top score", "contextLabel": "Watch the Project Nexus presentation",
+      "quote": "It wasn’t easy, but you nailed it — delivering outstanding work and earning one of the highest scores in your Cohort.",
+      "moreLabel": "Read Irene’s full message",
+      "full": "“It’s been a while since you completed your program — and I’m sure Project Nexus still stands out as one of the biggest challenges of your journey! After four months of learning, you wrapped things up with an ambitious, fully fledged project. It wasn’t easy, but you nailed it — delivering outstanding work and earning one of the highest scores in your Cohort.” Project Nexus was the capstone for both ProDev Backend and ProDev Frontend, which I took at the same time." },
+    "homeCta": { "label": "Worked with me? Add a review", "href": "/review", "note": "Reviews appear here once I’ve confirmed them." }
+  },
+
+  "chess": {
+    "heroLead": "I played for JOOUST at three straight WEKUSA championships. In 2023, on board 2, my 7 wins from 9 helped the team finish second runners up. The same habit runs my engineering: read the position, count the trade offs, then move.",
+    "theatreNote": "Beside this are my five best rated wins in each time control on Lichess, replayed as they happened. Scroll over the board to run through a game, change the colours with the three buttons, or switch to Live to watch me play.",
+    "events": [
+      { "year": "2023", "title": "WEKUSA Chess Championship", "line": "Board 2 for JOOUST. Won 7 of 9 games, and the team finished second runners up.", "result": "7/9, team third", "tone": "award" },
+      { "year": "2022", "title": "WEKUSA Chess Championship", "line": "Board 3 for JOOUST. Won 2 of 5 games.", "result": "2/5" },
+      { "year": "2021", "title": "WEKUSA Chess Championship", "line": "Masinde Muliro University, 13 to 14 Nov 2021. Board 3 for JOOUST. Won 3 of 5 games.", "result": "3/5" }
+    ],
+    "homeOffTheClock": "Chess taught me to calculate before I commit. On board 2 for JOOUST at WEKUSA 2023, my 7 wins from 9 helped the team finish second runners up. Watch my best rated wins replay, challenge me, or race me on a kata."
+  }
+}
