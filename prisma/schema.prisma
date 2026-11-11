@@ -372,10 +372,24 @@ model Testimonial {
   rating    Int               @default(5)
   featured  Boolean           @default(false)
   status    TestimonialStatus @default(PENDING)
+  source    TestimonialSource @default(LETTER)
+  // Short key line shown on the card; `content` holds the full message
+  quote     String?           @db.Text
+  // Private: never rendered publicly
+  email     String?
+  relation  String?
+  project   String?
+  link      String?
+  consentAt DateTime?         @map("consent_at")
+  letterUrl String?           @map("letter_url")
+  result    String?
+  mark      String?
+  orderIndex Int              @default(0) @map("order_index")
   createdAt DateTime          @default(now()) @map("created_at")
   updatedAt DateTime          @updatedAt @map("updated_at")
 
   @@index([featured, status], name: "testimonial_featured_status_idx")
+  @@index([source, status], name: "testimonial_source_status_idx")
   @@map("testimonials")
 }
 
@@ -383,6 +397,11 @@ enum TestimonialStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum TestimonialSource {
+  LETTER
+  CLIENT_REVIEW
 }
 
 // ===================================
@@ -393,6 +412,12 @@ model Skill {
   id                 String        @id @default(uuid())
   name               String        @unique
   category           SkillCategory
+  level              SkillLevel    @default(SHIPPED)
+  // How the skill was used, one line
+  how                String?
+  // [{ label: string, href: string }]
+  evidence           Json?
+  // Unused since v8 (levels replace ratings); kept until data is migrated
   proficiencyLevel   Int           @default(3) @map("proficiency_level")
   yearsOfExperience  Float?        @map("years_of_experience")
   icon               String?
@@ -411,6 +436,80 @@ enum SkillCategory {
   SECURITY
   TOOLS
   SOFT_SKILLS
+  AI_ML
+}
+
+enum SkillLevel {
+  SHIPPED
+  TRAINED
+  LEARNING
+}
+
+// ===================================
+// LEARNING TRACKS (DataCamp course stories)
+// ===================================
+
+model Track {
+  id             String   @id @default(uuid())
+  title          String
+  org            String
+  dates          String
+  result         String?
+  certificateUrl String?  @map("certificate_url")
+  // [{ name: string, items: string[] }], as in course-stories.json
+  groups         Json
+  orderIndex     Int      @default(0) @map("order_index")
+  courses        Course[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("tracks")
+}
+
+model Course {
+  id          String    @id @default(uuid())
+  trackId     String    @map("track_id")
+  track       Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  title       String
+  completedAt DateTime? @map("completed_at")
+  hours       Float?
+  about       String?   @db.Text
+  chapters    String[]
+  verifyUrl   String?   @map("verify_url")
+  image       String?
+  orderIndex  Int       @default(0) @map("order_index")
+
+  @@index([trackId, orderIndex], name: "course_track_order_idx")
+  @@map("courses")
+}
+
+// ===================================
+// CHESS (Lichess best wins cache)
+// ===================================
+
+model ChessGame {
+  id          String   @id @default(uuid())
+  lichessId   String   @unique @map("lichess_id")
+  speed       String
+  rank        Int
+  me          String
+  opp         String
+  oppRating   Int      @map("opp_rating")
+  myRating    Int      @map("my_rating")
+  opening     String?
+  clock       String?
+  playedAt    DateTime @map("played_at")
+  result      String
+  // How the game ended, e.g. "Won on time"
+  how         String?
+  uci         String   @db.Text
+  san         String   @db.Text
+  // Per-move clocks in tenths of a second, as in lichess-best-wins.json
+  clocks      Json?
+  refreshedAt DateTime @default(now()) @map("refreshed_at")
+
+  @@index([speed, rank], name: "chess_game_speed_rank_idx")
+  @@map("chess_games")
 }
 
 // ===================================
