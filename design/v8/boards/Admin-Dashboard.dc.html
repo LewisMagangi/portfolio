@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Dashboard</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.lm-kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink);text-decoration:none}
+.lm-kpi:hover{text-decoration:none;box-shadow:var(--shadow-hover)}
+.lm-qa{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius-md);color:var(--ink);text-decoration:none;font-size:14px;background:var(--bg)}
+.lm-qa:hover{text-decoration:none;border-color:var(--line-strong)}
+</style>
+</helmet>
+<div data-theme="dark" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1300px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Dashboard" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Overview" title="Good afternoon, Lewis" description="Here’s what changed since you last logged in.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Main.dc.html" external="{{yes}}">View site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="Admin-Project-Edit.dc.html">+ New project</x-import>
+</x-import>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px;">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<a class="lm-kpi" href="{{k.href}}"><span class="label" style="color: var(--ink-subtle); ">{{k.label}}</span><span style="font-family: var(--font-mono); font-size: 32px; line-height: 38px; font-weight: 500;">{{k.value}}</span><span style="font-size: 13px; color: var(--ink-muted);">{{k.sub}}</span></a>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 class="title" style="margin: 0;">Latest messages</h2><a href="Admin-Messages.dc.html" style="font-size: 13px;">Open inbox →</a></div>
+<x-import component-from-global-scope="Gambit.DataTable" toolbar="{{no}}" footer="{{no}}" columns="{{msgCols}}" rows="{{msgs}}" row-actions="{{msgActions}}"></x-import>
+<h2 class="title" style="margin: 16px 0 0;">Drafts</h2>
+<x-import component-from-global-scope="Gambit.DataTable" toolbar="{{no}}" footer="{{no}}" columns="{{draftCols}}" rows="{{drafts}}" row-actions="{{editOnly}}"></x-import>
+</section>
+<aside style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<span class="label" style="color: var(--ink-subtle); ">Quick actions</span>
+<sc-for list="{{quick}}" as="q" hint-placeholder-count="5"><a class="lm-qa" href="{{q.href}}"><x-import component-from-global-scope="Gambit.Icon" name="{{q.icon}}"></x-import>{{q.label}}</a></sc-for>
+</div>
+<div style="background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<span class="label" style="color: var(--ink-subtle); ">CV</span>
+<strong style="font-family: var(--font-mono); font-size: 13px; font-weight: 500;">Lewis_Magangi_CV.pdf</strong>
+<span style="font-size: 13px; color: var(--ink-muted);">Updated Oct 2026, 14 downloads this month (sample)</span>
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="#cv-admin">Replace CV</x-import>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      yes: true, no: false,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      kpis: [
+        { label: 'Projects', value: '8', sub: '4 featured on the site', href: 'Admin-Projects.dc.html' },
+        { label: 'Certificates', value: '10', sub: 'Newest: Oct 2026', href: 'Admin-Certificates.dc.html' },
+        { label: 'New messages', value: '3', sub: 'Unread in the inbox', href: 'Admin-Messages.dc.html' },
+        { label: 'Upcoming calls', value: '3', sub: 'Next: Thu 5 Nov, 10:30 EAT', href: 'Admin-Bookings.dc.html' }
+      ],
+      msgCols: [{ key: 'from', label: 'From', type: 'title', sub: 'subject' }, { key: 'status', label: 'Status', type: 'status' }, { key: 'at', label: 'Received', type: 'mono' }],
+      msgs: [
+        { from: 'Wanjiru Kamau', subject: 'Hiring: AI/ML engineering', status: 'NEW', at: 'Today' },
+        { from: 'Brian Otieno', subject: 'Collaboration', status: 'NEW', at: 'Yesterday' },
+        { from: 'Achieng Odhiambo', subject: 'A game of chess', status: 'READ', at: '2 days ago' }
+      ],
+      msgActions: ['reply', 'archive'],
+      draftCols: [{ key: 'title', label: 'Title', type: 'title', sub: 'type' }, { key: 'status', label: 'Status', type: 'status' }, { key: 'at', label: 'Edited', type: 'mono' }],
+      drafts: [
+        { title: 'Shipping a model like software', type: 'Blog post', status: 'DRAFT', at: 'Nov 2026' },
+        { title: 'ML Engineer career track', type: 'Certificate, in progress', status: 'IN_PROGRESS', at: 'Nov 2026' }
+      ],
+      editOnly: ['edit'],
+      quick: [
+        { icon: 'folder', label: 'New project', href: 'Admin-Project-Edit.dc.html' },
+        { icon: 'pen', label: 'New blog post', href: '#blog-new' },
+        { icon: 'award', label: 'Add certificate', href: 'Admin-Certificates.dc.html' },
+        { icon: 'briefcase', label: 'Add experience', href: '#exp-new' },
+        { icon: 'upload', label: 'Upload CV', href: '#cv-admin' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

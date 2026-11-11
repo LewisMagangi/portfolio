@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Messages</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}a{color:var(--accent);text-decoration:none}</style>
+</helmet>
+<div data-theme="dark" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1100px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Messages" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Inbox" title="Messages" description="From the contact form · 3 new">
+<x-import component-from-global-scope="Gambit.Button" size="sm">Export CSV</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 3 1 460px; min-width: 0;">
+<x-import component-from-global-scope="Gambit.DataTable" filters="{{filters}}" search-placeholder="Search name, email, subject…" columns="{{cols}}" rows="{{rows}}" row-actions="{{acts}}" footer="Page 1 of 1"></x-import>
+</div>
+<article style="flex: 2 1 340px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;"><x-import component-from-global-scope="Gambit.StatusBadge" status="NEW"></x-import><span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);">TODAY · 09:42</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Hiring: AI/ML engineering</h2><span style="font-size: 14px; color: var(--ink-muted);">[Sender name] · [sender@company.com]</span></div>
+<p style="margin: 0; font-size: 14px; line-height: 22px; color: var(--ink); border-top: 1px solid var(--line); padding-top: 16px;">[The message body from the contact form appears here in full, with line breaks preserved.]</p>
+<x-import component-from-global-scope="Gambit.Field" label="Reply" type="textarea" rows="5" placeholder="Write a reply. It’s sent from your email and the message is marked Replied."></x-import>
+<div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+<div style="display: flex; gap: 8px;"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Archive</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Mark as spam</x-import></div>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Send reply</x-import>
+</div>
+</article>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      filters: ['All', 'New · 3', 'Read', 'Replied', 'Archived', 'Spam'],
+      cols: [{ key: 'from', label: 'From', type: 'title', sub: 'subject' }, { key: 'status', label: 'Status', type: 'status' }, { key: 'at', label: 'Received', type: 'mono' }],
+      acts: ['reply', 'archive', 'delete'],
+      rows: [
+        { from: '[Sender name]', subject: 'Hiring: AI/ML engineering', status: 'NEW', at: 'Today' },
+        { from: '[Sender name]', subject: 'Collaboration', status: 'NEW', at: 'Yesterday' },
+        { from: '[Sender name]', subject: 'A game of chess', status: 'NEW', at: '2 days ago' },
+        { from: '[Sender name]', subject: 'Hiring: full-stack', status: 'REPLIED', at: 'Last week' },
+        { from: '[Sender name]', subject: 'Something else', status: 'SPAM', at: 'Last week' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

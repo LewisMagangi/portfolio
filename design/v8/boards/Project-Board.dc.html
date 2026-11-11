@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Project, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}a:hover{text-decoration-color:var(--ink)}a[class]{text-decoration:none}
+.lm-pn{display:flex;flex-direction:column;gap:4px;color:var(--ink);text-decoration:none;background:none;border:0;font:inherit;cursor:pointer;padding:0}
+.lm-pn:hover strong{text-decoration:underline}.lm-pn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}</style>
+</helmet>
+<div data-theme="{{theme}}" style="background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100%;">
+<x-import component-from-global-scope="Gambit.SiteNav" active="Work" items="{{nav}}" theme="{{theme}}" home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+
+<div style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 0; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box;">
+<nav aria-label="Breadcrumb" style="font-size: 14px; color: var(--ink-muted);"><a href="Work.dc.html" class="gb-crumb">Work</a> <span aria-hidden="true">/</span> {{p.title}}</nav>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-if value="{{p.award}}" hint-placeholder-val="{{true}}"><x-import component-from-global-scope="Gambit.Tag" tone="award">{{p.award}}</x-import></sc-if>
+<x-import component-from-global-scope="Gambit.Tag">{{p.kind}}</x-import>
+<x-import component-from-global-scope="Gambit.Tag">{{p.period}}</x-import>
+</div>
+<h1 class="display" style="margin: 0; max-width: 820px;">{{p.h1}}</h1>
+<p class="lead" style="margin: 0; max-width: 700px; color: var(--ink-muted);">{{p.lead}}</p>
+<dl style="margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface);">
+<sc-for list="{{p.facts}}" as="f" hint-placeholder-count="4">
+<div style="padding: 20px 24px; border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px;"><dt style="font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-subtle);">{{f.k}}</dt><dd style="margin: 0; font-size: 14px;">{{f.v}}</dd></div>
+</sc-for>
+</dl>
+<div style="margin-top: 16px; max-width: 920px;"><x-import component-from-global-scope="Gambit.DeviceMockup" url="{{p.shot}}" live-url="{{p.live}}" mock="{{p.mock}}" caption="{{p.mockCaption}}"></x-import></div>
+<sc-if value="{{p.video}}" hint-placeholder-val="{{true}}"><div style="margin-top: 16px; max-width: 920px;"><x-import component-from-global-scope="Gambit.VideoEmbed" embed-src="{{p.video.embed}}" href="{{p.video.href}}" title="{{p.video.title}}" caption="{{p.video.caption}}" theme="{{theme}}"></x-import></div></sc-if>
+<sc-if value="{{p.praise}}" hint-placeholder-val="{{true}}"><div style="margin-top: 16px; max-width: 920px; display: grid;"><x-import component-from-global-scope="Gambit.ReferenceCard" featured="{{yes}}" quote="{{p.praise.quote}}" name="{{p.praise.name}}" role="{{p.praise.role}}" relation="{{p.praise.relation}}" mark="IA" result="{{p.praise.result}}" links="{{p.praise.links}}"></x-import></div></sc-if>
+</div>
+
+<div style="max-width: 1080px; margin: 0 auto; padding: 80px 32px; display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start; box-sizing: border-box;">
+<article style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 56px;">
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<h2 class="title" style="margin: 0;">The problem</h2>
+<p style="margin: 0; color: var(--ink-muted); max-width: 680px;">{{p.problem}}</p>
+</section>
+<section style="display: flex; flex-direction: column; gap: 4px;">
+<h2 class="title" style="margin: 0;">What I did</h2>
+<ol style="list-style: none; margin: 12px 0 0; padding: 0;">
+<sc-for list="{{p.did}}" as="d" hint-placeholder-count="6">
+<li style="display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line);"><span style="font-family: var(--font-mono); font-size: 12px; color: var(--accent); padding-top: 2px;">{{d.n}}.</span><div style="display: flex; flex-direction: column; gap: 4px;"><h3 style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 600;">{{d.h}}</h3><span style="color: var(--ink-muted); font-size: 14px;">{{d.t}}</span></div></li>
+</sc-for>
+</ol>
+</section>
+<section style="display: flex; flex-direction: column; gap: 16px;">
+<h2 class="title" style="margin: 0;">Architecture</h2>
+<div style="display: flex; align-items: stretch; flex-wrap: wrap; row-gap: 12px;">
+<sc-for list="{{p.arch}}" as="a" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; flex: 1 1 150px;"><div style="flex: 1; border: 1px solid {{a.border}}; border-radius: var(--radius-md); background: var(--surface); padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 76px; box-sizing: border-box;"><span style="font-weight: 600; font-size: 14px;">{{a.t}}</span><span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);">{{a.s}}</span></div><span aria-hidden="true" style="width: 24px; text-align: center; color: var(--ink-subtle); font-family: var(--font-mono);">{{a.arrow}}</span></div>
+</sc-for>
+</div>
+</section>
+<section style="display: flex; flex-direction: column; gap: 16px;">
+<h2 class="title" style="margin: 0;">Outcome</h2>
+<div style="display: flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px 0; background: var(--surface);">
+<sc-for list="{{p.stats}}" as="s" hint-placeholder-count="3"><x-import component-from-global-scope="Gambit.StatBlock" value="{{s.v}}" label="{{s.l}}" style="flex: 1 1 200px;"></x-import></sc-for>
+</div>
+<p style="margin: 0; color: var(--ink-muted); max-width: 680px;">{{p.outcome}}</p>
+</section>
+</article>
+<aside style="flex: 1 1 280px; min-width: 0; position: sticky; top: 24px; display: flex; flex-direction: column; gap: 16px;">
+<div style="border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-subtle);">Stack</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{p.tags}}" as="t" hint-placeholder-count="6"><x-import component-from-global-scope="Gambit.Tag">{{t}}</x-import></sc-for></div>
+<h2 style="margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-subtle);">Links</h2>
+<sc-for list="{{p.links}}" as="l" hint-placeholder-count="2"><a href="{{l.href}}" class="gb-link" style="font-size: 14px;">{{l.label}} <span aria-hidden="true">↗</span></a></sc-for>
+</div>
+<x-import component-from-global-scope="Gambit.Button" variant="primary" href="Book.dc.html">Book a call about this</x-import>
+</aside>
+</div>
+
+<div style="max-width: 1080px; margin: 0 auto; padding: 0 32px 64px; box-sizing: border-box;">
+<div style="border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+<button type="button" class="lm-pn" onClick="{{goPrev}}"><span style="font-size: 12px; color: var(--ink-muted);">Previous project</span><strong style="font-weight: 600;">{{prevTitle}}</strong></button>
+<button type="button" class="lm-pn" onClick="{{goNext}}" style="text-align: right; align-items: flex-end;"><span style="font-size: 12px; color: var(--ink-muted);">Next project</span><strong style="font-weight: 600;">{{nextTitle}}</strong></button>
+</div>
+</div>
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"project":{"editor":"enum","options":["wamumbi","nexus","solar","fishing","sne","crypto","afya","shell"],"default":"nexus"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":3410}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var L = 'var(--line-strong)', A = 'var(--accent)';
+    function arch(list) { return list.map(function (x, i) { return { t: x[0], s: x[1], border: i === 1 ? A : L, arrow: i < list.length - 1 ? '→' : '' }; }); }
+    function did(list) { return list.map(function (x, i) { return { n: i + 1, h: x[0], t: x[1] }; }); }
+    function facts(r, t, d, s) { return [{ k: 'Role', v: r }, { k: 'Team', v: t }, { k: 'Timeline', v: d }, { k: 'Stack', v: s }]; }
+    var P = {
+      wamumbi: { live: 'https://wamumbi.vercel.app/', video: null, mock: { brand: 'W', title: 'Campaigns', badge: 'Live', stats: [{ l: 'API endpoints', v: '51' }, { l: 'Reference tables', v: '17' }, { l: 'Commits', v: '80+' }], rows: ['Donations', 'Campaigns', 'Volunteers', 'Events'] }, mockCaption: 'Running live. Select the screen to use the site, or open it in a new tab.', title: 'Wamumbi', crumb: 'Wamumbi', kind: 'Live, volunteer', period: 'Apr 2025 to now',
+        h1: 'Fundraising, volunteers and campaigns, on real data.',
+        lead: 'A platform for the Wamumbi charity foundation: donations, campaigns, events, volunteers, teams and partnerships, built with Next.js, tRPC and Prisma on Neon Postgres.',
+        facts: facts('Full stack engineer', 'Client Application Team, remote', 'Apr 2025, present', 'Next.js 16, tRPC, Prisma 7'),
+        shot: 'wamumbi.vercel.app, dashboard',
+        problem: 'The MVP ran on mock data and hard coded values. The foundation needed a dashboard it could trust to run campaigns, track donations and manage volunteers, and documentation a distributed team of volunteers could follow.',
+        did: did([
+          ['Designed a 3NF schema', 'Synced the DBML design to Prisma, replaced enums with lookup tables, added referential integrity rules, swapped a polymorphic relation for explicit foreign keys and made personal data optional for privacy.'],
+          ['Built 51 documented API endpoints', 'tRPC routers for events, volunteers, blog posts, donations, teams, campaigns and auth, with Zod validation, OpenAPI metadata and interactive Swagger docs at /api/docs.'],
+          ['Replaced the mocks with live data', 'Dashboard stats, campaigns and donations now run on tRPC queries and mutations with cache invalidation, loading states, modals and volunteer edit/delete flows.'],
+          ['Moved to Prisma 7 on Neon', 'Lazy initialisation through a proxy so serverless builds never open a connection, plus idempotent upsert seeding across 17 reference tables.'],
+          ['Patched CVE-2025-66478', 'Upgraded Next.js to 16.0.7 to close the React2Shell vulnerability and validated the fix in production.'],
+          ['Made it accessible and documented', 'ARIA on progress bars, labelled forms, a docs/ tree for API, database, frontend and deployment, a Clerk production guide, and READMEs cut back to what actually ships.']
+        ]),
+        arch: arch([['Next.js App Router', 'SSR, Clerk auth'], ['tRPC + Zod', '51 ENDPOINTS, OPENAPI'], ['Prisma 7', 'Lazy init, seeding'], ['Neon Postgres', '3NF, 17 REF TABLES']]),
+        stats: [{ v: '51', l: 'documented API endpoints' }, { v: '17', l: 'reference tables seeded' }, { v: '80+', l: 'commits across 8 branches' }],
+        outcome: 'Wamumbi went from an MVP on mock data to a stable, backend driven product, with docs that let new contributors set up, seed and deploy without asking.',
+        tags: ['Next.js', 'TypeScript', 'tRPC', 'Zod', 'Prisma', 'Neon', 'Clerk', 'Tailwind'],
+        links: [{ label: 'wamumbi.vercel.app', href: 'https://wamumbi.vercel.app/' }, { label: 'Source code', href: 'https://github.com/LewisMagangi/wamumbi' }] },
+      nexus: { praise: { name: 'Irene Aragona', role: 'ALX', relation: 'On this capstone', result: 'Among the top scores in my cohort', links: [], quote: 'After four months of learning, you wrapped things up with an ambitious, fully fledged project. It wasn’t easy, but you nailed it, delivering outstanding work and earning one of the highest scores in your Cohort.' }, live: 'https://alx-project-nexus-social.vercel.app/', video: { embed: 'https://docs.google.com/videos/d/1bxTm_uV3uP2jet4HGoEHiklfaVREL3G6XAAv_UMwa8Y/preview', href: 'https://docs.google.com/videos/d/1bxTm_uV3uP2jet4HGoEHiklfaVREL3G6XAAv_UMwa8Y/play?usp=sharing', title: 'Project Nexus presentation', caption: 'The capstone presentation, recorded for ALX.' }, mock: { brand: 'N', title: 'Home feed', badge: 'Live', stats: [{ l: 'Commits', v: '150+' }, { l: 'Pull requests', v: '46' }, { l: 'Weeks', v: '5' }], rows: ['New thread', 'New follower', 'Message from a community', 'Trending: #django'] }, mockCaption: 'Running live. Select the screen to use the site, or open it in a new tab.', title: 'Project Nexus', crumb: 'Project Nexus', kind: 'ALX ProDev capstone', period: 'Nov to Dec 2025',
+        h1: 'A social network, end to end, in five weeks.',
+        lead: 'My capstone for the ALX ProDev Backend and Frontend diplomas: a Twitter like platform with a Django REST API and a Next.js client, designed, built, tested, deployed and presented on my own.',
+        facts: facts('Sole developer', 'Solo, PDBE + PDFE capstone', '1 Nov to 4 Dec 2025', 'Django REST, Next.js, PostgreSQL'),
+        shot: 'alx-project-nexus-social.vercel.app',
+        problem: 'Both ProDev tracks end in one capstone: prove you can design a real product’s backend and frontend, document it, test it and ship it, inside one cohort deadline.',
+        did: did([
+          ['Auth that holds up', 'JWT with token blacklisting on logout, email verification, password reset with email templates, and Google and GitHub sign in through dj-rest-auth and django-allauth.'],
+          ['The social graph', 'Posts, threads, retweets, quote posts, hashtags, mentions, likes and follows, with a dynamic post page and profiles showing follows and stats.'],
+          ['Everything around the feed', 'Bookmarks, notifications, user to user messaging, communities, search, and account update, password change and deactivation.'],
+          ['Legal and privacy built in', 'Terms, privacy and cookie policies, with acceptance required at registration.'],
+          ['Quality gates on every push', 'Pre-commit with Black, isort and flake8; pytest on Python 3.12 in GitHub Actions; Jest on pre-push; OpenAPI schema and ERDs kept in sync.'],
+          ['Shipped and hardened', 'Production settings for hosts, CSRF origins, logging and static files; patched CVE-2025-66478 on the Next.js client.']
+        ]),
+        arch: arch([['Next.js client', 'SSR, auth context'], ['Django REST API', 'JWT, allauth, openapi'], ['PostgreSQL', 'Posts, graph, messages'], ['CI/CD', 'Actions, pre-commit']]),
+        stats: [{ v: '150+', l: 'commits, on my own' }, { v: '46', l: 'pull requests merged' }, { v: '5', l: 'weeks from MVP to demo' }],
+        outcome: 'Presented as the joint capstone for both diplomas, with a recorded demo and full API documentation. It earned one of the highest scores in the cohort.',
+        tags: ['Django', 'DRF', 'Next.js', 'TypeScript', 'JWT', 'OAuth', 'PostgreSQL', 'GitHub Actions'],
+        links: [{ label: 'Live app', href: 'https://alx-project-nexus-social.vercel.app/' }, { label: 'Demo video', href: 'https://drive.google.com/file/d/1lMDkZoshHN5UpyPQbRwpLgtM0TdTkqJj/view?usp=sharing' }] },
+      solar: { live: null, video: null, mock: { brand: 'WA', title: 'Kiosk usage', badge: 'Admin', stats: [{ l: 'Kiosks', v: 'Metered' }, { l: 'Litres today', v: 'Metered' }, { l: 'Django', v: '5.2' }], rows: ['Kiosk 01, meter reading', 'Kiosk 02, payment', 'Kiosk 03, meter reading', 'New user'] }, mockCaption: 'Desktop and phone layout.', title: 'Solar Powered Water ATM', crumb: 'Solar powered water-atm', kind: 'Enactus JOOUST', period: 'Jun to Jul 2025', award: '#3, Enactus Kenya National Expo 2025',
+        h1: 'Clean water, dispensed and accounted for.',
+        lead: 'A Django platform behind solar powered water kiosks for underserved communities: user accounts, kiosks, metered usage and billing in one place.',
+        facts: facts('Backend lead', 'Me + 3 developers, Enactus JOOUST', 'Jun to Jul 2025', 'Python, Django 5.2, PostgreSQL'),
+        shot: 'water-atm, admin dashboard',
+        problem: 'Solar water kiosks can reach communities the grid does not, but every litre has to be paid for, logged and traceable. The Flask prototype had grown hard to extend and had gaps in form and session security.',
+        did: did([
+          ['Migrated Flask → Django 5.2', 'Rebuilt the platform as app level Django (accounts, profiles, kiosks, usage) so four of us could work in parallel.'],
+          ['Kiosks and metered usage', 'Kiosk list, detail and forms; meter reading entry that calculates the total price automatically and validates input before it is stored.'],
+          ['Hardened authentication', 'Password reset token invalidation, OAuth backend error handling, uniqueness tests on email, Google and Facebook IDs, and CSRF-consistent forms.'],
+          ['Closed injection gaps', 'Sanitised profile picture URLs against XSS, clamped profile completion values against CSS injection and whitelisted date filters in URLs.'],
+          ['Legal pages with agreement gating', 'Terms and privacy pages with dynamic redirects so users must agree before continuing.'],
+          ['Production ready', 'Build script and deploy config, DEBUG off, production database settings, unit tests and Black formatting across the codebase.']
+        ]),
+        arch: arch([['Water kiosk', 'Meter readings'], ['Django apps', 'Accounts, kiosks, usage'], ['PostgreSQL', 'Users, txns, telemetry'], ['Dashboard', 'Usage, spend, reports']]),
+        stats: [{ v: '#3', l: 'Enactus Kenya National Expo 2025, Ngong Hotel' }, { v: '3', l: 'developers on the team I led' }, { v: '5.2', l: 'Django version after the migration' }],
+        outcome: 'The year before, Afya Bora taught me that judges score real impact, not just clean code. This time we went in with a working, deployable system and a clear story about who it serves.',
+        tags: ['Python', 'Django 5.2', 'PostgreSQL', 'OAuth', 'Unit tests', 'Black'],
+        links: [] },
+      fishing: { live: null, video: null, mock: { brand: 'SF', title: 'Catch log', badge: 'Live', stats: [{ l: 'Apps', v: '3' }, { l: 'Roles', v: '3' }, { l: 'Rank', v: '#5' }], rows: ['Catch logged, tilapia', 'Lesson: closed seasons', 'Community post', 'Finance entry'] }, mockCaption: 'Desktop and phone layout.', title: 'Sustainable Fishing', crumb: 'Sustainable Fishing', kind: 'Enactus JOOUST', period: 'Jun to Jul 2025', award: '#5, Enactus Kenya National Expo 2025',
+        h1: 'Logging catches to keep fisheries alive.',
+        lead: 'A community platform for sustainable fishing: fishermen log catches, educators publish guidance, and admins see the whole picture.',
+        facts: facts('Architect and lead developer', 'Enactus JOOUST', 'Jun to Jul 2025', 'Django, Python, Render'),
+        shot: 'sustainable-fishing, catch-log',
+        problem: 'Communities around the lake needed one place to record what is caught, learn sustainable practice and talk to each other, with roles so the right people can publish and moderate.',
+        did: did([
+          ['Defined the architecture', 'Three Django apps: users (identity, roles, profiles), fishing (catches, analytics) and content (education, timeline), with central settings and context processors.'],
+          ['Custom user model with roles', 'Fisherman, educator and admin roles, enforced at both view and model level with decorators and permission checks.'],
+          ['Catch logging', 'Species, weight, geo location, sold/donated/unsold status and pricing, with status transitions and an audit trail.'],
+          ['Content engine and timeline', 'Educational content with categories, difficulty, featured flag and read counts; a community timeline with post types and likes.'],
+          ['An admin that does the work', 'Custom dashboards with metrics, bulk activate/deactivate and promote/demote actions, plus admin JS for validation, shortcuts and confirmations.'],
+          ['Fast and deployable', 'Indexed hot fields and used select_related/prefetch_related against N+1 queries; deployed to Render with gunicorn, a Procfile and Python 3.13 fixes.']
+        ]),
+        arch: arch([['Users', 'Roles, RBAC, profiles'], ['Fishing', 'Catches, analytics'], ['Content', 'Education, timeline'], ['Admin', 'Metrics, bulk actions']]),
+        stats: [{ v: '#5', l: 'Enactus Kenya National Expo 2025' }, { v: '3', l: 'Django apps, one modular monolith' }, { v: '3', l: 'roles with their own permissions' }],
+        outcome: 'Ranked fifth nationally alongside the Water ATM, with an MIT-licensed codebase and contributing guide so others can pick it up.',
+        tags: ['Django', 'Python', 'RBAC', 'PostgreSQL', 'Render', 'Gunicorn'],
+        links: [{ label: 'Source code', href: 'https://github.com/LewisMagangi/Sustainable_Fishing' }] },
+      sne: { live: null, video: null, mock: { brand: 'SNE', title: 'Voice exam', badge: 'WCAG AA', stats: [{ l: 'Speech to text', v: 'Whisper' }, { l: 'Text to speech', v: 'Coqui' }], rows: ['Question 1, read aloud', 'Answer by voice', 'Review answers'] }, mockCaption: 'Desktop and phone layout.', title: 'SNE Portal', crumb: 'SNE Portal', kind: 'Accessibility', period: 'Accessibility',
+        h1: 'Exams you can take by voice, privately.',
+        lead: 'A voice driven exam portal for learners with special needs. I moved speech processing on device and brought the whole interface up to WCAG 2.1 AA.',
+        facts: facts('Contributor', 'Team project', 'Dates to be added', 'Django, Whisper, Coqui TTS'),
+        shot: 'sneportal, voice exam',
+        problem: 'The portal sent learners’ voices to Google Cloud for speech to text and text to speech: a privacy risk for an exam, a running cost, and useless offline.',
+        did: did([
+          ['Offline voice processing', 'Replaced Google Cloud APIs with Whisper for speech to text and Coqui TTS for speech, behind a local voice processor class, with tests for the local setup.'],
+          ['WCAG 2.1 AA', 'Keyboard navigation, semantic HTML, ARIA roles and live regions, visible focus and screen reader support across the exam flow.'],
+          ['Automated accessibility tests', 'Selenium, axe and Pa11y suites checking WCAG and Section 508: keyboard paths, ARIA, colour contrast, mobile and forms.'],
+          ['Maintainable frontend', 'Moved inline CSS and JavaScript out of templates into static files so they cache and stay readable.'],
+          ['Documented the data', 'A DBML schema of model relationships and clearer docs on roles and responsibilities.']
+        ]),
+        arch: arch([['Browser', 'Mic, keyboard, screen reader'], ['Django exam app', 'Questions, answers'], ['Local models', 'Whisper, coqui TTS'], ['Test suite', 'Axe, PA11Y, selenium']]),
+        stats: [{ v: '0', l: 'cloud calls for voice' }, { v: 'AA', l: 'WCAG 2.1 conformance target, tested' }, { v: '508', l: 'Section 508 checks automated' }],
+        outcome: 'Learners’ voices never leave the machine, the portal runs offline, and accessibility regressions now fail the test suite instead of reaching users.',
+        tags: ['Django', 'Python', 'Whisper', 'Coqui TTS', 'Selenium', 'axe', 'Pa11y', 'WCAG'],
+        links: [] },
+      crypto: { live: null, video: null, mock: { brand: 'CS', title: 'Benchmarks', badge: 'Report', stats: [{ l: 'Algorithms', v: 'AES, RSA, dh' }, { l: 'Measures', v: 'time, CPU, RAM' }], rows: ['AES-256, encrypt', 'RSA-2048, sign', 'SHA-256, hash', 'Diffie–Hellman, exchange'] }, mockCaption: 'Desktop and phone layout.', title: 'Dynamic Cryptosuite Selection', crumb: 'Cryptosuite Selection', kind: 'JOOUST capstone', period: 'Sep 2023 to Mar 2024',
+        h1: 'Choosing cryptography by measurement, not habit.',
+        lead: 'My final year capstone, with a colleague: a system that benchmarks symmetric, asymmetric and hashing algorithms across input and key sizes, then picks the primitive that fits a security budget.',
+        facts: facts('Designed and built the benchmarking system', '2, JOOUST capstone', 'Sep 2023 to Mar 2024', 'Python, Django, SQLite'),
+        shot: 'cryptosuite, performance charts',
+        problem: 'Teams pick algorithms from habit. We wanted evidence: what does stronger encryption actually cost in time, CPU and memory as data and keys grow?',
+        did: did([
+          ['Crypto modules', 'Symmetric (AES, DES), asymmetric (RSA, Diffie–Hellman), hashing, digital signatures and key exchange protocols as separate, testable modules.'],
+          ['A performance analyser', 'Measured execution time, CPU and RAM for every algorithm across growing input sizes and key lengths.'],
+          ['Visual comparisons', 'Bar and line charts and generated reports showing how each metric scales.'],
+          ['Selection logic', 'Recommends a primitive from security requirements against runtime cost.'],
+          ['A real app around it', 'Django apps for analysis, blogging and users; unit and integration tests; scripted environment setup.']
+        ]),
+        arch: arch([['Inputs', 'Data size, key size'], ['Crypto modules', 'SYM, ASYM, HASH · SIGN'], ['Analyser', 'Time, cpu, ram'], ['Charts + report', 'Recommendation']]),
+        stats: [{ v: '5', l: 'families of primitives compared' }, { v: '3', l: 'metrics: time, CPU, RAM' }, { v: '1st', l: 'called the best project in the class by the panel' }],
+        outcome: 'Prof. Rodriguez called it the best project in the class. More useful to me: it taught me to measure before deciding, which I still do.',
+        tags: ['Python', 'Django', 'Cryptography', 'Benchmarking', 'Data viz', 'SQLite'],
+        links: [{ label: 'Source code', href: 'https://github.com/LewisMagangi/Dynamic_Cryptosuite' }, { label: 'Applied cryptography web app', href: 'https://github.com/LewisMagangi/cryptography_web_app' }] },
+      afya: { live: 'https://afyabora-telehealth.vercel.app/', video: null, mock: { brand: 'AB', title: 'Health Q&A', badge: 'Live', stats: [{ l: 'Server', v: 'Nginx' }, { l: 'TLS', v: 'Let’s Encrypt' }], rows: ['Question, malaria signs', 'Answer from a doctor', 'Upvoted answer', 'New question'] }, mockCaption: 'Running live. Select the screen to use the site, or open it in a new tab.', title: 'Afya Bora', crumb: 'Afya Bora', kind: 'Enactus JOOUST', period: 'May to Jul 2024',
+        h1: 'Health questions, answered by people who know.',
+        lead: 'A StackOverflow style Q&A where patients ask and doctors answer, with votes, comments, search and a blog, self hosted on a hardened Linux server.',
+        facts: facts('Proposer, full stack and deployment', 'Enactus JOOUST', 'May to Jul 2024', 'Django, SQLite, Nginx'),
+        shot: 'afyabora, questions',
+        problem: 'Reliable health advice is hard to reach in rural Kenya. I proposed a place where patients could ask, doctors could answer, and the best answers rise to the top.',
+        did: did([
+          ['Q&A engine', 'Questions, answers, up/down votes, comments, likes and search, plus a blog for longer posts.'],
+          ['Accounts and profiles', 'Registration, login and profile editing, with signals that create and update profiles automatically.'],
+          ['Self hosted and hardened', 'Ubuntu server with Nginx as reverse proxy, systemd services, UFW firewall rules, SSH hardening, user/group permissions and Let’s Encrypt SSL.'],
+          ['Presented nationally', 'Demoed at the 2024 Enactus Kenya National Expo.']
+        ]),
+        arch: arch([['Browser', 'Questions, votes'], ['Nginx', 'Tls, reverse proxy'], ['Django + systemd', 'Q&a, profiles, blog'], ['SQLite', 'Posts, users']]),
+        stats: [{ v: '2024', l: 'Enactus Kenya National Expo' }, { v: '6', l: 'server hardening steps, by hand' }, { v: '1', l: 'hard lesson about measuring impact' }],
+        outcome: 'Judges scored users, doctors and revenue, which we had not measured. That lesson shaped the next year: in 2025 the team I led placed #3 and #5.',
+        tags: ['Django', 'Python', 'SQLite', 'Nginx', 'Linux', 'Let’s Encrypt'],
+        links: [{ label: 'Live app', href: 'https://afyabora-telehealth.vercel.app/' }, { label: 'Source code', href: 'https://github.com/LewisMagangi/AfyaBora' }] },
+      shell: { live: null, video: null, mock: { brand: '$', title: 'hsh', badge: 'C', stats: [{ l: 'Built ins', v: 'exit, env' }], rows: ['$ ls -l', '$ echo $PATH', '$ exit 98'] }, mockCaption: 'Desktop and phone layout.', title: 'Simple Shell', crumb: 'Simple Shell', kind: 'ALX team project', period: '2022',
+        h1: 'A Unix shell in C, in two weeks.',
+        lead: 'ALX’s first big systems project: a working clone of sh, written in C with a teammate.',
+        facts: facts('Coauthor', '2, ALX SE Foundations', '2 weeks', 'C, Unix system calls'),
+        shot: 'hsh, terminal',
+        problem: 'Three months into ALX: build a shell that reads, parses and runs commands like /bin/sh, with no standard library shortcuts.',
+        did: did([
+          ['Process control', 'fork, execve and wait to run commands, with correct exit statuses.'],
+          ['PATH resolution', 'Found executables across PATH and handled missing commands with sh style errors.'],
+          ['Built ins', 'exit and env, plus interactive and non interactive modes.'],
+          ['Memory discipline', 'Manual allocation and freeing across the read–parse–execute loop.']
+        ]),
+        arch: arch([['Prompt', 'Read line'], ['Parser', 'Tokens, path'], ['Executor', 'Fork, execve, wait'], ['Built ins', 'Exit, env']]),
+        stats: [{ v: 'C', l: 'no standard library shortcuts' }, { v: '2', l: 'weeks, as a team project' }, { v: 'Month 2', l: 'of ALX SE Foundations' }],
+        outcome: 'I did not hit my own bar on this one, but it changed what I thought I could build, and it is why systems work still feels familiar.',
+        tags: ['C', 'Unix', 'Processes', 'Memory'],
+        links: [] }
+    };
+    var order = ['wamumbi', 'nexus', 'solar', 'fishing', 'sne', 'crypto', 'afya', 'shell'];
+    var key = (this.state && this.state.k) || this.props.project || 'solar';
+    var i = order.indexOf(key); if (i < 0) { i = 2; key = 'solar'; }
+    var prev = order[(i + order.length - 1) % order.length], next = order[(i + 1) % order.length];
+    return { yes: true,
+      theme: this.props.theme || 'dark',
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }],
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      p: P[key],
+      prevTitle: P[prev].title, nextTitle: P[next].title,
+      goPrev: function () { self.setState({ k: prev }); },
+      goNext: function () { self.setState({ k: next }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

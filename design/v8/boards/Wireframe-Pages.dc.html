@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wireframe — Inner pages</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.wf-box{background:#ececea;border:1px solid #c9c9c5;border-radius:6px}
+.wf-line{height:8px;border-radius:4px;background:#d6d6d2}
+.wf-lab{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#6b6b68}
+.wf-note{font-family:var(--font-mono);font-size:12px;line-height:18px;color:#57534e}
+.pg{background:#fafaf9;border:1px solid #8c8c88;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.pg-nav{height:28px;border-bottom:1px solid #c9c9c5;display:flex;align-items:center;gap:8px;padding:0 10px;background:#fff}
+.pg-body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1500px; box-sizing: border-box; padding: 56px 64px; background: #f2f2f0; color: #0a0a0a; font-family: var(--font-sans); display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 6px;"><span class="wf-lab">Every page: 4-link SiteNav with Book a call · page title · content · a Book-a-call band · SiteFooter with all pages and profiles</span><h1 style="margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -.02em;">Inner pages</h1></div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 28px;">
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>Work</strong><span class="wf-note">/work</span></div>
+<div class="pg" style="height: 520px;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 40px; background: #0b7a47;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 30px;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 40%; height: 18px;"></div><div class="wf-line" style="width: 80%;"></div>
+<div style="display: flex; gap: 6px;"><div class="wf-box" style="width: 36px; height: 18px; border-radius: 9px; background: #e3f4ea;"></div><div class="wf-box" style="width: 50px; height: 18px; border-radius: 9px;"></div><div class="wf-box" style="width: 44px; height: 18px; border-radius: 9px;"></div><div class="wf-box" style="width: 40px; height: 18px; border-radius: 9px;"></div></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;"><div class="wf-box" style="height: 120px; background: #fff;"></div><div class="wf-box" style="height: 120px; background: #fff;"></div><div class="wf-box" style="height: 120px; background: #fff;"></div><div class="wf-box" style="height: 120px; background: #fff;"></div></div>
+<div class="wf-box" style="height: 96px; background: #fff;"></div></div></div>
+<span class="wf-note">Filter chips by stack. Four featured cards with desktop + phone mockups, then the archive list, then a Book-a-call band. Each card → /work/[slug].</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>Career</strong><span class="wf-note">/career</span></div>
+<div class="pg" style="height: 520px;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 40px; background: #0b7a47;"></div><div class="wf-line" style="width: 30px;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 55%; height: 18px;"></div><div style="display: flex; gap: 6px;"><div class="wf-box" style="width: 40px; height: 16px;"></div><div class="wf-box" style="width: 50px; height: 16px;"></div><div class="wf-box" style="width: 46px; height: 16px;"></div><div class="wf-box" style="width: 40px; height: 16px; background: #fbf0dc;"></div></div>
+<div style="display: flex; gap: 12px; flex: 1;"><div style="flex: 2; display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{years}}" as="y" hint-placeholder-count="5"><div style="display: flex; gap: 10px; border-top: 1px solid #c9c9c5; padding-top: 8px;"><span class="wf-lab" style="width: 30px;">{{y}}</span><div style="flex: 1; display: flex; flex-direction: column; gap: 5px;"><div class="wf-line" style="width: 80%;"></div><div class="wf-line" style="width: 60%; height: 6px;"></div></div></div></sc-for>
+</div><div style="flex: 1; display: flex; flex-direction: column; gap: 8px;"><div class="wf-box" style="height: 140px; background: #fff;"></div><div class="wf-box" style="height: 28px;"></div></div></div></div></div>
+<span class="wf-note">Timeline 2020 → now. Rail dots follow your scroll and jump on click. Side: current role, Book a call, CV. Degree and ALX cards link to certificates and transcripts.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>AI &amp; ML</strong><span class="wf-note">/ai</span></div>
+<div class="pg" style="height: 520px;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 40px; background: #0b7a47;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 60%; height: 18px;"></div><div class="wf-box" style="width: 180px; height: 18px; border-radius: 9px; background: #e3f4ea;"></div>
+<div class="wf-box" style="height: 56px; background: #fff;"></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; flex: 1;"><div class="wf-box" style="background: #fff;"></div><div class="wf-box" style="background: #fff;"></div></div>
+<div class="wf-box" style="height: 60px; border-style: dashed; background: transparent;"></div></div></div>
+<span class="wf-note">Track progress (ML Engineer, 2 courses left) as a step bar; one card per completed programme with the skills it taught; reading list.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>Certificates</strong><span class="wf-note">/certificates</span></div>
+<div class="pg" style="height: 520px;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 40px; background: #0b7a47;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 50%; height: 18px;"></div><div style="display: flex; gap: 6px;"><div class="wf-box" style="width: 40px; height: 18px; border-radius: 9px; background: #e3f4ea;"></div><div class="wf-box" style="width: 50px; height: 18px; border-radius: 9px;"></div><div class="wf-box" style="width: 56px; height: 18px; border-radius: 9px;"></div></div>
+<sc-for list="{{three}}" as="x" hint-placeholder-count="3"><div class="wf-line" style="width: 30%; margin-top: 6px;"></div><div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px;"><div class="wf-box" style="height: 56px; background: #fff;"></div><div class="wf-box" style="height: 56px; background: #fff;"></div><div class="wf-box" style="height: 56px; background: #fff;"></div></div></sc-for>
+<div class="wf-box" style="height: 44px; border-style: dashed; background: transparent;"></div></div></div>
+<span class="wf-note">Filter by track, grouped sections, each card with what it taught and a View certificate link. KUSA chess certificate at the end. Chaplaincy excluded.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>About</strong><span class="wf-note">/about</span></div>
+<div class="pg" style="height: 520px;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px;"></div><div class="wf-line" style="width: 40px; background: #0b7a47;"></div></div>
+<div class="pg-body"><div style="display: flex; gap: 12px;"><div class="wf-box" style="width: 96px; height: 96px; background: #fff;"></div><div style="flex: 1; display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 80%; height: 16px;"></div><div class="wf-line"></div><div class="wf-line" style="width: 90%;"></div><div class="wf-line" style="width: 70%;"></div></div></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;"><div class="wf-box" style="height: 70px; background: #fff;"></div><div class="wf-box" style="height: 70px; background: #fff;"></div><div class="wf-box" style="height: 70px; background: #fff;"></div><div class="wf-box" style="height: 70px; background: #fff;"></div></div>
+<div class="wf-box" style="height: 110px; background: #fff;"></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; flex: 1;"><div class="wf-box" style="background: #fff;"></div><div class="wf-box" style="background: #fff;"></div><div class="wf-box" style="background: #fff;"></div></div></div></div>
+<span class="wf-note">Portrait + story, stack by category, Beyond code (chess results, Enactus). References link to Home, where each referee is quoted once.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between;"><strong>Blog · Contact</strong><span class="wf-note">/blog · /contact</span></div>
+<div style="display: flex; gap: 10px; height: 520px;">
+<div class="pg" style="flex: 1;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px; background: #0b7a47;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 50%; height: 16px;"></div><div style="display: flex; gap: 4px;"><div class="wf-box" style="width: 30px; height: 14px;"></div><div class="wf-box" style="width: 30px; height: 14px;"></div></div><div class="wf-box" style="height: 110px; background: #fff;"></div><sc-for list="{{three}}" as="x" hint-placeholder-count="3"><div style="border-top: 1px solid #c9c9c5; padding-top: 8px; display: flex; flex-direction: column; gap: 5px;"><div class="wf-line" style="width: 40%; height: 6px;"></div><div class="wf-line" style="width: 85%;"></div><div class="wf-line" style="width: 70%; height: 6px;"></div></div></sc-for></div></div>
+<div class="pg" style="flex: 1;"><div class="pg-nav"><div class="wf-box" style="width: 16px; height: 16px;"></div><div class="wf-line" style="width: 30px;"></div></div>
+<div class="pg-body"><div class="wf-line" style="width: 60%; height: 22px;"></div><div class="wf-line" style="width: 80%;"></div><div class="wf-box" style="height: 30px; background: #fff;"></div><div class="wf-box" style="height: 30px; background: #fff;"></div><div class="wf-box" style="height: 30px; background: #fff;"></div><div class="wf-box" style="height: 90px; background: #fff;"></div><div class="wf-box" style="height: 30px; background: #0b7a47; border-color: #0b7a47;"></div><div class="wf-box" style="height: 60px; background: #fff;"></div></div></div>
+</div>
+<span class="wf-note">Blog: featured post, chips, list. Contact: form into admin Messages, plus email, LinkedIn, GitHub, LeetCode, Lichess and Chess.com.</span>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() { return { years: ['2020', '2022', '2024', '2025', '2026'], three: [1, 2, 3] }; }
+}
+</script>
+</body>
+</html>

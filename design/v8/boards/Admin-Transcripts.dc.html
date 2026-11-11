@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Transcript requests</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-underline-offset:3px}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin:6px -20px -20px}
+.lm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lm-kv{margin:0;display:grid;gap:8px;font-size:14px;line-height:20px}.lm-kv div{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px}.lm-kv dt{color:var(--ink-subtle)}.lm-kv dd{margin:0;overflow-wrap:anywhere}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1200px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Transcripts" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Transcript requests" description="People asking to see your academic transcript. Approving sends a private link that works for 60 days, then closes on its own.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Education.dc.html#transcript" external="{{yes}}">View on site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#new">Access settings</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="Gambit.AccessQueue" columns="{{cols}}" rows="{{rows}}" until="4 Jan 2027" days="60" search-placeholder="Search requests" footer="Links close on their own after 60 days, at midnight EAT"></x-import>
+</section>
+<aside class="lm-card" style="flex: 1 1 340px; min-width: 0;" aria-label="Edit transcript">
+<h2 class="title" style="margin: 0;">Request from Amina Wanjiku</h2>
+<dl class="lm-kv"><div><dt>Organisation</dt><dd>Savanna Labs</dd></div><div><dt>Email</dt><dd>amina@savannalabs.co.ke</dd></div><div><dt>Reason</dt><dd>Hiring</dd></div><div><dt>Asked</dt><dd>5 Nov 2026, 14:10 EAT</dd></div></dl>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted);">“We’re shortlisting for a junior ML engineer role and verify transcripts for every finalist.”</p>
+<x-import component-from-global-scope="Gambit.Field" label="Access length" value="60 days" type="select" options="{{lengths}}" hint="Starts when you approve. Ends 4 Jan 2027."></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Watermark pages with their name and date"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Email me each time it is opened"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{no}}" label="Allow download"></x-import>
+<div class="lm-bar"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Decline</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Approve for 60 days</x-import></div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark', yes: true, no: false,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      actions: ['view', 'approve', 'revoke'],
+      lengths: ['30 days', '60 days'],
+      cols: [{ key: 'name', label: 'Requester', type: 'title', sub: 'org' }, { key: 'reason', label: 'Reason', type: 'text' }, { key: 'status', label: 'Status', type: 'status' }, { key: 'until', label: 'Access until', type: 'mono' }, { key: 'views', label: 'Views', type: 'mono' }],
+      rows: [
+        { name: 'Amina Wanjiku', org: 'Savanna Labs', reason: 'Hiring', status: 'PENDING', until: 'Not yet', views: '0' },
+        { name: 'Brian Otieno', org: 'Kilele Health', reason: 'Background check', status: 'APPROVED', until: '21 Dec 2026', views: '3' },
+        { name: 'Grace Achieng', org: 'University admissions office', reason: 'Admissions', status: 'APPROVED', until: '2 Dec 2026', views: '1' },
+        { name: 'Peter Kamau', org: 'Mawingu Analytics', reason: 'Hiring', status: 'EXPIRED', until: '30 Sep 2026', views: '2' },
+        { name: 'Wanjiru Njoroge', org: 'Tala Kenya', reason: 'Hiring', status: 'REVOKED', until: 'Revoked 14 Oct 2026', views: '1' },
+        { name: 'Unknown sender', org: 'gmail.com', reason: 'Other', status: 'DECLINED', until: 'None', views: '0' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

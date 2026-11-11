@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Education, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}
+a:hover{text-decoration-color:var(--ink)}
+a:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px}
+.lm-page{background:var(--bg);color:var(--ink);font-family:var(--font-sans);min-height:100%;font-size:16px;line-height:24px}
+.lm-sec{max-width:1080px;margin:0 auto;padding:96px 32px;display:flex;flex-direction:column;gap:48px;box-sizing:border-box}
+.lm-rule{border-top:1px solid var(--line)}
+.lm-head{display:flex;flex-direction:column;gap:16px;max-width:680px}
+.lm-head h2,.lm-head p{margin:0}
+.lm-head p{color:var(--ink-muted);font-size:18px;line-height:28px}
+.lm-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.lm-small{margin:0;font-size:14px;line-height:20px;color:var(--ink-muted)}
+.lm-hero{position:relative;overflow:hidden}
+.lm-hero-in{position:relative;max-width:1080px;margin:0 auto;padding:96px 32px 96px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:center;box-sizing:border-box}
+.lm-hero-copy{display:flex;flex-direction:column;gap:24px;min-width:0}
+.lm-hero h1{margin:0;max-width:680px}
+.lm-hero .lead{margin:0;max-width:560px;color:var(--ink-muted)}
+.lm-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;counter-reset:s}
+.lm-steps li{display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:1px solid var(--line);counter-increment:s}
+.lm-steps li::before{content:counter(s);font-family:var(--font-mono);font-size:12px;line-height:16px;color:var(--ink-subtle)}
+.lm-steps strong{font-size:18px;line-height:28px;font-weight:500}
+.lm-steps span{color:var(--ink-muted)}
+.lm-refs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.lm-more{border-top:1px solid var(--line);padding-top:16px}
+.lm-more summary{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;list-style:none;font-weight:500;border-radius:6px}
+.lm-more summary::-webkit-details-marker{display:none}
+.lm-more summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.lm-more summary svg{transition:transform 300ms cubic-bezier(.22,1,.36,1)}
+.lm-more[open] summary svg{transform:rotate(180deg)}
+.lm-more .lm-refs{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
+.lm-off{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:48px;align-items:start}
+.lm-now{display:flex;flex-direction:column;gap:16px}
+.lm-now h3{margin:0;font-size:18px;line-height:28px;font-weight:500}
+.lm-now ul{list-style:none;margin:0;padding:0}
+.lm-now li{display:flex;flex-direction:column;padding:12px 0;border-top:1px solid var(--line)}
+.lm-now li span{font-size:14px;line-height:20px;color:var(--ink-muted)}
+.lm-close{position:relative;overflow:hidden}
+.lm-close-in{position:relative;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:64px;align-items:center}
+.lm-facts{list-style:none;margin:0;padding:24px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.lm-facts li{display:flex;gap:12px;align-items:center;color:var(--ink-muted);font-size:14px;line-height:20px}
+.lm-facts li:first-child{padding-bottom:12px;border-bottom:1px solid var(--line);color:var(--ink)}
+.lm-facts img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid var(--line-strong)}
+@media (max-width:960px){.lm-hero-in,.lm-close-in,.lm-off{grid-template-columns:1fr;gap:48px}.lm-refs{grid-template-columns:1fr}.lm-more .lm-refs{grid-template-columns:1fr}}
+@media (max-width:820px){.lm-steps{grid-template-columns:1fr;gap:16px}}
+@media (max-width:640px){.lm-sec{padding:64px 16px;gap:32px}.lm-hero-in{padding:48px 16px 64px}.lm-head p{font-size:16px;line-height:24px}}
+.lm-chip{font-size:12px;line-height:16px;color:var(--ink-muted);background:var(--surface-raised);border-radius:6px;padding:4px 8px}
+</style>
+</helmet>
+<div class="lm-page" data-theme="{{theme}}">
+<x-import component-from-global-scope="Gambit.RevealObserver"></x-import>
+<x-import component-from-global-scope="Gambit.SiteNav" items="{{nav}}" active="" theme="{{theme}}" on-theme="{{setTheme}}" home-href="Main.dc.html" book-href="Book.dc.html" cta-label="Book a call"></x-import>
+<x-import component-from-global-scope="Gambit.StoryRail" items="{{rail}}" after="edu-top" book-href="Book.dc.html" cta-label="Book a free call" label="Sections on this page"></x-import>
+<main id="gb-main">
+<header id="edu-top"><section class="lm-sec" style="padding-top:96px;padding-bottom:48px;gap:24px">
+<div class="lm-head" style="max-width:760px">
+<h1 class="display" style="margin:0">What I studied.</h1>
+<p>A computer forensics degree, then three years with ALX, and now the DataCamp tracks into AI and ML. The degree certificate is public. The full transcript is shared on request, for 60 days at a time.</p>
+</div>
+<div class="lm-row"><x-import component-from-global-scope="Gambit.Button" href="#transcript-sec">Request my transcript</x-import><a class="gb-link" href="Career.dc.html">See it all in order on Career</a></div>
+</section></header>
+<div class="lm-rule" id="programmes"><section class="lm-sec" data-reveal="" aria-labelledby="deg-h" style="gap:24px">
+<div class="lm-head"><h2 class="heading" id="deg-h">Degree and programmes</h2><p>Oldest first. The two DataCamp tracks at the end turn over: select the book to play every course in the order I took it.</p></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px;">
+<sc-for list="{{schools}}" as="s" hint-placeholder-count="2">
+<article style="border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: 28px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);"><span>{{s.dates}}</span><span style="color: var(--accent);">{{s.result}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><h3 class="title" style="margin: 0;">{{s.title}}</h3><span style="font-size: 14px; color: var(--ink-muted);">{{s.org}}</span></div>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;"><sc-for list="{{s.links}}" as="l" hint-placeholder-count="2"><a class="gb-link" href="{{l.href}}" target="_blank" rel="noopener noreferrer" style="font-size: 14px;">{{l.label}} ↗</a></sc-for></div>
+<sc-for list="{{s.groups}}" as="g" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px;">
+<h4 style="margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-muted);">{{g.name}}</h4>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;"><sc-for list="{{g.items}}" as="c" hint-placeholder-count="5"><span class="lm-chip">{{c}}</span></sc-for></div>
+</div>
+</sc-for>
+</article>
+</sc-for>
+<x-import component-from-global-scope="Gambit.CourseStory" front="{{aiFront}}" stories="{{aiStories}}" duration="7"></x-import>
+<x-import component-from-global-scope="Gambit.CourseStory" front="{{mlFront}}" stories="{{mlStories}}" duration="7"></x-import>
+</div>
+</section></div>
+<div class="lm-rule" id="transcript-sec"><section class="lm-sec" data-reveal="" aria-labelledby="tr-h" style="gap:24px">
+<div class="lm-head"><h2 class="heading" id="tr-h">Transcript</h2><p>Grades stay private by default. Send a request and I’ll review it myself; an approved link opens the transcript for 60 days, then closes on its own.</p></div>
+<x-import component-from-global-scope="Gambit.AccessRequest" days="60"></x-import>
+<ol class="lm-steps" aria-label="How access works">
+<li><strong>You ask</strong><span>Name, work email, organisation and why you need it.</span></li>
+<li><strong>I approve</strong><span>Every request is reviewed by hand. You get a private link by email.</span></li>
+<li><strong>It closes itself</strong><span>The link works for 60 days, then it expires and the transcript is hidden again.</span></li>
+</ol>
+</section></div>
+<div class="lm-rule" id="latest"><section class="lm-sec" data-reveal="" aria-labelledby="now-h" style="gap:24px">
+<div class="lm-head"><h2 class="heading" id="now-h">Latest</h2><p>The DataCamp Machine Learning Engineer track, finished on 9 November 2026, ten weeks after the Associate AI Engineer track.</p></div>
+<div class="lm-row"><x-import component-from-global-scope="Gambit.Button" href="AI-ML.dc.html">What it means for AI and ML work</x-import><a class="gb-link" href="Certificates.dc.html">All certificates</a></div>
+</section></div>
+</main>
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":5150}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var theme = (this.state && this.state.theme) || this.props.theme || 'dark';
+    return {
+      theme: theme, yes: true,
+      setTheme: function (v) { self.setState({ theme: v === 'system' ? 'dark' : v }); },
+      rail: [{ id: 'programmes', label: 'Degree and programmes' }, { id: 'transcript-sec', label: 'Transcript' }, { id: 'latest', label: 'Latest' }],
+      aiFront: { title: 'Associate AI Engineer for Developers', org: 'DataCamp, career track', dates: '24 to 30 Aug 2026', result: '10 courses, 29 hours', links: [{ label: 'Track certificate', href: 'https://drive.google.com/file/d/1hwtO1PBwQ1Dx-2wGyDWw6puYhVRIpx-Z/view?usp=sharing' }], groups: [
+        { name: 'LLMs in code', items: ['OpenAI API', 'Responses API', 'Prompt engineering', 'Hugging Face'] },
+        { name: 'Retrieval and agents', items: ['Embeddings', 'Pinecone', 'LangChain', 'RAG', 'MCP'] },
+        { name: 'Shipping it', items: ['LLMOps', 'Python modules', 'Testing', 'Maintainability'] }
+      ] },
+      mlFront: { title: 'Machine Learning Engineer', org: 'DataCamp, career track', dates: '1 Oct to 9 Nov 2026', result: '12 courses, 43 hours', links: [], groups: [
+        { name: 'Models', items: ['scikit-learn', 'Classification', 'Regression', 'Pipelines'] },
+        { name: 'MLOps', items: ['MLflow', 'Deployment', 'Monitoring', 'Drift detection', 'CI/CD for ML'] },
+        { name: 'Data and tooling', items: ['ETL and ELT', 'Great Expectations', 'DVC', 'Docker', 'Shell'] }
+      ] },
+
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }],
+      schools: [
+        { title: 'BSc Computer Forensics Science', org: 'Jaramogi Oginga Odinga University of Science and Technology', dates: 'Sep 2020 to Oct 2024', result: 'Specialised in cybersecurity', links: [{ label: 'Degree certificate', href: 'https://drive.google.com/file/d/1Fyb1g3RU_49yOww52MqRHVMlotD_F_L9/view?usp=sharing' }], groups: [
+          { name: 'Programming & systems', items: ['Introduction to Programming', 'System Programming', 'Systems Analysis & Design', 'Distributed Components', 'System Building'] },
+          { name: 'Computer systems', items: ['Computer Architecture', 'Digital Electronics', 'Operating Systems', 'Advanced Linux/Unix Admin', 'HPC, Virtualisation & Cloud', 'OS Security'] },
+          { name: 'Networks & security', items: ['TCP/IP Administration', 'Network Design', 'Computer & Network Security', 'Wireless & Mobile', 'Information Warfare', 'Emerging Threats & Defences', 'Biometric Authentication'] },
+          { name: 'Forensics & cybercrime', items: ['Computer Forensics I & II', 'Forensic Science Lab', 'Ethical Hacking & Pen Testing', 'Cybercrime Investigation', 'Cybercrime & the Law'] },
+          { name: 'Security management', items: ['IT Security Architecture', 'Security Policy & Compliance', 'Risk Management', 'IS Control & Audit', 'Incident Response', 'Cryptography & Steganography'] },
+          { name: 'Intelligence & data', items: ['Machine Learning & AI', 'Intelligent Information Systems', 'Distributed Computing', 'Database Administration & Design', 'Analytical Methods'] }
+        ] },
+        { title: 'ALX Software Engineering', org: 'ALX Africa, Mastercard Foundation scholarship', dates: 'Feb 2022 to Feb 2025', result: '87.76%, 112.81%', links: [{ label: 'Certificate', href: 'https://drive.google.com/file/d/1e0UUNaqJtpvcOBaAJ1R6KU5MtFpKwHhS/view?usp=sharing' }, { label: 'Foundations transcript', href: 'https://drive.google.com/file/d/1UM9njUadGWawrhHEFBBEt4lgGzHQkm9l/view?usp=sharing' }, { label: 'Back end transcript', href: 'https://drive.google.com/file/d/1cH4FWYGVxQnGfweof00aWErXaHCV2M9I/view?usp=sharing' }], groups: [
+          { name: 'Foundations, C & systems', items: ['Pointers & memory', 'Linked lists, stacks, queues', 'Hash tables', 'Binary trees', 'Sorting & Big O', 'printf', 'Simple Shell', 'Makefiles'] },
+          { name: 'Foundations, Python', items: ['OOP', 'TDD', 'Almost a Circle', 'ORM', 'Network programming'] },
+          { name: 'Foundations, web stack & DevOps', items: ['SQL', 'AirBnB clone (console → REST API)', 'Nginx', 'Load balancer', 'HTTPS/SSL', 'Firewalls', 'Monitoring', 'Postmortems'] },
+          { name: 'Back end specialisation', items: ['ES6 & TypeScript', 'Async Python', 'MySQL advanced', 'MongoDB', 'Redis', 'Caching', 'Pagination', 'i18n', 'PII & GDPR', 'Session auth', 'Queues (Bull, Kafka)', 'Files manager'] },
+          { name: 'Algorithms', items: ['Pascal’s Triangle', 'Lockboxes', 'UTF-8 Validation', 'N Queens', 'Island Perimeter', 'Prime Game'] }
+        ] },
+        { title: 'ALX Professional Foundations', org: 'ALX Africa', dates: 'May to Aug 2025', result: '12 weeks', links: [{ label: 'Certificate', href: 'https://drive.google.com/file/d/16VlBXtuOLrIXIHKagBLaKBms13suKB8F/view?usp=sharing' }], groups: [
+          { name: 'Working well', items: ['Self leadership', 'Time management', 'Agile teams', 'Conflict and negotiation', 'Peer coaching'] },
+          { name: 'Solving problems', items: ['Design thinking', 'Human centred design', 'User interviews', 'Wireframes and prototypes', 'Writing a PRD'] },
+          { name: 'Communicating', items: ['Technical writing', 'Data storytelling', 'Pitching', 'Video basics', 'Ethics in tech'] },
+          { name: 'Career', items: ['Personal brand', 'Personal website', 'CV', 'Elevator pitch', 'Figma', 'Miro'] }
+        ] },
+        { title: 'ALX ProDev Backend', org: 'ALX Africa, Professional Diploma', dates: 'Aug to Dec 2025', result: 'Taken alongside ProDev Frontend', links: [{ label: 'Certificate', href: 'https://drive.google.com/file/d/1Ez-h4ARvLdx4Up-1K3V6K4Cemb_EDivp/view?usp=sharing' }], groups: [
+          { name: 'Python and data', items: ['Async Python', 'Generators', 'Decorators', 'Context managers', 'Advanced SQL', 'Query optimisation'] },
+          { name: 'APIs', items: ['Django REST Framework', 'Serializers', 'Seeders', 'Django signals', 'Advanced ORM'] },
+          { name: 'Security', items: ['JWT', 'Permissions', 'Middleware'] },
+          { name: 'Delivery', items: ['Pytest', 'Unit and integration tests', 'Docker', 'Shell scripting', 'Git flow', 'CI/CD'] },
+          { name: 'Capstone', items: ['Project Nexus back end', 'One of the highest scores in the cohort'] }
+        ] },
+        { title: 'ALX ProDev Frontend', org: 'ALX Africa, Professional Diploma', dates: 'Aug to Dec 2025', result: 'Taken alongside ProDev Backend', links: [{ label: 'Certificate', href: 'https://drive.google.com/file/d/1is5GuLZcnJN5TUmcVOFE3h7Gln-DvuBl/view?usp=sharing' }], groups: [
+          { name: 'Interfaces', items: ['Semantic HTML', 'CSS Grid and Flexbox', 'Tailwind', 'Responsive design', 'Accessibility', 'SEO'] },
+          { name: 'React and Next.js', items: ['Next.js', 'React', 'TypeScript', 'Hooks', 'Component architecture'] },
+          { name: 'State and data', items: ['Redux', 'Context API', 'REST', 'GraphQL'] },
+          { name: 'Planning', items: ['Figma wireframes', 'Prototyping', 'Project planning'] },
+          { name: 'Capstone', items: ['Project Nexus front end'] }
+        ] },
+        { title: 'ALX Founder Academy and Freelancer Academy', org: 'ALX Africa', dates: 'Oct to Dec 2025', result: 'Two certificates', links: [{ label: 'Founder Academy', href: 'https://drive.google.com/file/d/1TYBCsJgmoNgJI3-RqZoCziH9U1DcUHST/view?usp=sharing' }, { label: 'Freelancer Academy', href: 'https://drive.google.com/file/d/1IXzLmaORNV1FFR8Sj47bIFmZ8q6YTcQ4/view?usp=sharing' }], groups: [
+          { name: 'Founder Academy', items: ['Lean Canvas', 'Customer discovery'] },
+          { name: 'Freelancer Academy', items: ['Proposals', 'Pricing', 'Client communication'] }
+        ] }
+      ],
+      aiStories: [{"title": "Working with the OpenAI API", "image": "/_blob/79fa7518088bc2b9d95f90e64e114705", "date": "24 Aug 2026", "hours": "3 hours", "about": "The functionality underneath AI products like ChatGPT, called directly from code.", "chapters": ["Introduction to the OpenAI API", "Prompting OpenAI models", "Building conversations with the OpenAI API"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/16f5b8f8975617d905acf5d1516a408729135046"}, {"title": "Prompt Engineering with the OpenAI API", "image": "/_blob/27b1eaa71b050b5b11f417097191e37a", "date": "24 Aug 2026", "hours": "4 hours", "about": "Principles and patterns for prompting GPT models well, from business tasks to chatbots.", "chapters": ["Prompt engineering best practices", "Advanced prompt engineering strategies", "Prompt engineering for business applications", "Prompt engineering for chatbot development"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/473a2c2d66696c6d522e133e882d1a7390476bbd"}, {"title": "Working with Hugging Face", "image": "/_blob/f7bfd1881c5bbdc964425e13235173ff", "date": "25 Aug 2026", "hours": "2 hours", "about": "Finding and running models and datasets from the Hugging Face Hub.", "chapters": ["Getting started with Hugging Face", "Building pipelines with Hugging Face"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/1447b80dc72f1859556567d696ac1f884326974b"}, {"title": "LLMOps Concepts", "image": "/_blob/eb20ac3b337925eec444e084e43ec23e", "date": "25 Aug 2026", "hours": "1 hour", "about": "The life of an LLM application from idea to deployment, and the problems at each stage.", "chapters": ["Introduction to LLMOps and the ideation phase", "Development phase", "Operational phase"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/b6751f123a6b5b8e9a966dfdabf5562d50fa7296"}, {"title": "Working with the OpenAI Responses API", "image": "/_blob/2118780efcf3680908d16064728b4386", "date": "25 Aug 2026", "hours": "3 hours", "about": "Building reliable, interactive AI apps with the Responses API and GPT-5.", "chapters": ["Getting started with the Responses API", "Building tools for LLMs", "Advanced patterns for production"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/486839704f5e380110d11bf15070b52fcc658343"}, {"title": "Introduction to Embeddings with the OpenAI API", "image": "/_blob/1bb2082abb2f7fd5ad06a86698dfe6f4", "date": "26 Aug 2026", "hours": "3 hours", "about": "Embeddings for semantic search and recommendations, and the vector databases that hold them.", "chapters": ["What are embeddings?", "Embeddings for AI applications", "Vector databases"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/aaa167b21c0f6bc4f50d4f59f978a510890951d0"}, {"title": "Building AI Applications with Pinecone", "image": "/_blob/633638a98e4508b32fd4d79f4bef526d", "date": "26 Aug 2026", "hours": "3 hours", "about": "Storing, querying and tuning vectors in Pinecone for real AI features.", "chapters": ["Introduction to Pinecone", "Pinecone vector manipulation in Python", "Performance tuning and AI applications"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/3e2a1d186f846179940f169479e72788c6b897de"}, {"title": "Software Engineering Principles in Python", "image": "/_blob/5c7b8b454b2562690a7527f5a27bdf7f", "date": "26 Aug 2026", "hours": "4 hours", "about": "Modular, documented and tested Python, so data work is faster and more reliable.", "chapters": ["Software engineering and data science", "Writing a Python module", "Utilizing classes", "Maintainability"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/88f3b32ee8ded467c307c0da5a67b1e26b132988"}, {"title": "Developing LLM Applications with LangChain", "image": "/_blob/f78fd2174dc00ef52324354ea693fccf", "date": "27 Aug 2026", "hours": "3 hours", "about": "Building AI apps from LLMs, prompts, chains and agents, including retrieval.", "chapters": ["Introduction to LangChain and chatbot mechanics", "Chains and agents", "Retrieval augmented generation (RAG)"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/8cc690275e5098a38a103128c93fed99cfa34ff6"}, {"title": "Introduction to Model Context Protocol", "image": "/_blob/87cd1bc13bcf340fc4d2604f50d4ecbf", "date": "30 Aug 2026", "hours": "3 hours", "about": "Connecting AI apps to APIs, databases and files through MCP.", "chapters": ["The building blocks of MCP", "MCP-enabled LLM applications", "Preparing MCP servers for production"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/c88f1db44f471cdd124a144e7f0d7cc7a788e2a1"}],
+      mlStories: [{"title": "Supervised Learning with scikit-learn", "image": "/_blob/0ac294f68b399b3bca835ad58e8c969e", "date": "1 Oct 2026", "hours": "4 hours", "about": "Making predictions on real datasets with scikit-learn.", "chapters": ["Classification", "Regression", "Fine tuning", "Preprocessing and pipelines"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/30dac48ee1c7b65219d2efeadc640b3f817807d9"}, {"title": "MLOps Concepts", "image": "/_blob/be142d92908a009030bffe6cebf9a032", "date": "7 Oct 2026", "hours": "2 hours", "about": "Taking models from notebooks to production systems that earn their keep.", "chapters": ["Intro to MLOps", "Design and development", "Deploying machine learning into production", "Maintaining machine learning in production"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/3fa3e90410df9371c15ffa6ec36b2259658fbb4f"}, {"title": "Introduction to Shell", "image": "/_blob/f50378d2e9ab0a343101d0b62615971f", "date": "7 Oct 2026", "hours": "4 hours", "about": "Combining command line programs to automate work and run jobs anywhere.", "chapters": ["Manipulating files and directories", "Manipulating data", "Combining tools", "Batch processing", "Creating new tools"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/5d44198f4b354ebe3d205e0883ecd2ccb2eaf1bb"}, {"title": "MLOps Deployment and Life Cycling", "image": "/_blob/8aae86e18674558a9d258727a2a6de87", "date": "8 Oct 2026", "hours": "4 hours", "about": "The modern MLOps framework: how models are deployed and kept alive.", "chapters": ["MLOps in a nutshell", "Develop for deployment", "Deploy and run", "Monitor and maintain"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/0f773059b04bd382c676d7f8292c24fa61ceeeae"}, {"title": "Introduction to MLflow", "image": "/_blob/6e807b09e394e40d9541278d67976049", "date": "12 Oct 2026", "hours": "4 hours", "about": "Tracking, packaging and registering models with MLflow.", "chapters": ["Introduction to MLflow", "MLflow models", "MLflow model registry", "MLflow projects"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/00a2457b467d97b4aacb716cc51428272fbbd069"}, {"title": "Introduction to Data Versioning with DVC", "image": "/_blob/a6825c2d437669b46c9473f67ef3fcbe", "date": "13 Oct 2026", "hours": "3 hours", "about": "Versioning data for machine learning, automating pipelines and evaluating models.", "chapters": ["Introduction to DVC", "DVC configuration and data management", "Pipelines in DVC"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/7a53f1eac599cdb6695cfdd9e6e15e1086cf12f1"}, {"title": "Monitoring Machine Learning Concepts", "image": "/_blob/4dead9788a781b730208385859fe2b7b", "date": "13 Oct 2026", "hours": "2 hours", "about": "Why models degrade in production, from data drift to concept drift, and what to do.", "chapters": ["What is ML monitoring", "Theoretical concepts of monitoring", "Covariate shift and concept drift detection"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/5734e05129c17a60ba3cf7ddeb89f3901c265114"}, {"title": "Monitoring Machine Learning in Python", "image": "/_blob/a42c1218a5177bf68d71f571c9426f67", "date": "14 Oct 2026", "hours": "3 hours", "about": "Building a basic monitoring system for a deployed model.", "chapters": ["Data preparation and performance estimation", "Monitoring performance and business value", "Root cause analysis and issue resolution"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/492e69ac50687fbb5faa0c7e372d629f77b8eceb"}, {"title": "CI/CD for Machine Learning", "image": "/_blob/64d282f1e105ccc57ae5b2a6ef67ef16", "date": "15 Oct 2026", "hours": "5 hours", "about": "Continuous integration and delivery for models with GitHub Actions and DVC.", "chapters": ["Introduction to CI/CD and YAML", "GitHub Actions", "Continuous integration in machine learning", "Comparing training runs and hyperparameter tuning"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/011890d02cf19a0f4f5b7b338bcf037f95438f83"}, {"title": "Introduction to Docker", "image": "/_blob/49df21037b3ec58acd6272714c0c4b10", "date": "22 Oct 2026", "hours": "4 hours", "about": "Containers and images, and why they belong in a data toolkit.", "chapters": ["Using Docker containers", "Writing your own Docker images", "Creating secure Docker images"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/b8ca1af3e277e6783ff991c7e0b46364f7c4c27f"}, {"title": "ETL and ELT in Python", "image": "/_blob/c6e7ee14f0dab7ab2f1492e0d8564afc", "date": "8 Nov 2026", "hours": "4 hours", "about": "Building effective, reliable data pipelines on extract, transform and load principles.", "chapters": ["Introduction to data pipelines", "Building ETL pipelines", "Advanced ETL techniques", "Deploying and maintaining a data pipeline"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/461678de015334f04715b3d00f88c4b14cc3f1c3"}, {"title": "Introduction to Data Quality with Great Expectations", "image": "/_blob/9874d6c854e580d84c761e6fb9d491e6", "date": "9 Nov 2026", "hours": "4 hours", "about": "Keeping data trustworthy in data science and engineering work.", "chapters": ["Connecting to data", "Establishing expectations", "GX in practice", "All about expectations"], "verify": "https://www.datacamp.com/completed/statement-of-accomplishment/course/9c9a1466faf7a2d61634e46c105114f0c18715e9"}]
+    };
+  }
+}
+</script>
+</body>
+</html>

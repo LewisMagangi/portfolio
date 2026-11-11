@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Booking emails</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.em{width:600px;background:#ffffff;color:#0a0a0a;border:1px solid #e5e5e3;border-radius:12px;overflow:hidden;font-family:var(--font-sans);font-size:15px;line-height:24px}
+.em-meta{padding:14px 24px;background:#f2f2f0;border-bottom:1px solid #e5e5e3;font-size:13px;line-height:20px;color:#57534e}
+.em-meta b{color:#0a0a0a;font-weight:500}
+.em-body{padding:32px 40px;display:flex;flex-direction:column;gap:18px}
+.em-body p{margin:0}
+.em-box{border:1px solid #e5e5e3;border-radius:10px;padding:18px 20px;display:grid;grid-template-columns:110px 1fr;gap:8px 16px;font-size:14px}
+.em-box dt{color:#57534e}.em-box dd{margin:0}
+.em-btn{display:inline-block;background:#0b7a47;color:#ffffff;border-radius:8px;padding:12px 20px;font-weight:600;text-decoration:none}
+.em-btn2{display:inline-block;border:1px solid #8c8c88;color:#0a0a0a;border-radius:8px;padding:11px 18px;font-weight:500;text-decoration:none}
+.em-foot{padding:20px 40px 28px;border-top:1px solid #e5e5e3;font-size:12px;line-height:18px;color:#57534e}
+.em-foot a{color:#0b7a47}
+.em-cap{font-size:13px;font-weight:500;color:#57534e}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1200px; box-sizing: border-box; padding: 64px; background: #e5e5e3; display: flex; gap: 48px; align-items: flex-start; justify-content: center;">
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span class="em-cap">Sent on booking</span>
+<article class="em" aria-label="Confirmation email">
+<div class="em-meta"><div><b>From</b> Lewis Magangi &lt;lewismomanyi34@gmail.com&gt;</div><div><b>Subject</b> Confirmed: free discovery call, Thu 5 Nov at 10:30 EAT</div></div>
+<div class="em-body">
+<div style="display: flex; gap: 12px; align-items: center;"><img src="/_blob/cc7a7c9af2c0187d9c7a61b6701db350" alt="" width="44" height="44" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;"><strong style="font-size: 17px;">You’re booked, [first name].</strong></div>
+<p>Thanks for booking a call. Here are the details; the calendar invite is attached.</p>
+<dl class="em-box" style="margin: 0;">
+<dt>When</dt><dd>Thursday 5 November 2026, 10:30–11:00 EAT<br><span style="color: #57534e;">08:30 in your timezone (London)</span></dd>
+<dt>Where</dt><dd>Google Meet: <a href="#meet" style="color: #0b7a47;">meet.google.com/[code]</a></dd>
+<dt>Topic</dt><dd>Hiring for an engineering role</dd>
+</dl>
+<p>If there’s anything I should read beforehand, reply to this email with a link.</p>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;"><a class="em-btn" href="#meet">Join the call</a><a class="em-btn2" href="#ics">Add to calendar</a></div>
+<p style="font-size: 14px; color: #57534e;">Need a different time? <a href="Book-Manage.dc.html" style="color: #0b7a47;">Reschedule or cancel</a>, up to 2 hours before.</p>
+<p>Talk soon,<br>Lewis</p>
+</div>
+<div class="em-foot">Lewis Magangi · Software engineer, Nairobi, Kenya · <a href="#site">lewismagangi.vercel.app</a><br>You got this because you booked a call on my site. Booking LM-[ref].</div>
+</article>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span class="em-cap">Sent 24 hours before</span>
+<article class="em" aria-label="Reminder email">
+<div class="em-meta"><div><b>From</b> Lewis Magangi &lt;lewismomanyi34@gmail.com&gt;</div><div><b>Subject</b> Tomorrow at 10:30 EAT: our call</div></div>
+<div class="em-body">
+<strong style="font-size: 17px;">See you tomorrow, [first name].</strong>
+<dl class="em-box" style="margin: 0;">
+<dt>When</dt><dd>Thu 5 Nov, 10:30 EAT (08:30 London)</dd>
+<dt>Where</dt><dd><a href="#meet" style="color: #0b7a47;">meet.google.com/[code]</a></dd>
+</dl>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;"><a class="em-btn" href="#meet">Join the call</a><a class="em-btn2" href="Book-Manage.dc.html">Reschedule</a></div>
+</div>
+<div class="em-foot">Booking LM-[ref] · <a href="Book-Manage.dc.html">Cancel</a></div>
+</article>
+<span class="em-cap" style="margin-top: 20px;">Sent to me</span>
+<article class="em" aria-label="Notification to Lewis">
+<div class="em-meta"><div><b>Subject</b> New booking: [Visitor name], Thu 5 Nov 10:30</div></div>
+<div class="em-body" style="padding: 24px 40px;">
+<p><strong>[Visitor name]</strong> ([email], [company]) booked a call about <strong>hiring for an engineering role</strong>.</p>
+<p style="color: #57534e;">“[Their notes]”</p>
+<div><a class="em-btn2" href="Admin-Bookings.dc.html">Open in admin</a></div>
+</div>
+</article>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

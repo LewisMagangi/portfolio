@@ -1,0 +1,613 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "AI-ML-Light.dc.html": {
+      "expand": "fill",
+      "h": 2480,
+      "title": "AI & ML · Light",
+      "w": 1440,
+      "x": 4560,
+      "y": 17040
+    },
+    "AI-ML.dc.html": {
+      "expand": "fill",
+      "h": 2480,
+      "title": "AI & ML · Dark",
+      "w": 1440,
+      "x": 6080,
+      "y": 4020
+    },
+    "About.dc.html": {
+      "expand": "fill",
+      "h": 2410,
+      "title": "About · Light",
+      "w": 1440,
+      "x": 12160,
+      "y": 17040
+    },
+    "Admin-Awards.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "title": "Admin · Awards",
+      "w": 1440,
+      "x": 7600,
+      "y": 25760
+    },
+    "Admin-Bookings-Light.dc.html": {
+      "expand": "fill",
+      "h": 1840,
+      "title": "Admin · Bookings (Light)",
+      "w": 1440,
+      "x": 15200,
+      "y": 25760
+    },
+    "Admin-Bookings.dc.html": {
+      "expand": "fill",
+      "h": 1840,
+      "is_interactive": true,
+      "title": "Admin · Bookings (calls, availability, Meet link)",
+      "w": 1440,
+      "x": 13680,
+      "y": 25760
+    },
+    "Admin-Books.dc.html": {
+      "h": 1100,
+      "title": "Admin, Books",
+      "w": 1440,
+      "x": 18720,
+      "y": 25760
+    },
+    "Admin-Certificates.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "Admin · Certificates (light, delete dialog)",
+      "w": 1440,
+      "x": 6080,
+      "y": 25760
+    },
+    "Admin-Challenges.dc.html": {
+      "h": 1100,
+      "title": "Admin, Challenges",
+      "w": 1440,
+      "x": 20240,
+      "y": 25760
+    },
+    "Admin-Chess.dc.html": {
+      "expand": "fill",
+      "h": 1480,
+      "is_interactive": true,
+      "title": "Admin · Chess (championships, profiles, career game)",
+      "w": 1440,
+      "x": 10640,
+      "y": 25760
+    },
+    "Admin-Dashboard.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "title": "Admin · Dashboard",
+      "w": 1440,
+      "x": 1520,
+      "y": 25760
+    },
+    "Admin-Login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "Admin · Log in",
+      "w": 1440,
+      "x": 0,
+      "y": 25760
+    },
+    "Admin-Messages.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "Admin · Messages",
+      "w": 1440,
+      "x": 12160,
+      "y": 25760
+    },
+    "Admin-Project-Edit.dc.html": {
+      "expand": "fill",
+      "h": 3080,
+      "title": "Admin · Project editor (case study + mockups)",
+      "w": 1440,
+      "x": 4560,
+      "y": 25760
+    },
+    "Admin-Projects.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "Admin · Projects (list)",
+      "w": 1440,
+      "x": 3040,
+      "y": 25760
+    },
+    "Admin-References.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "is_interactive": true,
+      "title": "Admin · References (client reviews queue: try approve, decline, undo)",
+      "w": 1440,
+      "x": 9120,
+      "y": 25760
+    },
+    "Admin-Services.dc.html": {
+      "h": 1200,
+      "title": "Admin, Services and pricing",
+      "w": 1440,
+      "x": 17200,
+      "y": 25760
+    },
+    "Admin-Transcripts.dc.html": {
+      "expand": "fill",
+      "h": 1200,
+      "is_interactive": true,
+      "title": "Admin, Transcript requests (try approve, decline, revoke)",
+      "w": 1440,
+      "x": 21760,
+      "y": 25760
+    },
+    "Blog-Post-Django.dc.html": {
+      "expand": "fill",
+      "h": 3820,
+      "is_interactive": true,
+      "title": "Blog post, Django to Next.js (its own page)",
+      "w": 1440,
+      "x": 28420,
+      "y": 4020
+    },
+    "Blog-Post.dc.html": {
+      "expand": "fill",
+      "h": 3820,
+      "is_interactive": true,
+      "title": "Blog post, accessible voice (drafted from project notes)",
+      "w": 1440,
+      "x": 25380,
+      "y": 4020
+    },
+    "Blog.dc.html": {
+      "expand": "fill",
+      "h": 1690,
+      "title": "Blog (topic filters, empty state, subscribe)",
+      "w": 1440,
+      "x": 13680,
+      "y": 17040
+    },
+    "Book-Light.dc.html": {
+      "expand": "fill",
+      "h": 2030,
+      "title": "Book a call · Light",
+      "w": 1440,
+      "x": 7600,
+      "y": 17040
+    },
+    "Book-Manage-Light.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "is_interactive": true,
+      "title": "Manage a booking · Light",
+      "w": 1440,
+      "x": 9120,
+      "y": 17040
+    },
+    "Book-Manage.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "is_interactive": true,
+      "title": "Manage a booking · reschedule, cancel, slot taken (switch in Tweaks)",
+      "w": 1440,
+      "x": 10640,
+      "y": 4020
+    },
+    "Book.dc.html": {
+      "expand": "fill",
+      "h": 2030,
+      "is_interactive": true,
+      "title": "Book a call · Dark (in-house booking)",
+      "w": 1440,
+      "x": 9120,
+      "y": 4020
+    },
+    "Career-Light.dc.html": {
+      "expand": "fill",
+      "h": 2460,
+      "title": "Career · Light",
+      "w": 1440,
+      "x": 3040,
+      "y": 17040
+    },
+    "Career.dc.html": {
+      "expand": "fill",
+      "h": 2460,
+      "title": "Career, dark (one lit line, Task view)",
+      "w": 1440,
+      "x": 4560,
+      "y": 4020
+    },
+    "Certificates.dc.html": {
+      "expand": "fill",
+      "h": 2800,
+      "is_interactive": true,
+      "title": "Certificates, light (image carousel, verify on request)",
+      "w": 1440,
+      "x": 10640,
+      "y": 17040
+    },
+    "Chess-Light.dc.html": {
+      "expand": "fill",
+      "h": 3300,
+      "title": "Chess · Light",
+      "w": 1440,
+      "x": 6080,
+      "y": 17040
+    },
+    "Chess.dc.html": {
+      "expand": "fill",
+      "h": 3300,
+      "is_interactive": true,
+      "title": "Chess, dark (best rated wins replayed, board colours, live view)",
+      "w": 1440,
+      "x": 7600,
+      "y": 4020
+    },
+    "Contact.dc.html": {
+      "expand": "fill",
+      "h": 1250,
+      "title": "Contact · Light",
+      "w": 1440,
+      "x": 15200,
+      "y": 17040
+    },
+    "Education.dc.html": {
+      "expand": "fill",
+      "h": 5150,
+      "is_interactive": true,
+      "title": "Education, dark (all programmes; DataCamp tracks flip to course stories)",
+      "w": 1440,
+      "x": 23860,
+      "y": 4020
+    },
+    "Email-Booking.dc.html": {
+      "h": 1200,
+      "title": "Booking emails · confirmation, reminder, notification",
+      "w": 1440,
+      "x": 12160,
+      "y": 4020
+    },
+    "Home-Light.dc.html": {
+      "expand": "fill",
+      "h": 8000,
+      "is_interactive": true,
+      "title": "Home, light",
+      "w": 1440,
+      "x": 0,
+      "y": 17040
+    },
+    "Legal.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "Privacy and terms",
+      "w": 1440,
+      "x": 22340,
+      "y": 4020
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 8350,
+      "is_interactive": true,
+      "title": "Home, dark (v8: skills teaser after Work)",
+      "w": 1440,
+      "x": 0,
+      "y": 4020
+    },
+    "Mobile-Book.dc.html": {
+      "h": 3330,
+      "title": "Book a call · mobile",
+      "w": 390,
+      "x": 18360,
+      "y": 4020
+    },
+    "Mobile-Career.dc.html": {
+      "h": 7420,
+      "title": "Career · mobile",
+      "w": 390,
+      "x": 17420,
+      "y": 4020
+    },
+    "Mobile-Chess.dc.html": {
+      "h": 4920,
+      "title": "Chess · mobile",
+      "w": 390,
+      "x": 17890,
+      "y": 4020
+    },
+    "Mobile-Home-Light.dc.html": {
+      "h": 8000,
+      "title": "Home on a phone, light",
+      "w": 390,
+      "x": 16720,
+      "y": 17040
+    },
+    "Mobile-Home.dc.html": {
+      "h": 8000,
+      "is_interactive": true,
+      "title": "Home on a phone (book bar, menu)",
+      "w": 390,
+      "x": 16480,
+      "y": 4020
+    },
+    "Mobile-Manage.dc.html": {
+      "h": 2300,
+      "is_interactive": true,
+      "title": "Cancel a call · mobile",
+      "w": 390,
+      "x": 18830,
+      "y": 4020
+    },
+    "Mobile-Work.dc.html": {
+      "h": 6080,
+      "title": "Work · mobile",
+      "w": 390,
+      "x": 16950,
+      "y": 4020
+    },
+    "Not-Found.dc.html": {
+      "expand": "fill",
+      "h": 1010,
+      "title": "404 · Dark",
+      "w": 1440,
+      "x": 13680,
+      "y": 4020
+    },
+    "OG-Image.dc.html": {
+      "h": 630,
+      "title": "Social preview image · 1200×630",
+      "w": 1200,
+      "x": 15200,
+      "y": 4020
+    },
+    "Project-Board.dc.html": {
+      "expand": "fill",
+      "h": 4090,
+      "is_interactive": true,
+      "title": "Project detail, dark (live site, Nexus video; switch project in Tweaks)",
+      "w": 1440,
+      "x": 3040,
+      "y": 4020
+    },
+    "Reading.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "Reading, dark",
+      "w": 1440,
+      "x": 20820,
+      "y": 4020
+    },
+    "Services.dc.html": {
+      "expand": "fill",
+      "h": 3700,
+      "is_interactive": true,
+      "title": "Services and pricing, dark",
+      "w": 1440,
+      "x": 19300,
+      "y": 4020
+    },
+    "Skills.dc.html": {
+      "expand": "fill",
+      "h": 3400,
+      "title": "Skills, dark (full list, evidence per skill)",
+      "w": 1440,
+      "x": 29940,
+      "y": 4020
+    },
+    "Review.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "Add a review (try sending; Tweaks shows the thank you)",
+      "w": 1440,
+      "x": 31460,
+      "y": 4020
+    },
+    "Skills-Light.dc.html": {
+      "expand": "fill",
+      "h": 3400,
+      "title": "Skills, light",
+      "w": 1440,
+      "x": 17190,
+      "y": 17040
+    },
+    "Sitemap.dc.html": {
+      "h": 1180,
+      "title": "Sitemap · 4-link nav, Home flow, admin",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Transcript.dc.html": {
+      "expand": "fill",
+      "h": 1720,
+      "is_interactive": true,
+      "title": "Transcript, shared view (granted or expired in Tweaks)",
+      "w": 1440,
+      "x": 26900,
+      "y": 4020
+    },
+    "Wireframe-Admin.dc.html": {
+      "h": 3000,
+      "title": "Wireframe · Admin (CMS)",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "Wireframe-Home.dc.html": {
+      "expand": "fill",
+      "h": 3600,
+      "title": "Wireframe · Home (new flow)",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Wireframe-Mobile.dc.html": {
+      "h": 2700,
+      "title": "Wireframe · Home (mobile)",
+      "w": 390,
+      "x": 7600,
+      "y": 0
+    },
+    "Wireframe-Pages.dc.html": {
+      "h": 1500,
+      "title": "Wireframe · Inner pages",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Wireframe-Project.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "title": "Wireframe · Project detail",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "Work-Light.dc.html": {
+      "expand": "fill",
+      "h": 2860,
+      "title": "Work · Light",
+      "w": 1440,
+      "x": 1520,
+      "y": 17040
+    },
+    "Work.dc.html": {
+      "expand": "fill",
+      "h": 2860,
+      "title": "Work · Dark (mockups, filters)",
+      "w": 1440,
+      "x": 1520,
+      "y": 4020
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-02T09:50:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/EfLx2fF8rSVVPXNuAKhj4t",
+      "copiedAt": "2026-11-05T23:45:00Z",
+      "namespace": "gambit",
+      "title": "Gambit",
+      "version": "1793904691-fb45"
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "rowWire",
+    "rowBoard",
+    "rowPaper",
+    "rowAdmin"
+  ],
+  "notes": {
+    "rowAdmin": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "4. Admin (CMS): create, edit, delete",
+      "w": 240,
+      "x": 0,
+      "y": 25460
+    },
+    "rowBoard": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "2. Public site, dark",
+      "w": 240,
+      "x": 0,
+      "y": 3720
+    },
+    "rowPaper": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "3. Public site, light",
+      "w": 240,
+      "x": 0,
+      "y": 16740
+    },
+    "rowWire": {
+      "kind": "title1",
+      "maxW": 7990,
+      "text": "1. Sitemap and wireframes",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Sitemap.dc.html",
+    "Wireframe-Home.dc.html",
+    "Wireframe-Pages.dc.html",
+    "Wireframe-Project.dc.html",
+    "Wireframe-Admin.dc.html",
+    "Wireframe-Mobile.dc.html",
+    "Work.dc.html",
+    "Project-Board.dc.html",
+    "Career.dc.html",
+    "AI-ML.dc.html",
+    "Chess.dc.html",
+    "Book.dc.html",
+    "Book-Manage.dc.html",
+    "Email-Booking.dc.html",
+    "Not-Found.dc.html",
+    "OG-Image.dc.html",
+    "Mobile-Home.dc.html",
+    "Mobile-Work.dc.html",
+    "Mobile-Career.dc.html",
+    "Mobile-Chess.dc.html",
+    "Mobile-Book.dc.html",
+    "Mobile-Manage.dc.html",
+    "Home-Light.dc.html",
+    "Work-Light.dc.html",
+    "Career-Light.dc.html",
+    "AI-ML-Light.dc.html",
+    "Chess-Light.dc.html",
+    "Book-Light.dc.html",
+    "Book-Manage-Light.dc.html",
+    "Certificates.dc.html",
+    "About.dc.html",
+    "Blog.dc.html",
+    "Contact.dc.html",
+    "Mobile-Home-Light.dc.html",
+    "Admin-Login.dc.html",
+    "Admin-Dashboard.dc.html",
+    "Admin-Projects.dc.html",
+    "Admin-Project-Edit.dc.html",
+    "Admin-Certificates.dc.html",
+    "Admin-Awards.dc.html",
+    "Admin-References.dc.html",
+    "Admin-Chess.dc.html",
+    "Admin-Messages.dc.html",
+    "Admin-Bookings.dc.html",
+    "Admin-Bookings-Light.dc.html",
+    "Services.dc.html",
+    "Reading.dc.html",
+    "Legal.dc.html",
+    "Admin-Services.dc.html",
+    "Admin-Books.dc.html",
+    "Admin-Challenges.dc.html",
+    "Education.dc.html",
+    "Blog-Post.dc.html",
+    "Blog-Post-Django.dc.html",
+    "Transcript.dc.html",
+    "Admin-Transcripts.dc.html",
+    "Skills.dc.html",
+    "Skills-Light.dc.html",
+    "Review.dc.html"
+  ],
+  "pages": [],
+  "title": "Portfolio Redesign — Wireframes & Screens"
+}

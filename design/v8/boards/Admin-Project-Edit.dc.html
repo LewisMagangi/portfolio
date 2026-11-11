@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Edit project</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--accent);text-decoration:none}
+.lm-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;display:flex;flex-direction:column;gap:18px}
+.lm-panel h2{margin:0;font-size:15px;font-weight:600}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1900px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Projects" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column;">
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Projects / Edit" title="Solar-Powered Water ATM" description="Last saved [time] · visible at /work/solar-water-atm">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Project-Board.dc.html" external="{{yes}}">Preview</x-import>
+</x-import>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+<section class="lm-panel">
+<h2>Content</h2>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Field" label="Title" value="Solar-Powered Water ATM" style="flex: 1 1 240px;"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Slug" value="solar-water-atm" hint="Lowercase, hyphens. Changing it breaks old links." style="flex: 1 1 240px;"></x-import>
+</div>
+<x-import component-from-global-scope="Gambit.Field" label="Summary" type="textarea" rows="3" value="Water dispensing for underserved communities: auth, transaction logs and device telemetry. Led the Flask → Django migration." hint="Shown on cards. One or two sentences, outcome first."></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Detailed description" optional="{{yes}}" type="textarea" rows="8" value="{{detail}}" hint="Markdown. Shown on the project page under The problem."></x-import>
+</section>
+<section class="lm-panel">
+<h2>Case study</h2>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Show as a case study on Home"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="The problem" type="textarea" rows="3" value="Solar kiosks reach communities the grid doesn’t, but every litre has to be paid for and traceable. The Flask prototype had grown hard to extend." hint="One or two sentences: who it serves and what was broken."></x-import>
+<x-import component-from-global-scope="Gambit.ListEditor" label="Approach (three steps)" item-label="Step" items="{{approach}}" hint="Shown as numbered steps on the case-study card."></x-import>
+<x-import component-from-global-scope="Gambit.ListEditor" label="Results" item-label="Result" items="{{results}}" hint="Number first, then what it measures: “#3 · national expo”. Only real numbers."></x-import>
+</section>
+<section class="lm-panel">
+<h2>Mockups</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px;">
+<x-import component-from-global-scope="Gambit.FileDrop" label="Desktop screenshot" hint="16:10, at least 1600 px wide. WebP or PNG."></x-import>
+<x-import component-from-global-scope="Gambit.FileDrop" label="Phone screenshot" hint="9:19, at least 780 px wide. WebP or PNG."></x-import>
+</div>
+<x-import component-from-global-scope="Gambit.Field" label="Address bar text" value="water-atm · admin" hint="Shown in the browser frame. Use the live domain if there is one."></x-import>
+<span class="gb-field-hint">Until both screenshots are added, the site draws an illustrative desktop and phone mockup from the results above.</span>
+</section>
+<section class="lm-panel">
+<h2>What I did</h2>
+<x-import component-from-global-scope="Gambit.ListEditor" label="Highlights" item-label="Highlight" items="{{highlights}}" hint="Shown as numbered moves on the project page. Drag to reorder."></x-import>
+</section>
+<section class="lm-panel">
+<h2>Technologies</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+<sc-for list="{{tech}}" as="t" hint-placeholder-count="4"><span class="gb-tag gb-tag-active">{{t}} <span aria-hidden="true">×</span></span></sc-for>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">+ Add technology</x-import>
+</div>
+<span class="gb-field-hint">Picked from the shared Technologies list (Backend, Frontend, Database, DevOps, Security).</span>
+</section>
+<section class="lm-panel">
+<h2>Gallery</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 12px;">
+<sc-for list="{{images}}" as="i" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 6px;"><div style="aspect-ratio: 16 / 10; border-radius: var(--radius-md); border: 1px solid var(--line); background: repeating-conic-gradient(var(--square) 0 25%, var(--bg) 0 50%) 0 0/24px 24px;"></div><span style="font-size: 12px; color: var(--ink-muted);">{{i}}</span></div>
+</sc-for>
+</div>
+<x-import component-from-global-scope="Gambit.FileDrop" label="Add images" hint=" PNG or JPG, up to 5 MB each. Add a caption for each."></x-import>
+</section>
+</div>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+<section class="lm-panel">
+<h2>Publishing</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Status" type="select" value="COMPLETED" options="{{statuses}}"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Featured on Home and Work"></x-import>
+<div style="display: flex; gap: 12px;">
+<x-import component-from-global-scope="Gambit.Field" label="Start" type="month" value="2025-06" style="flex: 1;"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="End" type="month" value="2025-07" style="flex: 1;"></x-import>
+</div>
+<x-import component-from-global-scope="Gambit.Field" label="Order" type="number" value="3" hint="Lower shows first."></x-import>
+</section>
+<section class="lm-panel">
+<h2>Award</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Award label" optional="{{yes}}" value="#3 · Enactus Kenya 2025" hint="Shown as an amber tag on cards."></x-import>
+</section>
+<section class="lm-panel">
+<h2>Links</h2>
+<x-import component-from-global-scope="Gambit.Field" label="GitHub URL" optional="{{yes}}" type="url" value="https://github.com/[repo]"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Live URL" optional="{{yes}}" type="url" value="solar-atm" error="Enter a full URL starting with https://"></x-import>
+</section>
+<section class="lm-panel">
+<h2>Thumbnail</h2>
+<x-import component-from-global-scope="Gambit.FileDrop" label="Replace thumbnail" hint=" 16:9, at least 1280px wide." file="water-atm.jpg"></x-import>
+</section>
+</aside>
+</div>
+</main>
+<div style="position: sticky; bottom: 0; border-top: 1px solid var(--line); background: var(--surface); padding: 14px 32px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="danger">Delete project</x-import>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost" href="Admin-Projects.dc.html">Cancel</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm">Save draft</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="Admin-Projects.dc.html">Save and publish</x-import>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark',
+      approach: ['Led the Flask to Django 5.2 migration with three developers', 'Metered usage with automatic pricing and validation', 'Closed XSS and CSS-injection gaps; hardened password reset and OAuth'],
+      results: ['#3 · Enactus Kenya National Expo 2025', '3 · developers I led'],
+      yes: true,
+      counts: { Messages: 3, Testimonials: 1 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      detail: 'Solar water units can reach communities the grid does not, but every litre needs to be paid for, logged and traceable…',
+      highlights: ['Migrated Flask → Django 5.2 as a modular multi-app project', 'Designed schemas for profiles, transactions and device telemetry', 'Added auth, session management and CSRF protection', 'Calculated price from meter readings, with validation', 'Unit tests, Black formatting, clean WSGI/URL config'],
+      tech: ['Python', 'Django', 'PostgreSQL', 'IoT'],
+      images: ['Admin dashboard', 'Transaction log', 'Dispenser telemetry'],
+      statuses: ['ACTIVE', 'IN_PROGRESS', 'COMPLETED', 'ARCHIVED']
+    };
+  }
+}
+</script>
+</body>
+</html>

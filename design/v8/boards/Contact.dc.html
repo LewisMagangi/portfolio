@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contact, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}a:hover{text-decoration-color:var(--ink)}a[class]{text-decoration:none}
+.lm-board{position:absolute;inset:0;background:repeating-conic-gradient(var(--square) 0 25%, var(--bg) 0 50%) 0 0/128px 128px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 15% 40%, #000 0%, transparent 75%);mask-image:radial-gradient(ellipse 60% 70% at 15% 40%, #000 0%, transparent 75%);pointer-events:none}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100%;">
+<x-import component-from-global-scope="Gambit.SiteNav" items="{{nav}}" theme="{{theme}}" home-href="Home-Light.dc.html" book-href="Book.dc.html"></x-import>
+
+<main style="position: relative; overflow: hidden;">
+<x-import component-from-global-scope="Gambit.Shader" shape="warp" type="4x4" size="2" speed="0.12" front="line" fade="right" opacity="0.5" theme="{{theme}}"></x-import>
+<div style="position: relative; max-width: 1080px; margin: 0 auto; padding: 88px 32px 104px; display: flex; flex-wrap: wrap; gap: 64px; box-sizing: border-box;">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<h1 class="display-xl" style="margin: 0;">Your move.</h1>
+<p class="lead" style="margin: 0; color: var(--ink-muted);">Hiring for AI/ML or full stack, collaborating on something useful, or up for a game? Send me a message.</p>
+<dl style="margin: 8px 0 0; display: flex; flex-direction: column; border-top: 1px solid var(--line);">
+<sc-for list="{{links}}" as="l" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line);"><dt style="font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-subtle); padding-top: 3px;">{{l.k}}</dt><dd style="margin: 0;"><a href="{{l.href}}" style="font-family: var(--font-mono); font-size: 14px;">{{l.v}}</a></dd></div>
+</sc-for>
+</dl>
+</div>
+<form style="flex: 1 1 440px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 18px; align-self: flex-start;">
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Field" label="Name" placeholder="Ada Lovelace" style="flex: 1 1 180px;"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Email" type="email" placeholder="you@company.com" style="flex: 1 1 180px;"></x-import>
+</div>
+<x-import component-from-global-scope="Gambit.Field" label="Subject" optional="{{yes}}" type="select" options="{{subjects}}"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Message" type="textarea" rows="6" placeholder="What are we building?"></x-import>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+<span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);">Lands in my inbox, never shared</span>
+<x-import component-from-global-scope="Gambit.Button" variant="primary" type="submit">Send message</x-import>
+</div>
+</form>
+</div>
+</main>
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"light"},"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'light', yes: true,
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }],
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      subjects: ['Hiring: AI/ML engineering', 'Hiring: full stack', 'Collaboration', 'A game of chess', 'Something else'],
+      links: [
+        { k: 'Email', v: 'lewismomanyi34@gmail.com', href: 'mailto:lewismomanyi34@gmail.com' },
+        { k: 'LinkedIn', v: 'in/lewis-magangi', href: 'https://www.linkedin.com/in/lewis-magangi/' },
+        { k: 'GitHub', v: 'LewisMagangi', href: 'https://github.com/LewisMagangi' },
+        { k: 'LeetCode', v: 'LewisMagangi', href: 'https://leetcode.com/u/LewisMagangi/' },
+        { k: 'Lichess', v: 'Lique', href: 'https://lichess.org/@/Lique' },
+        { k: 'Chess.com', v: 'liquelaliqour', href: 'https://www.chess.com/member/liquelaliqour' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

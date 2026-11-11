@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Work, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}a:hover{text-decoration-color:var(--ink)}a[class]{text-decoration:none}
+.lm-row{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1.6fr) auto;gap:24px;align-items:baseline;padding:20px 24px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.lm-row:hover{background:var(--surface-raised);text-decoration:none}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100%;">
+<x-import component-from-global-scope="Gambit.SiteNav" active="Work" items="{{nav}}" theme="{{theme}}" home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+
+<main style="max-width: 1080px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 96px; display: flex; flex-direction: column; gap: 40px; box-sizing: border-box;">
+<div style="display: flex; flex-direction: column; gap: 18px;">
+<h1 class="display" style="margin: 0; max-width: 760px;">Shipped for charities, communities and competitions.</h1>
+<p class="lead" style="margin: 0; max-width: 640px; color: var(--ink-muted);">Eight projects across full stack web, accessibility, security and systems. Featured work first; the archive follows.</p>
+<div role="group" aria-label="Filter by stack" style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="6"><button type="button" class="gb-chip" aria-pressed="{{f.on}}" onClick="{{f.pick}}">{{f.label}} <span class="gb-chip-n">{{f.n}}</span></button></sc-for>
+</div>
+</div>
+
+<p aria-live="polite" style="margin: -16px 0 0; font-size: 14px; color: var(--ink-subtle);">Showing {{count}} of 8 projects</p>
+<sc-if value="{{hasFeatured}}" hint-placeholder-val="{{true}}">
+<h2 class="gb-sr">Featured projects</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 24px;">
+<sc-for list="{{featured}}" as="p" hint-placeholder-count="4">
+<x-import component-from-global-scope="Gambit.ProjectCard" title="{{p.title}}" summary="{{p.summary}}" period="{{p.period}}" status="{{p.status}}" award="{{p.award}}" tags="{{p.tags}}" live-url="{{p.liveUrl}}" live="{{p.live}}" repo-url="{{p.repoUrl}}" thumbnail="{{p.thumb}}" mock="{{p.mock}}"></x-import>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{hasArchive}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h2 class="title" style="margin: 0;">More projects</h2>
+<div style="border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface);">
+<sc-for list="{{archive}}" as="m" hint-placeholder-count="3">
+<a class="lm-row" href="Project-Board.dc.html"><span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);">{{m.year}}</span><strong style="font-weight: 600;">{{m.title}}</strong><span style="color: var(--ink-muted); font-size: 14px;">{{m.line}}</span><span style="color: var(--accent);">→</span></a>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<section style="display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 48px;">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 560px;"><h2 class="heading" style="margin: 0;">Have something like this to build?</h2><p style="margin: 0; color: var(--ink-muted);">A free 30-minute call, online. Bring the problem; you’ll leave with a next step.</p></div>
+<x-import component-from-global-scope="Gambit.Button" variant="primary" href="Book.dc.html">Book a free discovery call</x-import>
+</section>
+</main>
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":2860}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this, active = (this.state && this.state.f) || 'All';
+    var R = {
+      theme: this.props.theme || 'dark',
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }],
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      filters: ['All', 'Next.js', 'Django', 'Security', 'Systems', 'Award winning'].map(function (f) { return { label: f, on: active === f ? 'true' : 'false', pick: function () { self.setState({ f: f }); } }; }),
+      featured: [
+        { title: 'Wamumbi', summary: 'Charity platform taken from mock data to production: a 3NF schema, 51 tRPC endpoints with Swagger docs, Prisma 7 on Neon, and a CVE-2025-66478 patch.', period: 'Apr 2025 to now', status: 'Live', tags: ['Next.js', 'tRPC', 'Prisma', 'Neon'], liveUrl: 'https://wamumbi.vercel.app/', live: true, repoUrl: 'https://github.com/LewisMagangi/wamumbi', thumb: 'wamumbi.vercel.app', mock: { brand: 'W', title: 'Campaigns', badge: 'Live', stats: [{ l: 'API endpoints', v: '51' }, { l: 'Reference tables', v: '17' }, { l: 'Commits', v: '80+' }], rows: ['Donations', 'Campaigns', 'Volunteers', 'Events'] } },
+        { title: 'Project Nexus', summary: 'A Twitter like network, solo in five weeks: JWT and Google/GitHub sign in, threads, quotes, messaging, communities and search, with CI on every push.', period: 'Nov to Dec 2025', status: 'ALX ProDev capstone', tags: ['Django REST', 'Next.js', 'OAuth', 'Actions'], liveUrl: 'https://alx-project-nexus-social.vercel.app/', live: true, thumb: 'alx-project-nexus-social.vercel.app', mock: { brand: 'N', title: 'Home feed', badge: 'Live', stats: [{ l: 'Commits', v: '150+' }, { l: 'Pull requests', v: '46' }, { l: 'Weeks', v: '5' }], rows: ['New thread', 'New follower', 'Message from a community', 'Trending: #django'] } },
+        { title: 'Solar Water ATM', summary: 'Led the Flask → Django 5.2 migration for solar water kiosks: metered billing, hardened auth and XSS fixes, leading three developers.', period: 'Jun to Jul 2025', award: '#3, Enactus Kenya 2025', tags: ['Django', 'PostgreSQL', 'OAuth', 'Tests'], thumb: 'water-atm, dashboard', mock: { brand: 'WA', title: 'Kiosk usage', badge: 'Admin', stats: [{ l: 'Kiosks', v: 'Metered' }, { l: 'Litres today', v: 'Metered' }, { l: 'Django', v: '5.2' }], rows: ['Kiosk 01, meter reading', 'Kiosk 02, payment', 'Kiosk 03, meter reading', 'New user'] } },
+        { title: 'Sustainable Fishing', summary: 'Architected three Django apps for catch logging, education and a community timeline, with role based access and a custom admin. Deployed on Render.', period: 'Jun to Jul 2025', award: '#5, Enactus Kenya 2025', tags: ['Django', 'RBAC', 'Render'], repoUrl: 'https://github.com/LewisMagangi/Sustainable_Fishing', thumb: 'catch-log, timeline', mock: { brand: 'SF', title: 'Catch log', badge: 'Live', stats: [{ l: 'Apps', v: '3' }, { l: 'Roles', v: '3' }, { l: 'Rank', v: '#5' }], rows: ['Catch logged, tilapia', 'Lesson: closed seasons', 'Community post', 'Finance entry'] } }
+      ],
+      archive: [
+        { year: 'Accessibility', title: 'SNE Portal', line: 'Voice exams on device with Whisper and Coqui TTS; WCAG 2.1 AA with automated axe and Pa11y tests.' },
+        { year: '2023 to 24', title: 'Dynamic Cryptosuite Selection', line: 'Capstone: benchmarks AES, RSA, hashing and more on time, CPU and RAM, then picks one per security budget.' },
+        { year: '2024', title: 'Afya Bora', line: 'Health Q&A for patients and doctors, self hosted on Nginx with UFW, SSH hardening and Let’s Encrypt.' },
+        { year: '2022', title: 'Simple Shell', line: 'A Unix shell in C: fork/execve, PATH resolution, built ins.' }
+      ]
+    };
+    var CAT = {
+      'Wamumbi': ['Next.js', 'Security'], 'Project Nexus': ['Next.js', 'Django', 'Security'], 'Solar Water ATM': ['Django', 'Security', 'Award winning'],
+      'Sustainable Fishing': ['Django', 'Award winning'], 'SNE Portal': ['Django'], 'Dynamic Cryptosuite Selection': ['Security', 'Systems', 'Django'],
+      'Afya Bora': ['Django', 'Systems'], 'Simple Shell': ['Systems']
+    };
+    function keep(x) { return active === 'All' || (CAT[x.title] || []).indexOf(active) >= 0; }
+    R.featured = R.featured.filter(keep);
+    R.archive = R.archive.filter(keep);
+    R.count = R.featured.length + R.archive.length;
+    R.filters = R.filters.map(function (f) {
+      var n = f.label === 'All' ? 8 : Object.keys(CAT).filter(function (t) { return CAT[t].indexOf(f.label) >= 0; }).length;
+      return Object.assign({}, f, { n: n });
+    });
+    R.hasFeatured = R.featured.length > 0; R.hasArchive = R.archive.length > 0;
+    return R;
+  }
+}
+</script>
+</body>
+</html>

@@ -10,6 +10,9 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 |---|---|
 | `gambit/components/bundle.js`, `bundle.css` | Gambit v8.7, the working reference implementation of every component, in React without JSX. **Port** the components named below into `components/` as typed React and Tailwind. Don't import the bundle into the app. |
 | `gambit/components/*/README.md` | Specs for the three new or rebuilt components. |
+| `gambit/README.md`, `ux-standards.md`, `design-rationale.md`, `shadcn-handoff.md` | The Gambit design system docs: tokens, component rules, UX standards, why each choice was made, and how Gambit maps onto shadcn/ui. |
+| `gambit/tokens.css`, `tokens.json` | The design tokens the boards load. |
+| `boards/*.dc.html`, `boards/canvas.json` | Every board on the canvas, byte for byte: pages, admin, light and phone wrappers, wireframes. `boards/README.md` explains the format and lists them. |
 | `data/skills.json` | The 32 skills in six groups, each with a level and evidence. |
 | `data/course-stories.json` | The two DataCamp tracks. Each has 10 or 12 courses in date order, with chapters, a short description, a verify URL and a certificate image path. |
 | `data/lichess-best-wins.json` | Lique's top five wins in bullet, blitz and rapid (15 games), with UCI and SAN moves. All 15 replay as legal moves, checked with python-chess. |

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wireframe — Admin</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.wf-box{background:#ececea;border:1px solid #c9c9c5;border-radius:8px}
+.wf-line{height:10px;border-radius:5px;background:#d6d6d2}
+.wf-pin{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#0b7a47;color:#fff;font-family:var(--font-mono);font-size:12px;font-weight:600;flex:none}
+.wf-note{font-family:var(--font-mono);font-size:12px;line-height:18px;color:#57534e}
+.wf-lab{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#6b6b68}
+.wf-frame{border:1px solid #8c8c88;border-radius:12px;overflow:hidden;background:#fafaf9;display:flex}
+.wf-side{width:200px;flex:none;border-right:1px solid #c9c9c5;background:#fff;padding:16px 12px;display:flex;flex-direction:column;gap:10px}
+.wf-main{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:20px;min-width:0}
+</style>
+</helmet>
+<div style="width: 1440px; height: 3000px; box-sizing: border-box; padding: 56px 64px; background: #f2f2f0; color: #0a0a0a; font-family: var(--font-sans); display: flex; flex-direction: column; gap: 40px;">
+
+<div style="display: flex; flex-direction: column; gap: 6px;"><span class="wf-lab">Admin · three templates cover every content type</span><h1 style="margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -.02em;">Dashboard → List → Editor</h1></div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 10px; align-items: center;"><span class="wf-pin">A</span><strong>Dashboard</strong><span class="wf-note">/admin</span></div>
+<div class="wf-frame" style="height: 700px;">
+<div class="wf-side"><div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">1</span><div class="wf-box" style="width: 24px; height: 24px;"></div><div class="wf-line" style="width: 60px;"></div></div>
+<sc-for list="{{side}}" as="s" hint-placeholder-count="17"><div style="display: flex; gap: 8px; align-items: center; padding: 4px; border-radius: 6px; background: {{s.bg}};"><div style="width: 14px; height: 14px; border-radius: 3px; background: #c9c9c5;"></div><span style="font-size: 12px; color: #57534e; flex: 1;">{{s.t}}</span><sc-if value="{{s.n}}" hint-placeholder-val="{{false}}"><span style="font-family: var(--font-mono); font-size: 10px; background: #0b7a47; color: #fff; border-radius: 9px; padding: 0 6px;">{{s.n}}</span></sc-if></div></sc-for>
+</div>
+<div class="wf-main">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #c9c9c5; padding-bottom: 16px;"><div style="display: flex; flex-direction: column; gap: 8px;"><div class="wf-line" style="width: 120px; height: 8px;"></div><div class="wf-line" style="width: 260px; height: 22px;"></div></div><div style="display: flex; gap: 8px;"><div class="wf-box" style="width: 110px; height: 32px;"></div><div class="wf-box" style="width: 130px; height: 32px; background: #0b7a47; border-color: #0b7a47;"></div></div></div>
+<div style="display: flex; gap: 10px; align-items: center;"><span class="wf-pin">2</span><div style="flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;"><div class="wf-box" style="height: 88px; background: #fff;"></div><div class="wf-box" style="height: 88px; background: #fff;"></div><div class="wf-box" style="height: 88px; background: #fff;"></div><div class="wf-box" style="height: 88px; background: #fff;"></div></div></div>
+<div style="display: flex; gap: 16px; flex: 1;">
+<div style="flex: 3; display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">3</span><span class="wf-lab">Latest messages</span></div><div class="wf-box" style="flex: 1; background: #fff;"></div></div>
+<div style="flex: 2; display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">4</span><span class="wf-lab">Quick actions + drafts</span></div><div class="wf-box" style="height: 150px; background: #fff;"></div><div class="wf-box" style="flex: 1; background: #fff;"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 10px; align-items: center;"><span class="wf-pin">B</span><strong>List</strong><span class="wf-note">/admin/projects · /blog · /certificates · /awards · /references · /chess · /experiences · /education · /messages · /bookings</span></div>
+<div class="wf-frame" style="height: 600px;">
+<div class="wf-side"><div class="wf-box" style="height: 24px; width: 90px;"></div><div class="wf-box" style="flex: 1; background: #f2f2f0;"></div></div>
+<div class="wf-main">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #c9c9c5; padding-bottom: 16px;"><div style="display: flex; flex-direction: column; gap: 8px;"><div class="wf-line" style="width: 120px; height: 8px;"></div><div class="wf-line" style="width: 180px; height: 22px;"></div><div class="wf-line" style="width: 220px;"></div></div><div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">5</span><div class="wf-box" style="width: 90px; height: 32px;"></div><div class="wf-box" style="width: 130px; height: 32px; background: #0b7a47; border-color: #0b7a47;"></div></div></div>
+<div class="wf-box" style="background: #fff; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+<div style="display: flex; gap: 8px; padding: 12px; border-bottom: 1px solid #c9c9c5; align-items: center;"><span class="wf-pin">6</span><div class="wf-box" style="width: 260px; height: 32px;"></div><div class="wf-box" style="width: 50px; height: 28px; border-radius: 14px; background: #e3f4ea; border-color: #0b7a47;"></div><div class="wf-box" style="width: 80px; height: 28px; border-radius: 14px;"></div><div class="wf-box" style="width: 64px; height: 28px; border-radius: 14px;"></div></div>
+<div style="height: 36px; background: #f2f2f0; border-bottom: 1px solid #c9c9c5;"></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6"><div style="display: flex; gap: 16px; align-items: center; padding: 0 14px; height: 56px; border-bottom: 1px solid #e5e5e3;"><div style="width: 14px; height: 14px; border: 1px solid #8c8c88; border-radius: 3px;"></div><div style="flex: 3; display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 50%;"></div><div class="wf-line" style="width: 30%; height: 6px;"></div></div><div style="flex: 1;"><div class="wf-box" style="width: 80px; height: 20px; background: {{r.c}};"></div></div><div style="flex: 1;"><div style="width: 32px; height: 18px; border-radius: 9px; background: #c9c9c5;"></div></div><div class="wf-line" style="flex: 1;"></div><div style="display: flex; gap: 6px;"><div class="wf-box" style="width: 26px; height: 26px;"></div><div class="wf-box" style="width: 26px; height: 26px;"></div><div class="wf-box" style="width: 26px; height: 26px;"></div></div><sc-if value="{{r.pin}}" hint-placeholder-val="{{false}}"><span class="wf-pin">7</span></sc-if></div></sc-for>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 10px; align-items: center;"><span class="wf-pin">C</span><strong>Editor (new + edit)</strong><span class="wf-note">/admin/projects/new · /admin/projects/[slug] · same shape for every type</span></div>
+<div class="wf-frame" style="height: 780px; position: relative;">
+<div class="wf-side"><div class="wf-box" style="height: 24px; width: 90px;"></div><div class="wf-box" style="flex: 1; background: #f2f2f0;"></div></div>
+<div class="wf-main" style="padding-bottom: 88px;">
+<div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #c9c9c5; padding-bottom: 16px;"><div class="wf-line" style="width: 220px; height: 8px;"></div><div class="wf-line" style="width: 320px; height: 22px;"></div></div>
+<div style="display: flex; gap: 24px; flex: 1;">
+<div style="flex: 2; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">8</span><span class="wf-lab">Content</span></div>
+<div style="display: flex; gap: 12px;"><div style="flex: 1; display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 60px; height: 8px;"></div><div class="wf-box" style="height: 38px; background: #fff;"></div></div><div style="flex: 1; display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 60px; height: 8px;"></div><div class="wf-box" style="height: 38px; background: #fff;"></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 90px; height: 8px;"></div><div class="wf-box" style="height: 80px; background: #fff;"></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px;"><div class="wf-line" style="width: 140px; height: 8px;"></div><div class="wf-box" style="height: 140px; background: #fff;"></div></div>
+<div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">9</span><span class="wf-lab">Highlights · ListEditor</span></div>
+<div class="wf-box" style="height: 34px; background: #fff;"></div><div class="wf-box" style="height: 34px; background: #fff;"></div><div class="wf-box" style="height: 34px; background: #fff;"></div>
+</div>
+<div style="width: 300px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">10</span><span class="wf-lab">Publishing + media</span></div>
+<div class="wf-box" style="height: 200px; background: #fff;"></div>
+<div class="wf-box" style="height: 120px; background: #fff; border-style: dashed;"></div>
+<div class="wf-box" style="height: 110px; background: #fff;"></div>
+</div>
+</div>
+</div>
+<div style="position: absolute; left: 200px; right: 0; bottom: 0; height: 64px; background: #fff; border-top: 1px solid #c9c9c5; display: flex; align-items: center; justify-content: space-between; padding: 0 32px;"><div style="display: flex; gap: 8px; align-items: center;"><span class="wf-pin">11</span><div class="wf-box" style="width: 120px; height: 32px; border-color: #c4262e;"></div></div><div style="display: flex; gap: 8px;"><div class="wf-box" style="width: 80px; height: 32px;"></div><div class="wf-box" style="width: 100px; height: 32px;"></div><div class="wf-box" style="width: 100px; height: 32px; background: #0b7a47; border-color: #0b7a47;"></div></div></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; border-top: 1px solid #c9c9c5; padding-top: 24px;">
+<sc-for list="{{notes}}" as="n" hint-placeholder-count="11"><div style="display: flex; gap: 12px;"><span class="wf-pin">{{n.n}}</span><span class="wf-note">{{n.t}}</span></div></sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var items = ['Dashboard', 'Analytics', 'Projects', 'Blog', 'Certificates', 'Awards', 'References', 'Chess', 'Experience', 'Education', 'Skills', 'Messages', 'Bookings', 'Profile', 'CV', 'View site', 'Log out'];
+    return {
+      side: items.map(function (t) { return { t: t, bg: t === 'Dashboard' ? '#e3f4ea' : 'transparent', n: t === 'Messages' ? '3' : t === 'Bookings' ? '2' : '' }; }),
+      rows: [{ c: '#e3f4ea', pin: true }, { c: '#e3f4ea' }, { c: '#fbf0dc' }, { c: '#e3f4ea' }, { c: '#ececea' }, { c: '#fbf0dc' }],
+      notes: [
+        { n: 1, t: 'AdminSidebar: Overview · Content (incl. Awards, References, Chess) · Inbox (Messages, Bookings) · Settings, unread counts, View site, Log out.' },
+        { n: 2, t: 'Four KPIs: projects, certificates, new messages, upcoming calls.' },
+        { n: 3, t: 'Latest messages with status; click opens the message in the inbox.' },
+        { n: 4, t: 'Quick actions (+ project, + post, + certificate, upload CV) and drafts waiting to publish.' },
+        { n: 5, t: 'PageHeader: breadcrumb, title, count; secondary action (Reorder / Export) then primary "+ New …".' },
+        { n: 6, t: 'Search + status filter chips matching the enum (Published, Draft, Archived; New, Read, Replied, Spam…).' },
+        { n: 7, t: 'Row: title + slug, StatusBadge, Featured switch (saves immediately), updated date, actions view / edit / delete.' },
+        { n: 8, t: 'Main column: Fields for the model (title, slug, summary, detailed description in markdown).' },
+        { n: 9, t: 'ListEditor for ordered child rows: project highlights, experience achievements, education highlights.' },
+        { n: 10, t: 'Side column: status, Featured / Is current switches, dates, order. Projects also get Case study fields and desktop + phone screenshot uploads.' },
+        { n: 11, t: 'Sticky bar: Delete (edit only, opens ConfirmDialog) left; Cancel, Save draft, Publish right. Save shows a Toast.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

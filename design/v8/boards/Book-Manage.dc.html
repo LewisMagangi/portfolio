@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Manage your call, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}a:hover{text-decoration-color:var(--ink)}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg)}
+.lm-dl{margin:0;display:grid;grid-template-columns:140px 1fr;gap:14px 24px;font-size: 14px}
+.lm-dl dt{color:var(--ink-muted)}.lm-dl dd{margin:0}
+.lm-alert{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:var(--radius-md);border:1px solid var(--line-strong);background:var(--surface-raised);font-size:14px;line-height:22px}
+.lm-alert.is-warn{border-color:var(--award);background:var(--award-soft)}
+.lm-alert.is-ok{border-color:var(--accent);background:var(--accent-soft)}
+.lm-alert .gb-icon{flex:none;margin-top:3px}
+.lm-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.lm-radio{display:flex;gap:10px;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line-strong);border-radius:var(--radius-md);cursor:pointer;font-size:14px}
+.lm-radio:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.lm-radio input{accent-color:var(--accent);width:16px;height:16px}
+@media (max-width: 640px){.lm-dl{grid-template-columns:1fr;gap:4px}.lm-dl dd{margin-bottom:10px}}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100%;">
+<x-import component-from-global-scope="Gambit.SiteNav" items="{{nav}}" theme="{{theme}}" on-theme="{{setTheme}}" home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+
+<main style="max-width: 880px; margin: 0 auto; padding: 72px 32px 128px; display: flex; flex-direction: column; gap: 32px; box-sizing: border-box;">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span style="font-size: 14px; color: var(--ink-muted);">Booking LM-[ref]</span>
+<h1 class="display" style="margin: 0;">{{heading}}</h1>
+<p class="lead" style="margin: 0; color: var(--ink-muted);">{{sub}}</p>
+</div>
+
+<sc-if value="{{isTaken}}" hint-placeholder-val="{{false}}">
+<div class="lm-alert is-warn" role="alert"><x-import component-from-global-scope="Gambit.Icon" name="clock" size="16"></x-import><span><strong>Thu 5 Nov, 10:30 was just taken.</strong> Someone booked it while you were filling in your details. Your notes are saved; pick another time below.</span></div>
+</sc-if>
+<sc-if value="{{isCancelled}}" hint-placeholder-val="{{false}}">
+<div class="lm-alert" role="status"><x-import component-from-global-scope="Gambit.Icon" name="check" size="16"></x-import><span>Your call is cancelled and the time is free again. A confirmation is on its way to [email].</span></div>
+</sc-if>
+<sc-if value="{{isMoved}}" hint-placeholder-val="{{false}}">
+<div class="lm-alert is-ok" role="status"><x-import component-from-global-scope="Gambit.Icon" name="check" size="16"></x-import><span>Moved to <strong>Mon 9 Nov, 14:00 EAT</strong>. The calendar invite and Meet link are updated.</span></div>
+</sc-if>
+
+<sc-if value="{{showSummary}}" hint-placeholder-val="{{true}}">
+<section class="lm-card" style="padding: 28px; display: flex; flex-direction: column; gap: 24px;" aria-label="Your booking">
+<div style="display: flex; gap: 14px; align-items: center;">
+<img src="/_blob/cc7a7c9af2c0187d9c7a61b6701db350" alt="" width="48" height="48" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-strong);">
+<div style="display: flex; flex-direction: column;"><strong style="font-weight: 600;">Free discovery call with Lewis Magangi</strong><span style="font-size: 14px; color: var(--ink-muted);">30 minutes, online on Google Meet</span></div>
+<span style="margin-left: auto;"><x-import component-from-global-scope="Gambit.StatusBadge" status="{{status}}"></x-import></span>
+</div>
+<dl class="lm-dl">
+<dt>When</dt><dd>{{when}} <span style="color: var(--ink-muted);">· {{local}}</span></dd>
+<dt>Topic</dt><dd>Hiring for an engineering role</dd>
+<dt>Your notes</dt><dd style="color: var(--ink-muted);">[What the visitor wrote]</dd>
+<dt>Meeting link</dt><dd><a href="#meet">meet.google.com/[code]</a></dd>
+</dl>
+<sc-if value="{{canAct}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 20px;">
+<x-import component-from-global-scope="Gambit.Button" variant="primary" href="#ics">Add to my calendar</x-import>
+<x-import component-from-global-scope="Gambit.Button" on-click="{{goMove}}">Reschedule</x-import>
+<x-import component-from-global-scope="Gambit.Button" variant="ghost" on-click="{{goCancel}}">Cancel the call</x-import>
+</div>
+<span style="font-size: 12px; color: var(--ink-muted);">You can reschedule or cancel up to 2 hours before the call.</span>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{showPicker}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px;" aria-label="Pick a new time">
+<h2 class="heading" style="margin: 0;">Pick a new time</h2>
+<x-import component-from-global-scope="Gambit.BookingWidget" host-photo="/_blob/cc7a7c9af2c0187d9c7a61b6701db350" today="2026-11-04" utc-offset="3" tz-label="EAT (UTC+3)" title="Free discovery call"></x-import>
+<div><x-import component-from-global-scope="Gambit.Button" variant="ghost" on-click="{{goView}}">Keep my current time</x-import></div>
+</section>
+</sc-if>
+
+<sc-if value="{{showCancel}}" hint-placeholder-val="{{false}}">
+<section class="lm-card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px;" aria-labelledby="cx-h">
+<h2 id="cx-h" class="title" style="margin: 0;">Cancel Thu 5 Nov, 10:30 EAT?</h2>
+<p style="margin: 0; color: var(--ink-muted);">The time goes back on the calendar and the Meet link stops working. Telling me why is optional and helps me plan.</p>
+<fieldset style="border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px;">
+<legend style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">Reason (optional)</legend>
+<label class="lm-radio"><input type="radio" name="why">The time no longer works</label>
+<label class="lm-radio"><input type="radio" name="why">The role or project changed</label>
+<label class="lm-radio"><input type="radio" name="why">I found what I needed</label>
+<label class="lm-radio"><input type="radio" name="why">Something else</label>
+</fieldset>
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Button" variant="primary" on-click="{{doCancel}}">Cancel the call</x-import>
+<x-import component-from-global-scope="Gambit.Button" variant="ghost" on-click="{{goView}}">Keep it</x-import>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isCancelled}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+<x-import component-from-global-scope="Gambit.Button" variant="primary" href="Book.dc.html">Book a new time</x-import>
+<x-import component-from-global-scope="Gambit.Button" variant="ghost" href="Main.dc.html">Back to the site</x-import>
+</div>
+</sc-if>
+</main>
+
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["view","reschedule","cancel","cancelled","moved","taken"],"default":"view"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1260}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this, st = this.state || {};
+    var theme = st.theme || this.props.theme || 'dark';
+    var v = st.v || this.props.state || 'view';
+    function go(x) { return function () { self.setState({ v: x }); }; }
+    var H = {
+      view: ['Your call is booked.', 'Everything you need is below. The same details are in your confirmation email.'],
+      reschedule: ['Move your call.', 'Pick any open weekday time in the next four weeks. Your topic and notes carry over.'],
+      cancel: ['Cancel your call?', 'No problem. You can book again any time.'],
+      cancelled: ['Call cancelled.', 'Thanks for letting me know.'],
+      moved: ['Your call is moved.', 'Here are the new details.'],
+      taken: ['That time just went.', 'Pick another and your details stay as you entered them.']
+    };
+    return {
+      theme: theme, heading: H[v][0], sub: H[v][1],
+      setTheme: function (t) { self.setState({ theme: t === 'system' ? 'dark' : t }); },
+      isTaken: v === 'taken', isCancelled: v === 'cancelled', isMoved: v === 'moved',
+      showSummary: v === 'view' || v === 'moved', showPicker: v === 'reschedule' || v === 'taken', showCancel: v === 'cancel',
+      canAct: v === 'view' || v === 'moved',
+      status: v === 'moved' ? 'RESCHEDULED' : 'CONFIRMED',
+      when: v === 'moved' ? 'Mon 9 Nov 2026, 14:00 EAT' : 'Thu 5 Nov 2026, 10:30 EAT',
+      local: v === 'moved' ? '12:00 in London' : '08:30 in London',
+      goMove: go('reschedule'), goCancel: go('cancel'), goView: go('view'), doCancel: go('cancelled'),
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>
