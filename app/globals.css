@@ -315,6 +315,12 @@
       opacity: 1;
       transform: none;
     }
+    /* The paragraph hide rule carries a :not() that outranks the line above (0,4,2 vs 0,4,1); match it so body
+       text actually reveals. (Same bug exists in bundle.css.) */
+    html.gb-reveal-on [data-reveal].is-in :is(p, .lead):not(li p, li .lead, button p) {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* Dither shader layer */

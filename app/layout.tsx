@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { FOOTER_BLURB } from "@/lib/site"
 
 import "./globals.css"
+import "./gambit.css"
 
 const poppins = Poppins({
   subsets: ["latin"],
