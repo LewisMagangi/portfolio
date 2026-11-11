@@ -19,6 +19,8 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 | `data/content.json` | All other copy and content changed in v8: pricing, the Home skills teaser, ten Home milestones, the new Education programmes, the AI and ML page, certificates, Irene's review, and chess. |
 | `../../public/certificates/courses/*.jpg` | 22 course certificates, 880 by 508. |
 | `../../public/certificates/*.jpg`, `machine-learning-engineer.png` | Every certificate on the site: the nine professional ones, Educative, OctoPrep and the 2021 chess certificate (rotated upright). `data/content.json › certificates` gives each one's path. |
+| `../../public/portrait/lewis-magangi.jpg` (686 by 1021) | The About portrait, dark suit and tie. The board shows it at 280 by 350 with `object-fit: cover` and `object-position: center 20%`. Alt text: "Lewis Magangi in a dark suit and tie, smiling". |
+| `../../public/portrait/lewis-magangi-square.jpg` (480 by 480) | The head and shoulders crop for small avatars, such as the 48px "You'll talk to me, Lewis." line on Home. |
 | `../../public/pieces/cburnett/*.svg` | The chess piece set. GPLv2+, see its `LICENSE.md`. Keep the credit line under the board. |
 
 ## Pages
