@@ -19,7 +19,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  // Default address from design/v8/boards/OG-Image.dc.html
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lewismagangi.vercel.app"),
   title: {
     default: "Lewis Magangi, software engineer",
     template: "%s, Lewis Magangi",

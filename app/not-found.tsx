@@ -8,12 +8,13 @@ import { buttonVariants } from "@/components/ui/button"
 
 export const metadata: Metadata = { title: "Page not found" }
 
-// Copy verbatim from design/v8/boards/Not-Found.dc.html
+// Copy from design/v8/boards/Not-Found.dc.html. The Chess line follows v8: the annotated game was removed
+// (HANDOFF › Chess), so it uses the nav's current note instead.
 const PAGES = [
   { t: "Work", s: "Case studies and projects", href: "/work" },
   { t: "Career", s: "2020 to now", href: "/career" },
   { t: "Services", s: "What I build and what it costs", href: "/services" },
-  { t: "Chess", s: "The annotated game", href: "/chess" },
+  { t: "Chess", s: "Results, the game, a challenge", href: "/chess" },
   { t: "Book a call", s: "Free, 30 minutes", href: "/book" },
 ]
 
