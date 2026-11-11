@@ -15,7 +15,7 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 | `data/lichess-best-wins.json` | Lique's top five wins in bullet, blitz and rapid (15 games), with UCI and SAN moves. All 15 replay as legal moves, checked with python-chess. |
 | `data/content.json` | All other copy and content changed in v8: pricing, the Home skills teaser, ten Home milestones, the new Education programmes, the AI and ML page, certificates, Irene's review, and chess. |
 | `../../public/certificates/courses/*.jpg` | 22 course certificates, 880 by 508. |
-| `../../public/certificates/machine-learning-engineer.png` | The ML Engineer track certificate. |
+| `../../public/certificates/*.jpg`, `machine-learning-engineer.png` | Every certificate on the site: the nine professional ones, Educative, OctoPrep and the 2021 chess certificate (rotated upright). `data/content.json › certificates` gives each one's path. |
 | `../../public/pieces/cburnett/*.svg` | The chess piece set. GPLv2+, see its `LICENSE.md`. Keep the credit line under the board. |
 
 ## Pages
