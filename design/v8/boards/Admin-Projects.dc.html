@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Projects</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}a{color:var(--accent);text-decoration:none}</style>
+</helmet>
+<div data-theme="dark" style="position: relative; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1100px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Projects" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Projects" description="8 projects · 4 featured on the site · drag to reorder on Work">
+<x-import component-from-global-scope="Gambit.Button" size="sm">Reorder</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="Admin-Project-Edit.dc.html">+ New project</x-import>
+</x-import>
+<x-import component-from-global-scope="Gambit.DataTable" selectable="{{yes}}" filters="{{filters}}" search-placeholder="Search projects…" columns="{{cols}}" rows="{{rows}}" footer="Page 1 of 1"></x-import>
+</main>
+<div style="position: absolute; right: 32px; bottom: 32px;"><x-import component-from-global-scope="Gambit.Toast">Project “Wamumbi” saved</x-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      yes: true,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      filters: ['All · 8', 'Active', 'In progress', 'Completed', 'Archived'],
+      cols: [
+        { key: 'title', label: 'Project', type: 'title', sub: 'slug' },
+        { key: 'status', label: 'Status', type: 'status' },
+        { key: 'featured', label: 'Featured', type: 'switch' },
+        { key: 'tags', label: 'Stack', type: 'tags' },
+        { key: 'dates', label: 'Dates', type: 'mono' }
+      ],
+      rows: [
+        { title: 'Wamumbi', slug: '/work/wamumbi', status: 'IN_PROGRESS', featured: true, tags: ['Next.js', 'Prisma'], dates: 'Apr 2025 to now' },
+        { title: 'Project Nexus', slug: '/work/project-nexus', status: 'COMPLETED', featured: true, tags: ['Django', 'Next.js'], dates: 'Nov to Dec 2025' },
+        { title: 'Solar Water ATM', slug: '/work/solar-water-atm', status: 'COMPLETED', featured: true, tags: ['Django', 'IoT'], dates: 'Jun to Jul 2025' },
+        { title: 'Sustainable Fishing', slug: '/work/sustainable-fishing', status: 'COMPLETED', featured: true, tags: ['Django'], dates: 'Jun to Jul 2025' },
+        { title: 'SNE Portal', slug: '/work/sne-portal', status: 'COMPLETED', featured: false, tags: ['Django', 'Whisper'], dates: '[DATES]' },
+        { title: 'Afya Bora', slug: '/work/afya-bora', status: 'ARCHIVED', featured: false, tags: ['Django', 'Nginx'], dates: 'May to Jul 2024' },
+        { title: 'Dynamic Cryptosuite Selection', slug: '/work/cryptosuite', status: 'COMPLETED', featured: false, tags: ['Python', 'Crypto'], dates: 'SEP 2023 to MAR 2024' },
+        { title: 'Simple Shell', slug: '/work/simple-shell', status: 'ARCHIVED', featured: false, tags: ['C', 'Unix'], dates: '2022' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

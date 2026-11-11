@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Challenges</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-underline-offset:3px}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin:6px -20px -20px}
+.lm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1100px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Challenges" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Challenges" description="The platforms in the Off the clock section and on the Chess page. Live ratings load from public APIs where they exist.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Chess.dc.html" external="{{yes}}">View on site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#new">New platform</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="Gambit.DataTable" columns="{{cols}}" rows="{{rows}}" filters="{{filters}}" active-filter="0" row-actions="{{actions}}" search-placeholder="Search platforms" footer="Drag rows to reorder on the site"></x-import>
+</section>
+<aside class="lm-card" style="flex: 1 1 340px; min-width: 0;" aria-label="Edit challenge">
+<h2 class="title" style="margin: 0;">Edit platform</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Platform" value="Codewars"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Handle" value="LewisMagangi"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Invitation" value="Race me on a kata."></x-import>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Button label" value="See my profile"></x-import><x-import component-from-global-scope="Gambit.Field" label="Icon" value="Puzzle" type="select" options="{{icons}}"></x-import></div>
+<x-import component-from-global-scope="Gambit.Field" label="Link" value="https://www.codewars.com/users/LewisMagangi" type="url"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Load live rating"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Show on Home"></x-import>
+<div class="lm-bar"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Delete</x-import><span style="display: flex; gap: 8px;"><x-import component-from-global-scope="Gambit.Button" size="sm">Cancel</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Save</x-import></span></div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark', yes: true, no: false,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      actions: ['edit', 'delete'],
+      icons: ['Knight', 'Crown', 'Code', 'Puzzle'],
+      filters: ['All 4', 'Chess', 'Coding'],
+      cols: [{ key: 'name', label: 'Platform', type: 'title', sub: 'invite' }, { key: 'handle', label: 'Handle', type: 'mono' }, { key: 'live', label: 'Live rating', type: 'text' }, { key: 'home', label: 'On Home', type: 'switch' }],
+      rows: [
+        { name: 'Lichess', invite: 'Play me at blitz or rapid.', handle: 'Lique', live: 'Public API', home: true },
+        { name: 'Chess.com', invite: 'Send a challenge from my profile.', handle: 'liquelaliqour', live: 'Public API', home: true },
+        { name: 'LeetCode', invite: 'Compare solutions on the daily problem.', handle: 'LewisMagangi', live: 'None', home: true },
+        { name: 'Codewars', invite: 'Race me on a kata.', handle: 'LewisMagangi', live: 'Public API', home: true }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

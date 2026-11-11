@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Awards</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-underline-offset:3px}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin:6px -20px -20px}
+.lm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1100px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Awards" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Awards" description="Rankings and honours shown on Home. Each links to the work behind it.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Main.dc.html#awards" external="{{yes}}">View on site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#new">+ New award</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="Gambit.DataTable" columns="{{cols}}" rows="{{rows}}" filters="{{filters}}" active-filter="0" row-actions="{{actions}}" search-placeholder="Search awards" footer="Drag rows to reorder on the site"></x-import>
+
+</section>
+<aside class="lm-card" style="flex: 1 1 340px; min-width: 0;" aria-label="Edit award">
+<h2 class="title" style="margin: 0;">Edit award</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Rank or result" value="#3" hint="Short: #3, 7/9, Best, Scholar. Shown in amber unless set to quiet."></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Title" value="Solar-Powered Water ATM"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Event" value="Enactus Kenya National Expo, Ngong Hotel"></x-import>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Year" value="2025"></x-import><x-import component-from-global-scope="Gambit.Field" label="Tone" type="select" value="Ranking" options="{{tones}}"></x-import></div>
+<x-import component-from-global-scope="Gambit.Field" label="Links to" type="select" value="Project: Solar-Powered Water ATM" options="{{targets}}"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Proof" hint="Certificate or letter link, optional"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Show on Home"></x-import>
+<div class="lm-bar"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Delete</x-import><span style="display: flex; gap: 8px;"><x-import component-from-global-scope="Gambit.Button" size="sm">Cancel</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Save</x-import></span></div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark', yes: true,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      no: false,
+      filters: ['All · 5', 'On Home', 'Hidden'],
+      actions: ['edit', 'delete'],
+      tones: ['Ranking', 'Quiet (no placing)'],
+      targets: ['Project: Solar-Powered Water ATM', 'Project: Sustainable Fishing', 'Project: Dynamic Cryptosuite Selection', 'Chess page', 'None'],
+      cols: [{ key: 'rank', label: 'Rank', type: 'mono', width: 90 }, { key: 'title', label: 'Award', type: 'title', sub: 'event' }, { key: 'year', label: 'Year', type: 'mono' }, { key: 'home', label: 'On Home', type: 'switch' }],
+      rows: [
+        { rank: '#3', title: 'Solar-Powered Water ATM', event: 'Enactus Kenya National Expo, Ngong Hotel', year: '2025', home: true },
+        { rank: '#5', title: 'Sustainable Fishing', event: 'Enactus Kenya National Expo, Ngong Hotel', year: '2025', home: true },
+        { rank: '7/9', title: 'Board 2 for JOOUST', event: 'KUSA Western Chess Championship', year: '2023', home: true },
+        { rank: 'Best', title: 'Dynamic Cryptosuite Selection', event: 'Final-year project panel, JOOUST', year: '2024', home: true },
+        { rank: 'Scholar', title: 'Mastercard Foundation scholarship', event: 'ALX Software Engineering', year: '2022', home: true }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

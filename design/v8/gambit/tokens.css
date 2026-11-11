@@ -1,0 +1,105 @@
+/* Gambit — generated from tokens.json */
+:root, [data-theme="dark"] {
+  --bg: #000000;
+  --surface: #181818;
+  --surface-raised: #1f1f1f;
+  --square: #181818;
+  --line: #272727;
+  --line-strong: #6b6b6b;
+  --ink: #ededed;
+  --ink-muted: #a1a1a1;
+  --ink-subtle: #8f8f8f;
+  --primary: #ffffff;
+  --on-primary: #000000;
+  --primary-hover: #d4d4d4;
+  --accent: #ededed;
+  --on-accent: #000000;
+  --accent-soft: #1f1f1f;
+  --success: #3dd68c;
+  --success-soft: #0f2a1c;
+  --award: #f5b14c;
+  --award-soft: #2a1f0c;
+  --danger: #ff6166;
+  --focus: var(--ink);
+  --board-light: #cfcfc9;
+  --board-dark: #8f8f89;
+  --piece-white: #fafaf9;
+  --piece-black: #0a0a0a;
+  --shadow-hover: 0 0 0 1px #3a3a3a;
+}
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-raised: #f2f2f2;
+  --square: #f2f2f2;
+  --line: #e5e5e5;
+  --line-strong: #8c8c8c;
+  --ink: #0a0a0a;
+  --ink-muted: #525252;
+  --ink-subtle: #666666;
+  --primary: #000000;
+  --on-primary: #ffffff;
+  --primary-hover: #2e2e2e;
+  --accent: #0a0a0a;
+  --on-accent: #ffffff;
+  --accent-soft: #f2f2f2;
+  --success: #0b7a47;
+  --success-soft: #e3f4ea;
+  --award: #8a5300;
+  --award-soft: #fbf0dc;
+  --danger: #c4262e;
+  --focus: var(--ink);
+  --board-light: #e4e4df;
+  --board-dark: #a3a39d;
+  --piece-white: #ffffff;
+  --piece-black: #0a0a0a;
+  --shadow-hover: 0 1px 2px #0000000d, 0 8px 24px #0000000f;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+  --content-max: 1080px;
+  --prose-max: 680px;
+  --nav-height: 56px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --target-min: 24px;
+  --target-touch: 44px;
+  --focus-width: 2px;
+  --focus-offset: 2px;
+  --bp-sm: 640px;
+  --bp-md: 820px;
+  --bp-lg: 1080px;
+  --z-nav: 50;
+  --z-dialog: 100;
+  --z-toast: 110;
+  --z-skip: 200;
+  --font-sans: Poppins, "Poppins Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.display-xl { font-family: var(--font-sans); font-size: 60px; line-height: 60px; font-weight: 500; letter-spacing: -0.02em; }
+.display-xl-mobile { font-family: var(--font-sans); font-size: 36px; line-height: 40px; font-weight: 500; letter-spacing: -0.02em; }
+.display { font-family: var(--font-sans); font-size: 48px; line-height: 48px; font-weight: 500; letter-spacing: -0.02em; }
+.heading { font-family: var(--font-sans); font-size: 36px; line-height: 40px; font-weight: 600; letter-spacing: -0.02em; }
+.title { font-family: var(--font-sans); font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.01em; }
+.lead { font-family: var(--font-sans); font-size: 18px; line-height: 28px; font-weight: 400; }
+.body { font-family: var(--font-sans); font-size: 16px; line-height: 24px; font-weight: 400; }
+.small { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 400; }
+.label { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 500; }
+.code { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 400; }
+.metric { font-family: var(--font-sans); font-size: 30px; line-height: 36px; font-weight: 500; letter-spacing: -0.02em; }

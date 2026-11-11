@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Chess</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-underline-offset:3px}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin:6px -20px -20px}
+.lm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1400px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Chess" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Chess" description="Championships, profile links and the annotated career game on the Chess page.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Chess.dc.html" external="{{yes}}">View on site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#new">+ New championship</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="Gambit.DataTable" columns="{{cols}}" rows="{{rows}}" filters="{{filters}}" active-filter="0" row-actions="{{actions}}" search-placeholder="Search events" footer="Drag rows to reorder on the site"></x-import>
+<div class="lm-card">
+<h2 class="title" style="margin: 0;">Profiles</h2>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Lichess" value="https://lichess.org/@/Lique"></x-import><x-import component-from-global-scope="Gambit.Field" label="Chess.com" value="https://www.chess.com/member/liquelaliqour"></x-import></div>
+</div>
+<div class="lm-card">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;"><h2 class="title" style="margin: 0;">Career game</h2><span style="font-size: 13px; color: var(--ink-muted);">Each move pairs a position with a step in your career</span></div>
+<x-import component-from-global-scope="Gambit.DataTable" toolbar="{{no}}" footer="{{no}}" columns="{{moveCols}}" rows="{{moves}}" row-actions="{{edit}}"></x-import>
+<div><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">+ Add move</x-import></div>
+</div>
+</section>
+<aside class="lm-card" style="flex: 1 1 340px; min-width: 0;" aria-label="Edit championship">
+<h2 class="title" style="margin: 0;">Edit championship</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Event" value="KUSA Western Chess Championship"></x-import>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Year" value="2021"></x-import><x-import component-from-global-scope="Gambit.Field" label="Board" value="3"></x-import></div>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Games won" value="3"></x-import><x-import component-from-global-scope="Gambit.Field" label="Games played" value="5"></x-import></div>
+<x-import component-from-global-scope="Gambit.Field" label="Venue and dates" value="Masinde Muliro University, 13 to 14 Nov 2021"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Certificate link" value="drive.google.com/file/d/1T-Lmq…"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{no}}" label="Highlight as an award"></x-import>
+<div class="lm-bar"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Delete</x-import><span style="display: flex; gap: 8px;"><x-import component-from-global-scope="Gambit.Button" size="sm">Cancel</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Save</x-import></span></div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1480}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark', yes: true,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      no: false, edit: ['edit'],
+      filters: ['All · 3'],
+      actions: ['edit', 'delete'],
+      cols: [{ key: 'year', label: 'Year', type: 'mono' }, { key: 'event', label: 'Championship', type: 'title', sub: 'venue' }, { key: 'board', label: 'Board', type: 'mono' }, { key: 'score', label: 'Won', type: 'mono' }],
+      rows: [
+        { year: '2023', event: 'KUSA Western Chess Championship', venue: 'Board 2 for JOOUST', board: '2', score: '7/9' },
+        { year: '2022', event: 'KUSA Western Chess Championship', venue: 'Board 3 for JOOUST', board: '3', score: '2/5' },
+        { year: '2021', event: 'KUSA Western Chess Championship', venue: 'Masinde Muliro University, 13 to 14 Nov 2021', board: '3', score: '3/5' }
+      ],
+      moveCols: [{ key: 'san', label: 'Move', type: 'mono', width: 90 }, { key: 'note', label: 'Career step', type: 'title', sub: 'line' }],
+      moves: [
+        { san: '1. e4', note: 'BSc Computer Forensics, 2020', line: 'Claim the centre.' },
+        { san: '2. Nf3', note: 'ALX Software Engineering, 2022', line: 'Develop a piece.' },
+        { san: '3. Bc4', note: 'ICT attachment at KenGen, 2024', line: 'Aim at the weak square.' },
+        { san: '4. O-O', note: 'Full-stack engineer at Wamumbi, 2025', line: 'Castle.' },
+        { san: '5. d4', note: '#3 at the Enactus Kenya National Expo, 2025', line: 'Strike in the centre.' },
+        { san: '6. Nc3', note: 'Associate AI Engineer, DataCamp, 2026', line: 'Bring the reserves in.' },
+        { san: '7. Nxd4', note: 'ML Engineer track, now', line: 'Recapture with tempo.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

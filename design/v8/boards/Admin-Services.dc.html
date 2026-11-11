@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Services and pricing</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-underline-offset:3px}a[class]{text-decoration:none}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin:6px -20px -20px}
+.lm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1200px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Services" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Services and pricing" description="The four services and three price tiers on Home and the Services page. Prices are typical, per project.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Services.dc.html" external="{{yes}}">View on site</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#new">New service</x-import>
+</x-import>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="Gambit.DataTable" columns="{{cols}}" rows="{{rows}}" filters="{{filters}}" active-filter="0" row-actions="{{actions}}" search-placeholder="Search services and tiers" footer="Drag rows to reorder on the site"></x-import>
+</section>
+<aside class="lm-card" style="flex: 1 1 340px; min-width: 0;" aria-label="Edit service">
+<h2 class="title" style="margin: 0;">Edit tier</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Name" value="Silver"></x-import>
+<div class="lm-two"><x-import component-from-global-scope="Gambit.Field" label="Typical price" value="$900" hint="US dollars, per project"></x-import><x-import component-from-global-scope="Gambit.Field" label="Builds on" value="Bronze" type="select" options="{{bases}}"></x-import></div>
+<x-import component-from-global-scope="Gambit.Field" label="Who it is for" value="For products that hold data people depend on."></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Includes" value="Data governance and analysis; Cybersecurity review and hardening" type="textarea" hint="One item per line"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Badge" hint="Optional, for example Most chosen. Leave empty unless it is true."></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Show on Home"></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{no}}" label="Highlight this tier"></x-import>
+<div class="lm-bar"><x-import component-from-global-scope="Gambit.Button" size="sm" variant="ghost">Delete</x-import><span style="display: flex; gap: 8px;"><x-import component-from-global-scope="Gambit.Button" size="sm">Cancel</x-import><x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">Save</x-import></span></div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme || 'dark', yes: true, no: false,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      actions: ['edit', 'delete'],
+      bases: ['None', 'Bronze', 'Silver'],
+      filters: ['All', 'Services', 'Tiers'],
+      cols: [{ key: 'name', label: 'Name', type: 'title', sub: 'line' }, { key: 'kind', label: 'Type', type: 'mono' }, { key: 'price', label: 'Price', type: 'mono' }, { key: 'home', label: 'On Home', type: 'switch' }],
+      rows: [
+        { name: 'Web development', line: 'Websites and web apps in Next.js and Django', kind: 'Service', price: '', home: true },
+        { name: 'Software, AI and ML engineering', line: 'APIs, integrations and AI features', kind: 'Service', price: '', home: true },
+        { name: 'Data governance, analysis and science', line: 'Schemas, clean data, analysis', kind: 'Service', price: '', home: true },
+        { name: 'Cybersecurity', line: 'Defensive, offensive, strategic', kind: 'Service', price: '', home: true },
+        { name: 'Bronze', line: 'Web development and software engineering', kind: 'Tier', price: '$600', home: true },
+        { name: 'Silver', line: 'Bronze plus data governance and cybersecurity', kind: 'Tier', price: '$900', home: true },
+        { name: 'Gold', line: 'Silver plus software, AI and ML engineering', kind: 'Tier', price: '$1,200', home: true }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

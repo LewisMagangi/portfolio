@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book a call, Lewis Magangi</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;transition:text-decoration-color 200ms cubic-bezier(.22,1,.36,1)}a:hover{text-decoration-color:var(--ink)}a[class]{text-decoration:none}
+.lm-faq{border-top:1px solid var(--line);padding:20px 0;display:flex;flex-direction:column;gap:6px}
+.lm-faq strong{font-weight:600;font-size: 14px}
+.lm-faq p{margin:0;font-size:14px;line-height:22px;color:var(--ink-muted)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100%;">
+<x-import component-from-global-scope="Gambit.SiteNav" items="{{nav}}" theme="{{theme}}" on-theme="{{setTheme}}" home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+
+<section style="position: relative; overflow: hidden; border-bottom: 1px solid var(--line);">
+<x-import component-from-global-scope="Gambit.Shader" shape="warp" type="4x4" size="2" speed="0.16" front="line" fade="right" opacity="0.5" theme="{{theme}}"></x-import>
+<div style="position: relative; max-width: 1080px; margin: 0 auto; padding: 96px 32px 64px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+<h1 class="display" style="margin: 0; max-width: 720px;">Book a free discovery call.</h1>
+<p class="lead" style="margin: 0; max-width: 600px; color: var(--ink-muted);">Thirty minutes online, on Google Meet. Pick a weekday and a time; you’ll get a confirmation email with the link and a calendar invite.</p>
+</div>
+</section>
+
+<main style="max-width: 1080px; margin: 0 auto; padding: 64px 32px 128px; display: flex; flex-direction: column; gap: 96px; box-sizing: border-box;">
+<x-import component-from-global-scope="Gambit.BookingWidget" host-photo="/_blob/cc7a7c9af2c0187d9c7a61b6701db350" today="2026-11-04" utc-offset="3" tz-label="EAT (UTC+3)" duration="30" topics="{{topics}}" horizon-days="28" title="Free discovery call"></x-import>
+
+<section style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start;">
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px;">
+<h2 class="heading" style="margin: 0;">Before you book</h2>
+<p style="margin: 0; color: var(--ink-muted);">Rather write first? <a href="Contact.dc.html">Send a message</a> and I’ll reply within two working days.</p>
+<p style="margin: 0; color: var(--ink-muted);">Already booked? <a href="Book-Manage.dc.html">Reschedule or cancel your call</a>.</p>
+</div>
+<div style="flex: 999 1 560px; min-width: 0;">
+<sc-for list="{{faq}}" as="f" hint-placeholder-count="4">
+<div class="lm-faq"><strong>{{f.q}}</strong><p>{{f.a}}</p></div>
+</sc-for>
+</div>
+</section>
+</main>
+
+<x-import component-from-global-scope="Gambit.SiteFooter" columns="{{footer}}" legal="{{legal}}" blurb="Software engineer in Nairobi, Kenya. Secure web systems, AI and ML." home-href="Main.dc.html" book-href="Book.dc.html"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":2030}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var theme = (this.state && this.state.theme) || this.props.theme || 'dark';
+    return {
+      theme: theme,
+      setTheme: function (v) { self.setState({ theme: v === 'system' ? 'dark' : v }); },
+      nav: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }],
+      topics: ['Hiring for an engineering role', 'A project or freelance work', 'AI or ML engineering', 'Security review', 'Mentoring or a chat', 'Something else'],
+      faq: [
+        { q: 'Who is this for?', a: 'Recruiters and hiring managers, founders with a project, and anyone who wants to talk through a build, a security question or getting into AI engineering.' },
+        { q: 'What happens after I book?', a: 'You get an email with the Google Meet link and a calendar invite. I read your notes beforehand so we can start on the real question.' },
+        { q: 'Can I reschedule or cancel?', a: 'Yes. The confirmation email has a link to move or cancel the call, up to two hours before it starts.' },
+        { q: 'Is it really free?', a: 'Yes. It’s a first conversation, not a sales call. If there’s paid work at the end of it, we’ll agree the scope separately.' }
+      ],
+      footer: [
+        { title: 'Explore', links: [{ label: 'Work', href: 'Work.dc.html' }, { label: 'Services', href: 'Services.dc.html' }, { label: 'Career', href: 'Career.dc.html' }, { label: 'Chess', href: 'Chess.dc.html' }, { label: 'AI and ML', href: 'AI-ML.dc.html' }] },
+        { title: 'More', links: [{ label: 'Education', href: 'Education.dc.html' }, { label: 'Certificates', href: 'Certificates.dc.html' }, { label: 'Reading', href: 'Reading.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Blog', href: 'Blog.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }] },
+        { title: 'Elsewhere', links: [{ label: 'GitHub', href: 'https://github.com/LewisMagangi', external: true }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/lewis-magangi/', external: true }, { label: 'LeetCode', href: 'https://leetcode.com/u/LewisMagangi/', external: true }, { label: 'Codewars', href: 'https://www.codewars.com/users/LewisMagangi', external: true }, { label: 'Lichess', href: 'https://lichess.org/@/Lique', external: true }, { label: 'Chess.com', href: 'https://www.chess.com/member/liquelaliqour', external: true }] }
+      ],
+      legal: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

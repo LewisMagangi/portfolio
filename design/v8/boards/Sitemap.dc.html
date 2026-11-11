@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sitemap</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1440px; height: 1180px; box-sizing: border-box; padding: 64px; background: #fafaf9; color: #0a0a0a; font-family: var(--font-sans); display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: #6b6b68;">Information architecture</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 44px; font-weight: 600; letter-spacing: -.03em;">Four links in the nav. Everything else flows from Home.</h1>
+</div>
+<div style="display: flex; gap: 16px; font-family: var(--font-mono); font-size: 12px; color: #57534e;">
+<span style="display: flex; gap: 6px; align-items: center;"><span style="width: 12px; height: 12px; border: 1px solid #0a0a0a; border-radius: 3px;"></span>Public page</span>
+<span style="display: flex; gap: 6px; align-items: center;"><span style="width: 12px; height: 12px; background: #0a0a0a; border-radius: 3px;"></span>Admin (auth)</span>
+<span style="display: flex; gap: 6px; align-items: center;"><span style="width: 12px; height: 12px; background: #e3f4ea; border: 1px solid #0b7a47; border-radius: 3px;"></span>New in redesign</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 0;">
+<div style="align-self: flex-start; margin-left: 420px; border: 1px solid #0a0a0a; border-radius: 8px; padding: 12px 20px; background: #fff; display: flex; flex-direction: column; gap: 2px;"><strong>Home</strong><span style="font-family: var(--font-mono); font-size: 12px; color: #57534e;">/ · case studies → career → AI → awards → certificates → references → chess → book</span></div>
+<div style="margin-left: 620px; width: 1px; height: 28px; background: #8c8c88;"></div>
+<div style="margin: 0 60px; height: 1px; background: #8c8c88;"></div>
+<div style="display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 12px; margin-top: 0;">
+<sc-for list="{{pub}}" as="p" hint-placeholder-count="8">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 0;">
+<div style="width: 1px; height: 24px; background: #8c8c88;"></div>
+<div style="width: 100%; box-sizing: border-box; border: 1px solid {{p.border}}; background: {{p.bg}}; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 4px; min-height: 92px;">
+<strong style="font-size: 14px;">{{p.name}}</strong>
+<span style="font-family: var(--font-mono); font-size: 12px; color: #57534e;">{{p.route}}</span>
+<span style="font-size: 12px; color: #57534e;">{{p.note}}</span>
+</div>
+<sc-if value="{{p.child}}" hint-placeholder-val="{{false}}">
+<div style="width: 1px; height: 16px; background: #8c8c88;"></div>
+<div style="width: 100%; box-sizing: border-box; border: 1px dashed #8c8c88; background: #fff; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px;">
+<strong style="font-size: 13px;">{{p.child}}</strong><span style="font-family: var(--font-mono); font-size: 12px; color: #57534e;">{{p.childRoute}}</span>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="border-top: 1px solid #e5e5e3; padding-top: 32px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; gap: 12px; align-items: baseline;"><strong style="font-size: 18px;">/admin</strong><span style="font-family: var(--font-mono); font-size: 12px; color: #57534e;">LOGIN · SETUP (First run) · then every content type gets List → New/Edit → Delete</span></div>
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 12px;">
+<sc-for list="{{admin}}" as="a" hint-placeholder-count="16">
+<div style="background: {{a.bg}}; color: {{a.fg}}; border: 1px solid {{a.border}}; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 4px; min-height: 84px;">
+<strong style="font-size: 14px;">{{a.name}}</strong>
+<span style="font-family: var(--font-mono); font-size: 12px; opacity: .8;">{{a.route}}</span>
+<span style="font-size: 12px; opacity: .85;">{{a.crud}}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 13px; color: #57534e; max-width: 1100px;">New content types: <span style="font-family: var(--font-mono);">Certificate</span> (title, issuer, issuedAt, hours, verifyUrl, file, category, featured, orderIndex), a <span style="font-family: var(--font-mono);">kind</span> on timeline entries, <span style="font-family: var(--font-mono);">Booking</span> (name, email, company, topic, notes, startsAt, timezone, status, meetUrl, icsUid) and <span style="font-family: var(--font-mono);">Availability</span> (weekday, from, to, enabled, plus call length, buffer and notice). Booking status: REQUESTED · CONFIRMED · RESCHEDULED · CANCELLED · NO_SHOW.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var plain = { border: '#0a0a0a', bg: '#ffffff' }, fresh = { border: '#0a0a0a', bg: '#e5e5e5' };
+    var pub = [
+      Object.assign({ name: 'Work', route: '/work', note: 'Nav, case studies and all projects', child: 'Project', childRoute: '/work/[slug]' }, plain),
+      Object.assign({ name: 'Services', route: '/services', note: 'Nav, services, pricing, process, questions' }, plain),
+      Object.assign({ name: 'Career', route: '/career', note: 'Nav, interactive timeline' }, plain),
+      Object.assign({ name: 'Chess', route: '/chess', note: 'Nav, annotated game, challenge board' }, plain),
+      Object.assign({ name: 'Book a call', route: '/book', note: 'Nav button, in-house booking', child: 'Manage, reschedule, cancel', childRoute: '/book/[id]' }, plain),
+      Object.assign({ name: 'AI and ML', route: '/ai', note: 'From Home, Career and footer' }, plain),
+      Object.assign({ name: 'Reading', route: '/reading', note: 'From Home and footer' }, plain),
+      Object.assign({ name: 'Education', route: '/education', note: 'From Career and footer; transcript on request', child: 'Transcript, approved link', childRoute: '/transcript/[token], 60 days' }, fresh),
+      Object.assign({ name: 'Certificates', route: '/certificates', note: 'From Home and footer, image carousel' }, plain),
+      Object.assign({ name: 'About', route: '/about', note: 'Footer, story and stack' }, plain),
+      Object.assign({ name: 'Blog', route: '/blog', note: 'Footer, topic filters', child: 'Post, contents and progress', childRoute: '/blog/[slug]' }, fresh),
+      Object.assign({ name: 'Contact', route: '/contact', note: 'Footer, form to Messages', child: 'Privacy and terms', childRoute: '/legal' }, plain)
+    ];
+    var dark = { bg: '#0a0a0a', fg: '#fafaf9', border: '#0a0a0a' }, nw = { bg: '#e5e5e5', fg: '#0a0a0a', border: '#0a0a0a' };
+    var admin = [
+      Object.assign({ name: 'Dashboard', route: '/admin', crud: 'Stats, inbox, quick actions' }, dark),
+      Object.assign({ name: 'Analytics', route: '/admin/analytics', crud: 'Views, top pages, CV downloads' }, dark),
+      Object.assign({ name: 'Projects', route: '/admin/projects', crud: 'List · New · Edit · Delete · Reorder' }, dark),
+      Object.assign({ name: 'Services', route: '/admin/services', crud: 'Services, tiers, prices' }, dark),
+      Object.assign({ name: 'Transcripts', route: '/admin/transcripts', crud: 'Approve for 60 days, decline, revoke' }, nw),
+      Object.assign({ name: 'Books', route: '/admin/books', crud: 'Shelf, genre, progress' }, dark),
+      Object.assign({ name: 'Challenges', route: '/admin/challenges', crud: 'Platforms, handles, live ratings' }, dark),
+      Object.assign({ name: 'Blog', route: '/admin/blog', crud: 'Posts, categories, tags, comments' }, dark),
+      Object.assign({ name: 'Certificates', route: '/admin/certificates', crud: 'List · New · Edit · Delete' }, nw),
+      Object.assign({ name: 'Experience', route: '/admin/experiences', crud: 'List · New · Edit · Delete' }, dark),
+      Object.assign({ name: 'Education', route: '/admin/education', crud: 'List · New · Edit · Delete' }, dark),
+      Object.assign({ name: 'Skills', route: '/admin/skills', crud: 'Inline add · edit · delete' }, dark),
+      Object.assign({ name: 'References', route: '/admin/references', crud: 'Quote · letter · permission' }, nw),
+      Object.assign({ name: 'Awards', route: '/admin/awards', crud: 'List · New · Edit · Delete' }, nw),
+      Object.assign({ name: 'Chess', route: '/admin/chess', crud: 'Events · profiles · game' }, nw),
+      Object.assign({ name: 'Messages', route: '/admin/messages', crud: 'Read · Reply · Archive · Spam' }, dark),
+      Object.assign({ name: 'Bookings', route: '/admin/bookings', crud: 'Calls · Availability · Meet link' }, nw),
+      Object.assign({ name: 'Profile', route: '/admin/profile', crud: 'Bio, links, avatar, password' }, dark),
+      Object.assign({ name: 'CV', route: '/admin/cv', crud: 'Upload · Replace · Delete PDF' }, dark)
+    ];
+    return { pub: pub, admin: admin };
+  }
+}
+</script>
+</body>
+</html>

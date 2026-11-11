@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Log in</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.lm-board{position:absolute;inset:0;background:repeating-conic-gradient(var(--square) 0 25%, var(--bg) 0 50%) 0 0/128px 128px;-webkit-mask-image:radial-gradient(ellipse 50% 60% at 50% 45%, #000 0%, transparent 80%);mask-image:radial-gradient(ellipse 50% 60% at 50% 45%, #000 0%, transparent 80%);pointer-events:none}
+.lm-full .gb-btn{width:100%;justify-content:center;height:44px}
+</style>
+</helmet>
+<div data-theme="dark" style="position: relative; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 900px; display: grid; place-items: center; padding: 32px; box-sizing: border-box;">
+<div class="lm-board" aria-hidden="true"></div>
+<main style="position: relative; width: min(400px, 100%); display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; align-items: center; gap: 10px;"><span class="gb-mono">LM</span><strong>Admin</strong><span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); padding: 2px 6px; border-radius: var(--radius-sm);">CMS</span></div>
+<form style="background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; flex-direction: column; gap: 4px;"><h1 style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 600; letter-spacing: -.02em;">Log in</h1><p style="margin: 0; font-size: 14px; color: var(--ink-muted);">Manage projects, posts, certificates and messages.</p></div>
+<x-import component-from-global-scope="Gambit.Field" label="Email" type="email" value="lewismomanyi34@gmail.com"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Password" type="password" value="••••••••••" hint="At least 12 characters."></x-import>
+<div class="lm-full"><x-import component-from-global-scope="Gambit.Button" variant="primary" href="Admin-Dashboard.dc.html">Log in</x-import></div>
+<span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle); text-align: center;">Admins only · Secured session</span>
+</form>
+<div style="display: flex; justify-content: space-between; font-size: 13px;"><a href="Main.dc.html">← Back to site</a><a href="#setup">First run? Set up admin</a></div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

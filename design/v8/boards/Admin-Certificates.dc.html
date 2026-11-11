@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Certificates</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}a{color:var(--accent);text-decoration:none}</style>
+</helmet>
+<div data-theme="light" style="position: relative; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1100px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Certificates" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Home-Light.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Content" title="Certificates" description="10 professional · 1 in progress · shown on /certificates and the Career timeline">
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary">+ Add certificate</x-import>
+</x-import>
+<x-import component-from-global-scope="Gambit.DataTable" selectable="{{yes}}" filters="{{filters}}" search-placeholder="Search title or issuer…" columns="{{cols}}" rows="{{rows}}" footer="Page 1 of 1"></x-import>
+</main>
+<sc-if value="{{dialog}}" hint-placeholder-val="{{true}}">
+<x-import component-from-global-scope="Gambit.ConfirmDialog" title="Delete “Founder Academy”?" body="It will be removed from /certificates and the Career timeline. The uploaded PDF is deleted too. This can’t be undone." confirm-label="Delete certificate"></x-import>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dialog":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      yes: true,
+      dialog: this.props.dialog ?? true,
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      filters: ['All · 11', 'AI & data', 'Software engineering', 'Professional', 'Career', 'In progress'],
+      cols: [
+        { key: 'title', label: 'Certificate', type: 'title', sub: 'issuer' },
+        { key: 'status', label: 'Status', type: 'status' },
+        { key: 'featured', label: 'On home', type: 'switch' },
+        { key: 'issued', label: 'Issued', type: 'mono' },
+        { key: 'hours', label: 'Length', type: 'mono' }
+      ],
+      rows: [
+        { title: 'Machine Learning Engineer (career track)', issuer: 'DataCamp', status: 'IN_PROGRESS', featured: false, issued: '—', hours: '2 courses left' },
+        { title: 'Machine Learning in Production in Python', issuer: 'DataCamp', status: 'VERIFIED', featured: true, issued: 'Oct 2026', hours: '14 HR' },
+        { title: 'Database Design Fundamentals for Software Engineers', issuer: 'Educative', status: 'VERIFIED', featured: true, issued: 'Sep 2026', hours: '—' },
+        { title: 'Associate AI Engineer for Developers', issuer: 'DataCamp', status: 'VERIFIED', featured: true, issued: 'Aug 2026', hours: '29 HR' },
+        { title: 'Career Preparation Program · Cohort 3', issuer: 'OctoPrep', status: 'VERIFIED', featured: false, issued: 'Jan 2026', hours: '8 WK' },
+        { title: 'ProDev Backend', issuer: 'ALX Software Engineering', status: 'VERIFIED', featured: true, issued: 'Dec 2025', hours: '4 MO' },
+        { title: 'ProDev Frontend', issuer: 'ALX Software Engineering', status: 'VERIFIED', featured: true, issued: 'Dec 2025', hours: '4 MO' },
+        { title: 'Freelancer Academy', issuer: 'ALX Ventures', status: 'VERIFIED', featured: false, issued: 'Dec 2025', hours: '4 WK' },
+        { title: 'Founder Academy', issuer: 'ALX Ventures', status: 'VERIFIED', featured: false, issued: 'Nov 2025', hours: '—' },
+        { title: 'Professional Foundations', issuer: 'ALX', status: 'VERIFIED', featured: false, issued: 'Aug 2025', hours: '12 WK' },
+        { title: 'Software Engineering · Back-end', issuer: 'ALX Software Engineering', status: 'VERIFIED', featured: true, issued: 'Feb 2025', hours: '12 MO' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

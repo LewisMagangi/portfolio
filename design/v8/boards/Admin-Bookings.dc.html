@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin, Bookings</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/gambit/tokens.css">
+<link rel="stylesheet" href="ds/gambit/components/bundle.css">
+<script src="ds/gambit/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.lm-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:14px}
+.lm-cap{font-size:13px;font-weight:500;color:var(--ink-muted);margin:0}
+.lm-day{display:grid;grid-template-columns:1fr 92px 92px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.lm-day input{height:36px;box-sizing:border-box;width:100%;border:1px solid var(--line-strong);border-radius:var(--radius-md);background:var(--bg);color:var(--ink);font-family:var(--font-mono);font-size:13px;padding:0 8px}
+.lm-day input:disabled{opacity:.45}
+.lm-day input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.lm-next{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.lm-next time{font-family:var(--font-mono);font-size:12px;color:var(--ink-subtle);line-height:16px}
+.lm-kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:6px}
+</style>
+</helmet>
+<div data-theme="{{theme}}" style="display: flex; flex-wrap: wrap; background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 1500px;">
+<x-import component-from-global-scope="Gambit.AdminSidebar" active="Bookings" counts="{{counts}}" hrefs="{{hrefs}}" site-href="Main.dc.html" logout-href="Admin-Login.dc.html"></x-import>
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px; max-width: 1180px;">
+<x-import component-from-global-scope="Gambit.PageHeader" crumb="Admin / Inbox" title="Bookings" description="Discovery calls booked from the site. Availability below sets which slots visitors see.">
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="Book.dc.html" external="{{yes}}">View booking page</x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#block-time">+ Block time</x-import>
+</x-import>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px;">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div class="lm-kpi"><span class="lm-cap">{{k.label}}</span><span style="font-family: var(--font-mono); font-size: 32px; line-height: 38px; font-weight: 500;">{{k.value}}</span><span style="font-size: 13px; color: var(--ink-muted);">{{k.sub}}</span></div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section style="flex: 3 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<x-import component-from-global-scope="Gambit.DataTable" columns="{{cols}}" rows="{{rows}}" filters="{{filters}}" active-filter="0" row-actions="{{actions}}" search-placeholder="Search by name, email or company" footer="Page 1 of 1"></x-import>
+</section>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="lm-card">
+<h2 class="title" style="margin: 0;">Next up</h2>
+<div>
+<sc-for list="{{nextUp}}" as="n" hint-placeholder-count="2">
+<div class="lm-next"><time>{{n.day}}<br>{{n.time}}</time><span style="display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 14px; font-weight: 600;">{{n.name}}</strong><span style="font-size: 13px; color: var(--ink-muted);">{{n.topic}}</span></span></div>
+</sc-for>
+</div>
+<x-import component-from-global-scope="Gambit.Button" size="sm" href="#meet">Open Google Meet</x-import>
+</div>
+
+<div class="lm-card">
+<div style="display: flex; justify-content: space-between; align-items: center;"><h2 class="title" style="margin: 0;">Availability</h2><x-import component-from-global-scope="Gambit.Switch" checked="{{open}}" label="Accepting bookings" on-change="{{toggleOpen}}"></x-import></div>
+<div>
+<div class="lm-day" style="border-top: 0; padding-top: 0;"><span class="lm-cap">Day</span><span class="lm-cap">From</span><span class="lm-cap">To</span></div>
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<div class="lm-day"><x-import component-from-global-scope="Gambit.Switch" checked="{{d.on}}" label="{{d.name}}" on-change="{{d.toggle}}"></x-import><input type="time" value="{{d.from}}" disabled="{{d.off}}" aria-label="{{d.fromLabel}}"><input type="time" value="{{d.to}}" disabled="{{d.off}}" aria-label="{{d.toLabel}}"></div>
+</sc-for>
+</div>
+<x-import component-from-global-scope="Gambit.Field" label="Timezone" type="select" value="Africa/Nairobi (EAT, UTC+3)" options="{{tz}}"></x-import>
+</div>
+
+<div class="lm-card">
+<h2 class="title" style="margin: 0;">Call settings</h2>
+<x-import component-from-global-scope="Gambit.Field" label="Call length" type="select" value="30 minutes" options="{{lengths}}"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Buffer between calls" type="select" value="15 minutes" options="{{buffers}}"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Minimum notice" type="select" value="12 hours" options="{{notice}}"></x-import>
+<x-import component-from-global-scope="Gambit.Field" label="Meeting link" value="Generate a Google Meet link per booking" hint="Uses the connected Google Calendar. Paste a fixed link to override."></x-import>
+<x-import component-from-global-scope="Gambit.Switch" checked="{{yes}}" label="Email me when someone books"></x-import>
+<x-import component-from-global-scope="Gambit.Button" size="sm" variant="primary" href="#save">Save settings</x-import>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1840}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this, st = this.state || {};
+    var base = [
+      { name: 'Monday', from: '09:00', to: '17:30', on: true }, { name: 'Tuesday', from: '09:00', to: '17:30', on: true },
+      { name: 'Wednesday', from: '09:00', to: '17:30', on: true }, { name: 'Thursday', from: '09:00', to: '17:30', on: true },
+      { name: 'Friday', from: '09:00', to: '13:00', on: true }, { name: 'Saturday', from: '10:00', to: '12:00', on: false },
+      { name: 'Sunday', from: '10:00', to: '12:00', on: false }
+    ];
+    var offDays = st.off || {};
+    var days = base.map(function (d) {
+      var on = offDays[d.name] != null ? offDays[d.name] : d.on;
+      return { name: d.name, from: d.from, to: d.to, on: on, off: !on, fromLabel: d.name + ' start time', toLabel: d.name + ' end time',
+        toggle: function (v) { var o = Object.assign({}, offDays); o[d.name] = v; self.setState({ off: o }); } };
+    });
+    return {
+      theme: this.props.theme || 'dark', yes: true, open: st.open != null ? st.open : true,
+      toggleOpen: function (v) { self.setState({ open: v }); },
+      counts: { Messages: 3, Bookings: 2 },
+      hrefs: { Dashboard: 'Admin-Dashboard.dc.html', Projects: 'Admin-Projects.dc.html', Services: 'Admin-Services.dc.html', Certificates: 'Admin-Certificates.dc.html', Awards: 'Admin-Awards.dc.html', References: 'Admin-References.dc.html', Chess: 'Admin-Chess.dc.html', Challenges: 'Admin-Challenges.dc.html', Books: 'Admin-Books.dc.html', Messages: 'Admin-Messages.dc.html', Bookings: 'Admin-Bookings.dc.html', Transcripts: 'Admin-Transcripts.dc.html' },
+      kpis: [
+        { label: 'Upcoming', value: '3', sub: 'Next: Thu 5 Nov, 10:30 EAT' },
+        { label: 'Needs a reply', value: '2', sub: 'Reschedule requests' },
+        { label: 'This month', value: '4', sub: 'Calls held in November' },
+        { label: 'No shows', value: '0', sub: 'Last 90 days' }
+      ],
+      filters: ['All', 'Upcoming', 'Requested', 'Past', 'Cancelled'],
+      cols: [
+        { key: 'name', label: 'Visitor', type: 'title', sub: 'email' },
+        { key: 'topic', label: 'Topic', type: 'text' },
+        { key: 'when', label: 'When (EAT)', type: 'mono' },
+        { key: 'status', label: 'Status', type: 'status' }
+      ],
+      rows: [
+        { name: '[Visitor name]', email: '[email]', topic: 'Hiring for an engineering role', when: 'THU 5 NOV · 10:30', status: 'CONFIRMED' },
+        { name: '[Visitor name]', email: '[email]', topic: 'AI or ML engineering', when: 'FRI 6 NOV · 09:00', status: 'UPCOMING' },
+        { name: '[Visitor name]', email: '[email]', topic: 'A project or freelance work', when: 'MON 9 NOV · 14:00', status: 'RESCHEDULED' },
+        { name: '[Visitor name]', email: '[email]', topic: 'Security review', when: 'TUE 10 NOV · 15:30', status: 'REQUESTED' },
+        { name: '[Visitor name]', email: '[email]', topic: 'Mentoring or a chat', when: 'MON 2 NOV · 17:00', status: 'NO_SHOW' },
+        { name: '[Visitor name]', email: '[email]', topic: 'Something else', when: 'FRI 30 OCT · 10:30', status: 'CANCELLED' }
+      ],
+      actions: ['view', 'reply', 'archive'],
+      nextUp: [
+        { day: 'Thu 5', time: '10:30', name: '[Visitor name]', topic: 'Hiring for an engineering role' },
+        { day: 'Fri 6', time: '09:00', name: '[Visitor name]', topic: 'AI or ML engineering' }
+      ],
+      days: days,
+      tz: ['Africa/Nairobi (EAT, UTC+3)', 'UTC', 'Europe/London', 'America/New_York'],
+      lengths: ['15 minutes', '30 minutes', '45 minutes'],
+      buffers: ['None', '10 minutes', '15 minutes', '30 minutes'],
+      notice: ['2 hours', '12 hours', '24 hours', '48 hours']
+    };
+  }
+}
+</script>
+</body>
+</html>
