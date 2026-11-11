@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    // Import only the icons used, not the whole set (cuts thousands of modules from dev compiles)
+    optimizePackageImports: ['@phosphor-icons/react'],
+  },
   images: {
     remotePatterns: [
       {
