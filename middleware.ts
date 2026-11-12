@@ -3,8 +3,44 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
+// Writes anyone may make: the contact form, analytics beacons, signing in and out, and first time setup
+// (setup and init check for themselves that no admin exists yet, or that the init key matches).
+const PUBLIC_WRITES = [
+  /^\/api\/contact\/?$/,
+  /^\/api\/analytics\//,
+  /^\/api\/auth\/(login|logout|setup)\/?$/,
+  /^\/api\/admin\/init\/?$/,
+];
+const READ_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
+
+async function hasValidSession(request: NextRequest) {
+  const token = request.cookies.get('auth_token')?.value;
+  if (!token) return false;
+  try {
+    const secret = new TextEncoder().encode(
+      process.env.JWT_SECRET || 'your-secret-key-change-in-production'
+    );
+    await jwtVerify(token, secret);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Every API write needs a signed in admin unless it is on the public list. Route handlers that check
+  // for themselves keep doing so; this catches the ones that never did.
+  if (pathname.startsWith('/api/')) {
+    if (READ_METHODS.has(request.method) || PUBLIC_WRITES.some((r) => r.test(pathname))) {
+      return NextResponse.next();
+    }
+    if (!(await hasValidSession(request))) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+    return NextResponse.next();
+  }
 
   // Check if route is admin route
   if (pathname.startsWith('/admin')) {
@@ -50,5 +86,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/admin/:path*',
+  matcher: ['/admin/:path*', '/api/:path*'],
 };

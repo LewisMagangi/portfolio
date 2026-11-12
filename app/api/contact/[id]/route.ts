@@ -1,6 +1,8 @@
 // app/api/contact/[id]/route.ts
+// Admin only: reading, updating and deleting a message all need a signed in admin.
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/auth';
 import { MessageStatus } from '@/lib/generated/prisma';
 
 export async function GET(
@@ -8,6 +10,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!verifyAuth(request)) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const message = await prisma.contactMessage.findUnique({
       where: { id: params.id }
     });
@@ -37,6 +43,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!verifyAuth(request)) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { status, replied } = body;
 
@@ -79,6 +89,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!verifyAuth(request)) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     await prisma.contactMessage.delete({
       where: { id: params.id }
     });
