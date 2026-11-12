@@ -1,9 +1,8 @@
 // Books Lewis intends to read, from the technical folders of his own library (titles and authors only).
 // For the Reading page's "Up next" shelf (Admin › Books). Already reading, and shown as such elsewhere:
 // Designing Data-Intensive Applications (1st ed), AI Engineering, Hands-On Machine Learning.
-// `confirm: true` marks titles to check with Lewis before they go on a technical shelf.
 
-export type UpNext = { title: string; author: string; topic: string; confirm?: boolean }
+export type UpNext = { title: string; author: string; topic: string }
 
 export const UP_NEXT: UpNext[] = [
   // AI and ML
@@ -17,7 +16,7 @@ export const UP_NEXT: UpNext[] = [
   { title: "Deep Learning", author: "Ian Goodfellow", topic: "AI and ML" },
   { title: "Mathematics for Machine Learning", author: "Marc Peter Deisenroth", topic: "AI and ML" },
   { title: "Practical Deep Learning for Cloud, Mobile and Edge", author: "Anirudh Koul", topic: "AI and ML" },
-  { title: "If Anyone Builds It, Everyone Dies", author: "Eliezer Yudkowsky", topic: "AI and ML", confirm: true },
+  { title: "If Anyone Builds It, Everyone Dies", author: "Eliezer Yudkowsky", topic: "AI and ML" },
   // Data
   { title: "Designing Data-Intensive Applications, second edition", author: "Martin Kleppmann and Chris Riccomini", topic: "Data" },
   { title: "Fundamentals of Data Engineering", author: "Joe Reis", topic: "Data" },
@@ -42,5 +41,5 @@ export const UP_NEXT: UpNext[] = [
   { title: "Algorithms", author: "Robert Sedgewick and Kevin Wayne", topic: "Algorithms" },
   { title: "Introduction to Algorithms, fourth edition", author: "Thomas H. Cormen", topic: "Algorithms" },
   { title: "Cracking the Coding Interview", author: "Gayle Laakmann McDowell", topic: "Algorithms" },
-  { title: "Algorithms to Live By", author: "Brian Christian and Tom Griffiths", topic: "Algorithms", confirm: true },
+  { title: "Algorithms to Live By", author: "Brian Christian and Tom Griffiths", topic: "Algorithms" },
 ]
