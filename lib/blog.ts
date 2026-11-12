@@ -1,8 +1,9 @@
 // Server only. Published posts for /blog and /blog/[slug], from the database (Admin › Blog), rendered from Markdown.
-// Falls back to the v8 posts in lib/content/blog-posts.ts while nothing is published or the database is unreachable.
+// The posts in lib/content/blog-posts.ts always show: from the database once it has them, from the file until then
+// (or when the database is unreachable). Retired slugs never show, even if still published in the database.
 import { Marked } from "marked"
 
-import { CATEGORY_ORDER, POSTS as CONTENT_POSTS } from "@/lib/content/blog-posts"
+import { CATEGORY_ORDER, POSTS as CONTENT_POSTS, RETIRED_SLUGS } from "@/lib/content/blog-posts"
 import { prisma } from "@/lib/prisma"
 
 export type PostSummary = {
@@ -90,7 +91,11 @@ function fromRow(r: NonNullable<Row>, withHtml: boolean): Post {
 
 async function dbPosts(): Promise<Post[] | null> {
   try {
-    const rows = await prisma.blogPost.findMany({ where: published(), include, orderBy: { publishedAt: "desc" } })
+    const rows = await prisma.blogPost.findMany({
+      where: { ...published(), slug: { notIn: RETIRED_SLUGS } },
+      include,
+      orderBy: { publishedAt: "desc" },
+    })
     return rows.map((r) => fromRow(r, false))
   } catch {
     return null
@@ -99,17 +104,20 @@ async function dbPosts(): Promise<Post[] | null> {
 
 /** Newest first. */
 export async function getPosts(): Promise<PostSummary[]> {
-  const rows = await dbPosts()
-  const list = rows && rows.length ? rows : CONTENT_POSTS.map(fromContent)
-  return list.map(({ html: _html, ...p }) => p)
+  const rows = (await dbPosts()) ?? []
+  const missing = CONTENT_POSTS.filter((c) => !rows.some((r) => r.slug === c.slug)).map(fromContent)
+  return [...rows, ...missing]
+    .sort((a, b) => b.dateTime.localeCompare(a.dateTime))
+    .map(({ html: _html, ...p }) => p)
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
+  if (RETIRED_SLUGS.includes(slug)) return null
   try {
     const row = await prisma.blogPost.findFirst({ where: { slug, ...published() }, include })
     if (row) return fromRow(row, true)
-    // The fallback posts show only while nothing is published, so an unpublished post stays a 404.
-    if ((await prisma.blogPost.count({ where: published() })) > 0) return null
+    // Unpublished in the database means unpublished: no file fallback for it.
+    if (await prisma.blogPost.count({ where: { slug } })) return null
   } catch {
     // Database unreachable: fall through to the content posts.
   }

@@ -344,66 +344,27 @@ async function main() {
   });
   console.log('✅ Created blog tags');
 
-  // Create blog posts
-  // First, get category and tag IDs
-  const webDevCategory = await prisma.blogCategory.findUnique({ where: { slug: 'web-development' } });
-  const tutorialsCategory = await prisma.blogCategory.findUnique({ where: { slug: 'tutorials' } });
-  const djangoTag = await prisma.blogTag.findUnique({ where: { slug: 'django' } });
-  const reactTag = await prisma.blogTag.findUnique({ where: { slug: 'react' } });
-  const accessibilityTag = await prisma.blogTag.findUnique({ where: { slug: 'accessibility' } });
-
-  if (webDevCategory && tutorialsCategory && djangoTag && reactTag && accessibilityTag) {
-    await prisma.blogPost.upsert({
-      where: { slug: 'building-accessible-voice-interfaces' },
+  // Create blog posts: the one post on the site (lib/content/blog-posts.ts), under its own topic.
+  for (const post of V8_POSTS) {
+    const topicSlug = post.category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const topic = await prisma.blogCategory.upsert({
+      where: { slug: topicSlug },
+      create: { name: post.category, slug: topicSlug },
       update: {},
-      create: {
-        title: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.title,
-        slug: 'building-accessible-voice-interfaces',
-        excerpt: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.excerpt,
-        content: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.content,
-        coverImage: null,
-        authorId: admin.id,
-        status: PostStatus.PUBLISHED,
-        publishedAt: new Date('2025-11-01'),
-        readTime: 8,
-        categories: {
-          create: [
-            { categoryId: webDevCategory.id },
-            { categoryId: tutorialsCategory.id },
-          ],
-        },
-        tags: {
-          create: [
-            { tagId: accessibilityTag.id },
-          ],
-        },
-      },
     });
-
     await prisma.blogPost.upsert({
-      where: { slug: 'django-to-nextjs-journey' },
+      where: { slug: post.slug },
       update: {},
       create: {
-        title: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.title,
-        slug: 'django-to-nextjs-journey',
-        excerpt: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.excerpt,
-        content: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.content,
-        coverImage: null,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt,
+        content: post.content,
         authorId: admin.id,
         status: PostStatus.PUBLISHED,
-        publishedAt: new Date('2025-10-15'),
-        readTime: 6,
-        categories: {
-          create: [
-            { categoryId: webDevCategory.id },
-          ],
-        },
-        tags: {
-          create: [
-            { tagId: djangoTag.id },
-            { tagId: reactTag.id },
-          ],
-        },
+        publishedAt: new Date(`${post.publishedAt}T09:00:00+03:00`),
+        readTime: post.readTime,
+        categories: { create: [{ categoryId: topic.id }] },
       },
     });
   }

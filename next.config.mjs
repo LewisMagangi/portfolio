@@ -16,6 +16,13 @@ const nextConfig = {
       },
     ],
   },
+  // Old blog addresses: the Django post's slug now holds the co-founding article; the voice post is retired.
+  async redirects() {
+    return [
+      { source: '/blog/django-to-nextjs-journey', destination: '/blog/co-founding-a-tech-company', permanent: true },
+      { source: '/blog/building-accessible-voice-interfaces', destination: '/blog', permanent: true },
+    ]
+  },
   async headers() {
     return [
       {
