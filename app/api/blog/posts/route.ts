@@ -4,13 +4,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PostStatus } from '@/lib/generated/prisma';
 import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/auth';
 
 const POSTS_PER_PAGE = 10;
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const statusParam = searchParams.get('status') || 'PUBLISHED';
+    // Drafts and archived posts are for the signed in admin only.
+    const statusParam = verifyAuth(request) ? searchParams.get('status') || 'PUBLISHED' : 'PUBLISHED';
     const category = searchParams.get('category');
     const tag = searchParams.get('tag');
     const page = parseInt(searchParams.get('page') || '1');
