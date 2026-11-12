@@ -118,12 +118,12 @@ export default function AdminMessagesPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'NEW': return 'bg-blue-500';
-      case 'READ': return 'bg-slate-500';
-      case 'REPLIED': return 'bg-green-500';
-      case 'ARCHIVED': return 'bg-gray-500';
-      case 'SPAM': return 'bg-red-500';
-      default: return 'bg-slate-500';
+      case 'NEW': return 'bg-surface-raised !text-ink-muted';
+      case 'READ': return 'bg-surface-raised !text-ink-muted';
+      case 'REPLIED': return 'bg-success-soft !text-success';
+      case 'ARCHIVED': return 'bg-surface-raised !text-ink-muted';
+      case 'SPAM': return 'bg-transparent !text-danger ring-1 ring-inset ring-danger';
+      default: return 'bg-surface-raised !text-ink-muted';
     }
   };
 
@@ -147,7 +147,7 @@ export default function AdminMessagesPage() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
@@ -158,10 +158,10 @@ export default function AdminMessagesPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Messages</h1>
-            <p className="text-slate-400">Manage contact form submissions</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink mb-2">Messages</h1>
+            <p className="text-ink-muted">Manage contact form submissions</p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-400">
+          <div className="flex items-center gap-2 text-sm text-ink-muted">
             <Mail size={16} />
             {messages.filter(m => m.status === 'NEW').length} new
           </div>
@@ -174,7 +174,7 @@ export default function AdminMessagesPage() {
               key={status}
               variant={filter === status ? 'default' : 'outline'}
               onClick={() => setFilter(status)}
-              className={filter === status ? 'bg-cyan-500' : ''}
+              className={filter === status ? '' : ''}
               size="sm"
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -188,7 +188,7 @@ export default function AdminMessagesPage() {
             {messages.map((message) => (
               <Card
                 key={message.id}
-                className={`bg-slate-800 border-slate-700 cursor-pointer hover:bg-slate-750 transition-colors ${
+                className={`bg-surface border-line cursor-pointer hover:bg-surface-raised transition-colors ${
                   message.status === 'NEW' ? 'border-l-4 border-l-cyan-500' : ''
                 }`}
                 onClick={() => openMessage(message)}
@@ -198,27 +198,27 @@ export default function AdminMessagesPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`w-2 h-2 rounded-full ${getStatusColor(message.status)}`} />
-                        <span className={`font-medium ${message.status === 'NEW' ? 'text-white' : 'text-slate-300'}`}>
+                        <span className={`font-medium ${message.status === 'NEW' ? 'text-ink' : 'text-ink'}`}>
                           {message.name}
                         </span>
-                        <span className="text-slate-500 text-sm">&lt;{message.email}&gt;</span>
+                        <span className="text-ink-subtle text-sm">&lt;{message.email}&gt;</span>
                         {message.replied && (
-                          <span className="px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded text-xs">
+                          <span className="px-1.5 py-0.5 bg-success-soft text-ink-muted rounded text-xs">
                             Replied
                           </span>
                         )}
                       </div>
                       {message.subject && (
-                        <p className={`text-sm ${message.status === 'NEW' ? 'text-slate-200' : 'text-slate-400'} mb-1`}>
+                        <p className={`text-sm ${message.status === 'NEW' ? 'text-ink' : 'text-ink-muted'} mb-1`}>
                           {message.subject}
                         </p>
                       )}
-                      <p className="text-slate-500 text-sm line-clamp-1">
+                      <p className="text-ink-subtle text-sm line-clamp-1">
                         {message.message}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 ml-4">
-                      <span className="text-slate-500 text-xs whitespace-nowrap">
+                      <span className="text-ink-subtle text-xs whitespace-nowrap">
                         {formatDate(message.createdAt)}
                       </span>
                       <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
@@ -244,7 +244,7 @@ export default function AdminMessagesPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(message.id)}
-                          className="text-red-500 hover:text-red-400"
+                          className="text-danger hover:text-danger"
                           title="Delete"
                         >
                           <Trash2 size={14} />
@@ -258,14 +258,14 @@ export default function AdminMessagesPage() {
           </div>
         ) : (
           <Card className="p-12 text-center">
-            <Mail className="mx-auto text-slate-500 mb-4" size={48} />
-            <p className="text-slate-400">No messages found.</p>
+            <Mail className="mx-auto text-ink-subtle mb-4" size={48} />
+            <p className="text-ink-muted">No messages found.</p>
           </Card>
         )}
 
         {/* Message Detail Dialog */}
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="bg-slate-800 border-slate-700 text-white max-w-2xl">
+          <DialogContent className="bg-surface border-line text-ink max-w-2xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Mail size={20} />
@@ -276,37 +276,37 @@ export default function AdminMessagesPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-slate-400 text-sm">From</p>
+                    <p className="text-ink-muted text-sm">From</p>
                     <p className="font-medium">{selectedMessage.name}</p>
-                    <p className="text-cyan-400 text-sm">{selectedMessage.email}</p>
+                    <p className="text-ink text-sm">{selectedMessage.email}</p>
                   </div>
                   <div>
-                    <p className="text-slate-400 text-sm">Received</p>
+                    <p className="text-ink-muted text-sm">Received</p>
                     <p>{new Date(selectedMessage.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
 
                 {selectedMessage.subject && (
                   <div>
-                    <p className="text-slate-400 text-sm">Subject</p>
+                    <p className="text-ink-muted text-sm">Subject</p>
                     <p className="font-medium">{selectedMessage.subject}</p>
                   </div>
                 )}
 
                 <div>
-                  <p className="text-slate-400 text-sm mb-2">Message</p>
-                  <div className="bg-slate-700 p-4 rounded-lg whitespace-pre-wrap">
+                  <p className="text-ink-muted text-sm mb-2">Message</p>
+                  <div className="bg-surface-raised p-4 rounded-lg whitespace-pre-wrap">
                     {selectedMessage.message}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-700">
+                <div className="flex items-center justify-between pt-4 border-t border-line">
                   <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(selectedMessage.status)}`}>
+                    <span className={`px-2 py-1 rounded text-xs text-ink ${getStatusColor(selectedMessage.status)}`}>
                       {selectedMessage.status}
                     </span>
                     {selectedMessage.replied && (
-                      <span className="text-green-400 text-sm flex items-center gap-1">
+                      <span className="text-ink-muted text-sm flex items-center gap-1">
                         <Check size={14} />
                         Replied {selectedMessage.repliedAt && `on ${new Date(selectedMessage.repliedAt).toLocaleDateString()}`}
                       </span>
@@ -328,7 +328,7 @@ export default function AdminMessagesPage() {
                           handleMarkReplied(selectedMessage.id);
                           setDialogOpen(false);
                         }}
-                        className="bg-green-500 hover:bg-green-600"
+                        className="bg-success-soft"
                       >
                         <Check size={14} className="mr-1" />
                         Mark Replied

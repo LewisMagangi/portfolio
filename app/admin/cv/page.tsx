@@ -127,7 +127,7 @@ export default function CVManager() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
@@ -148,8 +148,8 @@ export default function CVManager() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-4xl font-bold text-white">CV Management</h1>
-            <p className="text-slate-400">Upload and manage your CV for download</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink">CV Management</h1>
+            <p className="text-ink-muted">Upload and manage your CV for download</p>
           </div>
         </div>
 
@@ -158,7 +158,7 @@ export default function CVManager() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="text-cyan-400" size={24} />
+                <FileText className="text-ink" size={24} />
                 Current CV
               </CardTitle>
               <CardDescription>
@@ -168,7 +168,7 @@ export default function CVManager() {
             <CardContent>
               {user.cv ? (
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-green-400">
+                  <div className="flex items-center gap-2 text-ink-muted">
                     <FileText size={16} />
                     <span>CV uploaded</span>
                   </div>
@@ -177,14 +177,14 @@ export default function CVManager() {
                       <Download className="mr-2" size={16} />
                       Download
                     </Button>
-                    <Button onClick={handleDelete} variant="outline" size="sm" className="border-red-500 text-red-500 hover:bg-red-500/10">
+                    <Button onClick={handleDelete} variant="outline" size="sm" className="border-danger text-danger hover:bg-surface-raised">
                       <Trash2 className="mr-2" size={16} />
                       Delete
                     </Button>
                   </div>
                 </div>
               ) : (
-                <div className="text-slate-400">
+                <div className="text-ink-muted">
                   No CV file uploaded. Upload one below to make it available for download on your portfolio.
                 </div>
               )}
@@ -195,7 +195,7 @@ export default function CVManager() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Upload className="text-blue-400" size={24} />
+                <Upload className="text-ink-muted" size={24} />
                 Upload CV
               </CardTitle>
               <CardDescription>
@@ -215,7 +215,7 @@ export default function CVManager() {
                   />
                 </div>
                 {cvFile && (
-                  <div className="text-sm text-slate-300">
+                  <div className="text-sm text-ink">
                     Selected: {cvFile.name} ({(cvFile.size / 1024 / 1024).toFixed(2)} MB)
                   </div>
                 )}
@@ -246,11 +246,11 @@ export default function CVManager() {
           <CardHeader>
             <CardTitle>Download Information</CardTitle>
             <CardDescription>
-              Your CV download link will be available at: <code className="bg-slate-800 px-2 py-1 rounded">/api/cv/download</code>
+              Your CV download link will be available at: <code className="bg-surface px-2 py-1 rounded">/api/cv/download</code>
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-400">
+            <p className="text-ink-muted">
               Visitors can download your CV from the main portfolio page. Downloads are tracked for analytics.
             </p>
           </CardContent>

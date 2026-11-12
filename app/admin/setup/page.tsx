@@ -99,21 +99,21 @@ export default function SetupPage() {
 
   if (checkingAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div data-theme="dark" className="min-h-screen flex items-center justify-center bg-bg font-sans text-ink">
         <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-600" />
-          <p className="mt-2 text-gray-600">Checking setup status...</p>
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-ink" />
+          <p className="mt-2 text-ink-muted">Checking setup status...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div data-theme="dark" className="min-h-screen flex items-center justify-center bg-bg font-sans text-ink py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-            <Shield className="h-6 w-6 text-blue-600" />
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-surface-raised">
+            <Shield className="h-6 w-6 text-ink" />
           </div>
           <CardTitle className="text-2xl font-bold">Setup Admin Account</CardTitle>
           <CardDescription>
@@ -184,7 +184,7 @@ export default function SetupPage() {
 
             {success && (
               <Alert>
-                <AlertDescription className="text-green-600">{success}</AlertDescription>
+                <AlertDescription className="text-success">{success}</AlertDescription>
               </Alert>
             )}
 

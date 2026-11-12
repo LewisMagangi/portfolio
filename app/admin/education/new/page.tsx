@@ -85,7 +85,7 @@ export default function NewEducationPage() {
   };
 
   return (
-    <div className="text-white">
+    <div className="text-ink">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/education">
@@ -97,7 +97,7 @@ export default function NewEducationPage() {
           <h1 className="text-2xl font-bold">Add New Education</h1>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-surface border-line">
           <CardHeader>
             <CardTitle>Education Details</CardTitle>
           </CardHeader>
@@ -112,7 +112,7 @@ export default function NewEducationPage() {
                     onChange={(e) => handleChange('institution', e.target.value)}
                     required
                     placeholder="e.g., Stanford University"
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -123,7 +123,7 @@ export default function NewEducationPage() {
                     onChange={(e) => handleChange('degree', e.target.value)}
                     required
                     placeholder="e.g., Bachelor of Science"
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function NewEducationPage() {
                     value={formData.fieldOfStudy}
                     onChange={(e) => handleChange('fieldOfStudy', e.target.value)}
                     placeholder="e.g., Computer Science"
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -146,7 +146,7 @@ export default function NewEducationPage() {
                     value={formData.grade}
                     onChange={(e) => handleChange('grade', e.target.value)}
                     placeholder="e.g., 3.8/4.0"
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function NewEducationPage() {
                     value={formData.startDate}
                     onChange={(e) => handleChange('startDate', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function NewEducationPage() {
                     value={formData.endDate}
                     onChange={(e) => handleChange('endDate', e.target.value)}
                     disabled={formData.isCurrent}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div className="flex items-end">
@@ -180,7 +180,7 @@ export default function NewEducationPage() {
                       type="checkbox"
                       checked={formData.isCurrent}
                       onChange={(e) => handleChange('isCurrent', e.target.checked)}
-                      className="rounded border-slate-600"
+                      className="rounded border-line-strong"
                     />
                     <span>Currently studying</span>
                   </label>
@@ -194,7 +194,7 @@ export default function NewEducationPage() {
                   value={formData.description}
                   onChange={(e) => handleChange('description', e.target.value)}
                   rows={4}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                   placeholder="Describe your studies, activities, etc..."
                 />
               </div>
@@ -214,7 +214,7 @@ export default function NewEducationPage() {
                         value={highlight}
                         onChange={(e) => updateHighlight(index, e.target.value)}
                         placeholder="e.g., Dean's List, Research Assistant"
-                        className="bg-slate-700 border-slate-600"
+                        className="bg-bg border-line-strong"
                       />
                       {formData.highlights.length > 1 && (
                         <Button
@@ -222,7 +222,7 @@ export default function NewEducationPage() {
                           variant="outline"
                           size="icon"
                           onClick={() => removeHighlight(index)}
-                          className="border-red-500 text-red-500 hover:bg-red-500/10"
+                          className="border-danger text-danger hover:bg-surface-raised"
                         >
                           <X size={14} />
                         </Button>
@@ -236,7 +236,7 @@ export default function NewEducationPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-cyan-500 hover:bg-cyan-600"
+                  className=""
                 >
                   <Save className="mr-2" size={16} />
                   {loading ? 'Creating...' : 'Create Education'}

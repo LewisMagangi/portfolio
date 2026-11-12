@@ -142,7 +142,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
@@ -163,8 +163,8 @@ export default function ProfilePage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-4xl font-bold text-white">Profile Settings</h1>
-            <p className="text-slate-400">Manage your account information</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink">Profile Settings</h1>
+            <p className="text-ink-muted">Manage your account information</p>
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default function ProfilePage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <User className="text-cyan-400" size={24} />
+              <User className="text-ink" size={24} />
               Account Information
             </CardTitle>
             <CardDescription>
@@ -208,8 +208,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Password Change */}
-              <div className="border-t border-slate-700 pt-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Change Password</h3>
+              <div className="border-t border-line pt-6">
+                <h3 className="text-lg font-semibold text-ink mb-4">Change Password</h3>
                 <div className="grid md:grid-cols-3 gap-6">
                   <div>
                     <Label htmlFor="currentPassword">Current Password</Label>
@@ -224,7 +224,7 @@ export default function ProfilePage() {
                       <button
                         type="button"
                         onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-ink-muted hover:text-ink"
                       >
                         {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
@@ -243,7 +243,7 @@ export default function ProfilePage() {
                       <button
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-ink-muted hover:text-ink"
                       >
                         {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
@@ -260,15 +260,15 @@ export default function ProfilePage() {
                     />
                   </div>
                 </div>
-                <p className="text-sm text-slate-400 mt-2">
+                <p className="text-sm text-ink-muted mt-2">
                   Leave password fields empty if you don&apos;t want to change your password
                 </p>
               </div>
 
               {/* Message */}
               {message && (
-                <Alert className={messageType === 'success' ? 'border-green-500' : 'border-red-500'}>
-                  <AlertDescription className={messageType === 'success' ? 'text-green-400' : 'text-red-400'}>
+                <Alert className={messageType === 'success' ? 'border-line-strong' : 'border-danger'}>
+                  <AlertDescription className={messageType === 'success' ? 'text-ink-muted' : 'text-danger'}>
                     {message}
                   </AlertDescription>
                 </Alert>
@@ -276,7 +276,7 @@ export default function ProfilePage() {
 
               {/* Submit Button */}
               <div className="flex justify-end">
-                <Button type="submit" disabled={saving} className="bg-cyan-500 hover:bg-cyan-600">
+                <Button type="submit" disabled={saving} className="">
                   {saving ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
@@ -303,24 +303,24 @@ export default function ProfilePage() {
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6 text-sm">
               <div>
-                <Label className="text-slate-400">Role</Label>
-                <p className="text-white font-medium">{user.role}</p>
+                <Label className="text-ink-muted">Role</Label>
+                <p className="text-ink font-medium">{user.role}</p>
               </div>
               <div>
-                <Label className="text-slate-400">Member Since</Label>
-                <p className="text-white font-medium">
+                <Label className="text-ink-muted">Member Since</Label>
+                <p className="text-ink font-medium">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </p>
               </div>
               <div>
-                <Label className="text-slate-400">Last Login</Label>
-                <p className="text-white font-medium">
+                <Label className="text-ink-muted">Last Login</Label>
+                <p className="text-ink font-medium">
                   {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}
                 </p>
               </div>
               <div>
-                <Label className="text-slate-400">Last Updated</Label>
-                <p className="text-white font-medium">
+                <Label className="text-ink-muted">Last Updated</Label>
+                <p className="text-ink font-medium">
                   {new Date(user.updatedAt).toLocaleString()}
                 </p>
               </div>

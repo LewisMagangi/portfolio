@@ -111,7 +111,8 @@ export default function AdminDashboard() {
       setD({
         name: me?.user?.name ?? "",
         projects: projects?.count ?? 0,
-        featured: (projects?.data ?? []).filter((p: { featured?: boolean }) => p.featured).length,
+        // /api/projects returns its list as `posts`
+        featured: (projects?.posts ?? projects?.data ?? []).filter((p: { featured?: boolean }) => p.featured).length,
         posts: posts?.pagination?.total ?? 0,
         drafts: drafts?.data ?? [],
         messages: msgs.slice(0, 3),

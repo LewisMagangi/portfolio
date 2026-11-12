@@ -125,14 +125,14 @@ export default function EditEducationPage() {
 
   if (fetchLoading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center text-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center text-ink">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="text-white">
+    <div className="text-ink">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/education">
@@ -144,7 +144,7 @@ export default function EditEducationPage() {
           <h1 className="text-2xl font-bold">Edit Education</h1>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-surface border-line">
           <CardHeader>
             <CardTitle>Education Details</CardTitle>
           </CardHeader>
@@ -158,7 +158,7 @@ export default function EditEducationPage() {
                     value={formData.institution}
                     onChange={(e) => handleChange('institution', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -168,7 +168,7 @@ export default function EditEducationPage() {
                     value={formData.degree}
                     onChange={(e) => handleChange('degree', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function EditEducationPage() {
                     id="fieldOfStudy"
                     value={formData.fieldOfStudy}
                     onChange={(e) => handleChange('fieldOfStudy', e.target.value)}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -189,7 +189,7 @@ export default function EditEducationPage() {
                     id="grade"
                     value={formData.grade}
                     onChange={(e) => handleChange('grade', e.target.value)}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -203,7 +203,7 @@ export default function EditEducationPage() {
                     value={formData.startDate}
                     onChange={(e) => handleChange('startDate', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -214,7 +214,7 @@ export default function EditEducationPage() {
                     value={formData.endDate}
                     onChange={(e) => handleChange('endDate', e.target.value)}
                     disabled={formData.isCurrent}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div className="flex items-end">
@@ -223,7 +223,7 @@ export default function EditEducationPage() {
                       type="checkbox"
                       checked={formData.isCurrent}
                       onChange={(e) => handleChange('isCurrent', e.target.checked)}
-                      className="rounded border-slate-600"
+                      className="rounded border-line-strong"
                     />
                     <span>Currently studying</span>
                   </label>
@@ -237,7 +237,7 @@ export default function EditEducationPage() {
                   value={formData.description}
                   onChange={(e) => handleChange('description', e.target.value)}
                   rows={4}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -255,7 +255,7 @@ export default function EditEducationPage() {
                       <Input
                         value={highlight}
                         onChange={(e) => updateHighlight(index, e.target.value)}
-                        className="bg-slate-700 border-slate-600"
+                        className="bg-bg border-line-strong"
                       />
                       {formData.highlights.length > 1 && (
                         <Button
@@ -263,7 +263,7 @@ export default function EditEducationPage() {
                           variant="outline"
                           size="icon"
                           onClick={() => removeHighlight(index)}
-                          className="border-red-500 text-red-500 hover:bg-red-500/10"
+                          className="border-danger text-danger hover:bg-surface-raised"
                         >
                           <X size={14} />
                         </Button>
@@ -277,7 +277,7 @@ export default function EditEducationPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-cyan-500 hover:bg-cyan-600"
+                  className=""
                 >
                   <Save className="mr-2" size={16} />
                   {loading ? 'Saving...' : 'Save Changes'}
