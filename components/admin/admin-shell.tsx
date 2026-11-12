@@ -7,6 +7,7 @@ import {
   FileText,
   Folder,
   GraduationCap,
+  LockSimple,
   PenNib,
   Quotes,
   SignOut,
@@ -22,7 +23,7 @@ import { useEffect, useState, type ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 
-type Item = { label: string; href: string; icon: Icon; count?: "reviews" | "messages" }
+type Item = { label: string; href: string; icon: Icon; count?: "reviews" | "messages" | "transcripts" }
 
 // The Gambit admin groups (AdminSidebar), limited to the admin pages that exist today.
 const GROUPS: { title: string; items: Item[] }[] = [
@@ -44,7 +45,13 @@ const GROUPS: { title: string; items: Item[] }[] = [
       { label: "Skills", href: "/admin/skills", icon: Stack },
     ],
   },
-  { title: "Inbox", items: [{ label: "Messages", href: "/admin/messages", icon: Tray, count: "messages" }] },
+  {
+    title: "Inbox",
+    items: [
+      { label: "Messages", href: "/admin/messages", icon: Tray, count: "messages" },
+      { label: "Transcripts", href: "/admin/transcripts", icon: LockSimple, count: "transcripts" },
+    ],
+  },
   {
     title: "Settings",
     items: [
@@ -54,15 +61,18 @@ const GROUPS: { title: string; items: Item[] }[] = [
   },
 ]
 
+/** Admin pages call this after anything that changes a sidebar count. */
+export const refreshAdminCounts = () => window.dispatchEvent(new Event("admin:counts"))
+
 /** Pages that render without the shell. */
 const BARE = ["/admin/login", "/admin/setup"]
 
-async function count(url: string) {
+async function count(url: string, pick: (data: unknown) => unknown[] = (d) => (Array.isArray(d) ? d : [])) {
   try {
     const res = await fetch(url)
     if (!res.ok) return 0
     const data = await res.json()
-    return Array.isArray(data.data) ? data.data.length : 0
+    return pick(data.data).length
   } catch {
     return 0
   }
@@ -70,22 +80,35 @@ async function count(url: string) {
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const [counts, setCounts] = useState({ reviews: 0, messages: 0 })
+  const [counts, setCounts] = useState({ reviews: 0, messages: 0, transcripts: 0 })
   const [open, setOpen] = useState(false)
   const bare = BARE.some((p) => pathname.startsWith(p))
 
   // Waiting reviews and new messages, refreshed on each page change.
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const on = () => setTick((n) => n + 1)
+    window.addEventListener("admin:counts", on)
+    return () => window.removeEventListener("admin:counts", on)
+  }, [])
+
   useEffect(() => {
     if (bare) return
     let live = true
-    Promise.all([count("/api/testimonials?status=PENDING&source=CLIENT_REVIEW"), count("/api/contact?status=NEW")]).then(
-      ([reviews, messages]) => live && setCounts({ reviews, messages }),
-    )
-    setOpen(false)
+    Promise.all([
+      count("/api/testimonials?status=PENDING&source=CLIENT_REVIEW"),
+      count("/api/contact?status=NEW"),
+      count("/api/admin/transcripts", (d) =>
+        ((d as { requests?: { status: string }[] })?.requests ?? []).filter((r) => r.status === "PENDING"),
+      ),
+    ]).then(([reviews, messages, transcripts]) => live && setCounts({ reviews, messages, transcripts }))
     return () => {
       live = false
     }
-  }, [pathname, bare])
+  }, [pathname, bare, tick])
+
+  // Close the phone menu on each page change.
+  useEffect(() => setOpen(false), [pathname])
 
   if (bare) return <>{children}</>
 

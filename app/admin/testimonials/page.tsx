@@ -4,7 +4,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { PencilSimple, Trash, X } from "@phosphor-icons/react"
 import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from "react"
 
-import { PageHeader } from "@/components/admin/admin-shell"
+import { PageHeader, refreshAdminCounts } from "@/components/admin/admin-shell"
 import { ReviewQueue } from "@/components/admin/review-queue"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { buttonVariants } from "@/components/ui/button"
@@ -171,6 +171,7 @@ export default function AdminReferencesPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [notice, setNotice] = useState("")
+  const [version, setVersion] = useState(0)
 
   const load = useCallback(async () => {
     try {
@@ -193,7 +194,9 @@ export default function AdminReferencesPage() {
     setConfirmDelete(null)
     const res = await fetch(`/api/testimonials/${t.id}`, { method: "DELETE" }).catch(() => null)
     setNotice(res?.ok ? `Deleted the reference from ${t.name}.` : `Couldn’t delete the reference from ${t.name}.`)
-    load()
+    await load()
+    setVersion((v) => v + 1)
+    refreshAdminCounts()
   }
 
   const active = FILTERS.find((f) => f.key === filter)!
@@ -221,7 +224,7 @@ export default function AdminReferencesPage() {
         </button>
       </PageHeader>
 
-      <ReviewQueue onChange={load} />
+      <ReviewQueue onChange={load} version={version} />
 
       <section aria-labelledby="refs-h" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">

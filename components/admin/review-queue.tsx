@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 
+import { refreshAdminCounts } from "@/components/admin/admin-shell"
 import { cn } from "@/lib/utils"
 
 type Pending = {
@@ -54,7 +55,7 @@ function send(id: string, action: Decision | "undo", keepalive = false) {
  * references and thanks the reviewer; Decline hides it and sends nothing. Either can be undone for a few
  * seconds before it is sent. There is no edit: a reviewer's words are never changed.
  */
-export function ReviewQueue({ onChange }: { onChange?: () => void }) {
+export function ReviewQueue({ onChange, version = 0 }: { onChange?: () => void; version?: number }) {
   const [items, setItems] = useState<Pending[] | null>(null)
   const [loadError, setLoadError] = useState(false)
   const [states, setStates] = useState<Record<string, ItemState>>({})
@@ -74,9 +75,10 @@ export function ReviewQueue({ onChange }: { onChange?: () => void }) {
     }
   }, [])
 
+  // Reload when the page's own list changes too (a delete there, for example).
   useEffect(() => {
     load()
-  }, [load])
+  }, [load, version])
 
   const commit = useCallback(
     async (id: string) => {
@@ -89,6 +91,7 @@ export function ReviewQueue({ onChange }: { onChange?: () => void }) {
         if (!res.ok) throw new Error(String(res.status))
         setStates((s) => ({ ...s, [id]: { decision, committed: true } }))
         onChange?.()
+        refreshAdminCounts()
       } catch {
         setStates((s) => ({ ...s, [id]: { decision, committed: false, error: "That didn’t go through. Try again." } }))
       }
