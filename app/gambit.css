@@ -620,6 +620,9 @@
 .gb-gt-light[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--ink); }
 .gb-gt-light:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .gb-gt-label { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; line-height: 20px; font-weight: 500; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The label truncates; the In play, Paused or Final pill beside it always shows. */
+.gb-gt-label-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gb-gt-label .gb-gt-state { flex-shrink: 0; }
 .gb-gt-livedot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px var(--success-soft); animation: gb-gt-pulse 1.6s ease-in-out infinite; }
 @keyframes gb-gt-pulse { 50% { opacity: .45; } }
 .gb-gt-icons { display: flex; gap: 2px; }

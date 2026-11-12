@@ -571,7 +571,7 @@ export function GameTheatre({ games, user = "Lique" }: { games: TheatreGame[]; u
             )
           ) : (
             <>
-              {g.label.charAt(0).toUpperCase() + g.label.slice(1)}
+              <span className="gb-gt-label-text">{g.label.charAt(0).toUpperCase() + g.label.slice(1)}</span>
               <span className={cn("gb-gt-state", k >= last ? "is-final" : "is-play")}>{k >= last ? "Final" : auto ? "In play" : "Paused"}</span>
             </>
           )}
