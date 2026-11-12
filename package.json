@@ -36,6 +36,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.15.6",
     "bcryptjs": "^2.4.3",
+    "chess.js": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.0.6",

@@ -7,6 +7,7 @@ import {
   FileText,
   Folder,
   GraduationCap,
+  Horse,
   LockSimple,
   PenNib,
   Quotes,
@@ -43,6 +44,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
       { label: "Experience", href: "/admin/experiences", icon: Briefcase },
       { label: "Education", href: "/admin/education", icon: GraduationCap },
       { label: "Skills", href: "/admin/skills", icon: Stack },
+      { label: "Chess", href: "/admin/chess", icon: Horse },
     ],
   },
   {
