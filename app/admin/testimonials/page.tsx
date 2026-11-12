@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { ReviewQueue } from '@/components/admin/review-queue';
 
 interface Testimonial {
   id: string;
@@ -27,6 +28,7 @@ interface Testimonial {
   rating: number;
   featured: boolean;
   status: string;
+  source: 'LETTER' | 'CLIENT_REVIEW';
 }
 
 export default function AdminTestimonialsPage() {
@@ -48,8 +50,9 @@ export default function AdminTestimonialsPage() {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const status = filter === 'all' ? '' : filter.toUpperCase();
-      const response = await fetch(`/api/testimonials${status ? `?status=${status}` : ''}`);
+      const query =
+        filter === 'all' ? '' : filter === 'client' ? '?source=CLIENT_REVIEW' : `?status=${filter.toUpperCase()}`;
+      const response = await fetch(`/api/testimonials${query}`);
       const data = await response.json();
       setTestimonials(data.data || []);
     } catch (error) {
@@ -186,8 +189,11 @@ export default function AdminTestimonialsPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Manage Testimonials</h1>
-            <p className="text-slate-400">Review and manage client testimonials</p>
+            <h1 className="text-4xl font-bold text-white mb-2">References</h1>
+            <p className="text-slate-400 max-w-2xl">
+              Referee letters and client reviews. Reviews sent from the site wait here until you confirm you worked
+              together. Published ones show on Home in this order.
+            </p>
           </div>
           <Button className="bg-cyan-500 hover:bg-cyan-600" onClick={openNewDialog}>
             <Plus className="mr-2" size={20} />
@@ -195,16 +201,20 @@ export default function AdminTestimonialsPage() {
           </Button>
         </div>
 
+        <div className="mb-10">
+          <ReviewQueue onChange={fetchTestimonials} />
+        </div>
+
         {/* Filter Tabs */}
         <div className="flex gap-2 mb-6">
-          {['all', 'pending', 'approved', 'rejected'].map((status) => (
+          {['all', 'pending', 'approved', 'rejected', 'client'].map((status) => (
             <Button
               key={status}
               variant={filter === status ? 'default' : 'outline'}
               onClick={() => setFilter(status)}
               className={filter === status ? 'bg-cyan-500' : ''}
             >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status === 'client' ? 'Client reviews' : status.charAt(0).toUpperCase() + status.slice(1)}
             </Button>
           ))}
         </div>
@@ -255,6 +265,12 @@ export default function AdminTestimonialsPage() {
 
                   <p className="text-slate-300 text-sm line-clamp-4 mb-4">&ldquo;{testimonial.content}&rdquo;</p>
 
+                  {testimonial.source === 'CLIENT_REVIEW' && (
+                    <span className="inline-block px-2 py-1 mr-2 bg-slate-700 text-slate-300 rounded text-xs mb-4">
+                      Client review
+                    </span>
+                  )}
+
                   {testimonial.featured && (
                     <span className="inline-block px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs mb-4">
                       Featured
@@ -262,7 +278,7 @@ export default function AdminTestimonialsPage() {
                   )}
 
                   <div className="flex gap-2 pt-4 border-t border-slate-700">
-                    {testimonial.status === 'PENDING' && (
+                    {testimonial.status === 'PENDING' && testimonial.source !== 'CLIENT_REVIEW' && (
                       <>
                         <Button
                           variant="outline"
@@ -284,13 +300,17 @@ export default function AdminTestimonialsPage() {
                         </Button>
                       </>
                     )}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openEditDialog(testimonial)}
-                    >
-                      <Edit size={14} />
-                    </Button>
+                    {/* A client review is never edited; it is approved, declined or deleted. */}
+                    {testimonial.source !== 'CLIENT_REVIEW' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => openEditDialog(testimonial)}
+                        aria-label={`Edit ${testimonial.name}`}
+                      >
+                        <Edit size={14} />
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="sm"

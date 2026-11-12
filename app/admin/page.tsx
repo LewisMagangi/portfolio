@@ -34,7 +34,8 @@ export default function AdminDashboard() {
     projects: 0,
     blogPosts: 0,
     messages: 0,
-    views: 0
+    views: 0,
+    pendingReviews: 0
   });
 
   const fetchUser = useCallback(async () => {
@@ -61,23 +62,26 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const [projectsRes, postsRes, messagesRes] = await Promise.all([
+      const [projectsRes, postsRes, messagesRes, reviewsRes] = await Promise.all([
         fetch('/api/projects'),
         fetch('/api/blog/posts'),
-        fetch('/api/contact?status=NEW')
+        fetch('/api/contact?status=NEW'),
+        fetch('/api/testimonials?status=PENDING&source=CLIENT_REVIEW')
       ]);
 
-      const [projectsData, postsData, messagesData] = await Promise.all([
+      const [projectsData, postsData, messagesData, reviewsData] = await Promise.all([
         projectsRes.json(),
         postsRes.json(),
-        messagesRes.json()
+        messagesRes.json(),
+        reviewsRes.json()
       ]);
 
       setStats({
         projects: projectsData.count || 0,
         blogPosts: postsData.pagination?.total || 0,
         messages: messagesData.data?.length || 0,
-        views: 0 // Would fetch from analytics
+        views: 0, // Would fetch from analytics
+        pendingReviews: reviewsData.data?.length || 0
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -232,8 +236,18 @@ export default function AdminDashboard() {
                 <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-4">
                   <MessageSquare className="text-pink-400" size={24} />
                 </div>
-                <CardTitle>Testimonials</CardTitle>
-                <CardDescription>Manage client reviews</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  References
+                  {stats.pendingReviews > 0 && (
+                    <span
+                      className="rounded-full bg-pink-500/20 px-2 py-0.5 text-xs font-medium text-pink-300"
+                      aria-label={`${stats.pendingReviews} ${stats.pendingReviews === 1 ? 'review' : 'reviews'} waiting`}
+                    >
+                      {stats.pendingReviews}
+                    </span>
+                  )}
+                </CardTitle>
+                <CardDescription>Letters, and client reviews waiting for you</CardDescription>
               </CardHeader>
             </Card>
           </Link>

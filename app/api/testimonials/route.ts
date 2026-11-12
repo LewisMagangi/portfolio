@@ -1,19 +1,29 @@
 // app/api/testimonials/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { requireAuth } from '@/lib/auth';
-import { TestimonialStatus } from '@/lib/generated/prisma';
+import { requireAuth, verifyAuth } from '@/lib/auth';
+import { TestimonialSource, TestimonialStatus } from '@/lib/generated/prisma';
+import { PUBLIC_TESTIMONIAL_FIELDS } from '@/lib/testimonial-fields';
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
+    const source = searchParams.get('source');
     const featured = searchParams.get('featured');
+    const isAdmin = Boolean(verifyAuth(request));
 
-    const where: { status?: TestimonialStatus; featured?: boolean } = {};
+    const where: { status?: TestimonialStatus; source?: TestimonialSource; featured?: boolean } = {};
 
-    if (status) {
+    // Signed out, only approved testimonials are visible, whatever the query asks for.
+    if (!isAdmin) {
+      where.status = 'APPROVED';
+    } else if (status && status in TestimonialStatus) {
       where.status = status as TestimonialStatus;
+    }
+
+    if (source && source in TestimonialSource) {
+      where.source = source as TestimonialSource;
     }
 
     if (featured === 'true') {
@@ -25,7 +35,8 @@ export async function GET(request: NextRequest) {
       orderBy: [
         { featured: 'desc' },
         { createdAt: 'desc' }
-      ]
+      ],
+      ...(isAdmin ? {} : { select: PUBLIC_TESTIMONIAL_FIELDS })
     });
 
     return NextResponse.json({

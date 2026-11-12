@@ -385,3 +385,18 @@
 .gb-level-dot[data-level="shipped"] { background: var(--ink); }
 .gb-level-dot[data-level="trained"] { background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); }
 .gb-level-dot[data-level="learning"] { background: transparent; border-color: var(--ink-subtle); }
+
+/* StatusPill: green is for status only, never a button. */
+.gb-pill { display: inline-flex; align-items: center; gap: var(--space-2); width: max-content; max-width: 100%; font-size: 14px; line-height: 20px; font-weight: 500; padding: 4px var(--space-3) 4px 10px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: transparent; color: var(--ink-muted); }
+.gb-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px var(--success-soft); }
+.gb-pill-muted { background: var(--surface-raised); color: var(--ink-muted); }
+.gb-pill-muted .gb-pill-dot { background: var(--ink-subtle); box-shadow: none; }
+
+/* A confirmation or queue item settling in after an action (Review and Admin References boards). */
+.gb-rise { animation: gb-rise 700ms var(--ease-tilda) both; }
+.gb-rise-sm { animation: gb-rise-sm 500ms var(--ease-tilda) both; }
+@keyframes gb-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes gb-rise-sm { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .gb-rise, .gb-rise-sm { animation: none; }
+}
