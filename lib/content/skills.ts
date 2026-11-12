@@ -5,6 +5,19 @@ export type Evidence = { label: string; href: string }
 export type Skill = { name: string; how: string; level: SkillLevel; evidence: Evidence[] }
 export type SkillGroup = { id: string; title: string; note: string; skills: Skill[] }
 
+/** Page group id → database SkillCategory (Admin › Skills stores each group as one category). */
+export const GROUP_CATEGORY = {
+  backend: "BACKEND",
+  frontend: "FRONTEND",
+  data: "DATABASE",
+  ai: "AI_ML",
+  security: "SECURITY",
+  delivery: "DEVOPS",
+} as const satisfies Record<string, string>
+
+/** Database SkillLevel for each page level. */
+export const LEVEL_DB = { shipped: "SHIPPED", trained: "TRAINED", learning: "LEARNING" } as const satisfies Record<SkillLevel, string>
+
 export const LEVELS: Record<SkillLevel, { label: string; meaning: string }> = {
   shipped: { label: "Shipped", meaning: "used in delivered work" },
   trained: { label: "Trained", meaning: "finished a certified course" },

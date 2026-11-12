@@ -6,6 +6,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, UserRole, ProjectStatus, PostStatus, SkillCategory, TechCategory } from '../lib/generated/prisma';
 import bcrypt from 'bcryptjs';
+import { GROUPS as SKILL_GROUPS, GROUP_CATEGORY, LEVEL_DB } from '../lib/content/skills';
 
 // Create PostgreSQL connection pool
 const pool = new Pool({
@@ -451,58 +452,18 @@ My journey working with both Django and Next.js has taught me valuable lessons a
   });
   console.log('✅ Created testimonials');
 
-  // Create skills
-  const skillCategories = [
-    {
-      category: 'BACKEND',
-      skills: [
-        { name: 'Python', proficiencyLevel: 5, yearsOfExperience: 3 },
-        { name: 'Django', proficiencyLevel: 5, yearsOfExperience: 2 },
-        { name: 'Django REST Framework', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Flask', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'Node.js', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'FRONTEND',
-      skills: [
-        { name: 'React', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Next.js', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'TypeScript', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'TailwindCSS', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'DATABASE',
-      skills: [
-        { name: 'PostgreSQL', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Prisma', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'MongoDB', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'DEVOPS',
-      skills: [
-        { name: 'Docker', proficiencyLevel: 3, yearsOfExperience: 1 },
-        { name: 'Git', proficiencyLevel: 5, yearsOfExperience: 3 },
-      ],
-    },
-  ];
-
-  const allSkills = [];
-  for (const category of skillCategories) {
-    for (const skill of category.skills) {
-      allSkills.push({
-        name: skill.name,
-        category: category.category as SkillCategory,
-        proficiencyLevel: skill.proficiencyLevel,
-        yearsOfExperience: skill.yearsOfExperience,
-      });
-    }
-  }
-
+  // Create skills: the launch list on /skills, with levels and evidence (v8). No ratings.
   await prisma.skill.createMany({
-    data: allSkills,
+    data: SKILL_GROUPS.flatMap((g) =>
+      g.skills.map((s, i) => ({
+        name: s.name,
+        category: GROUP_CATEGORY[g.id as keyof typeof GROUP_CATEGORY] as SkillCategory,
+        level: LEVEL_DB[s.level],
+        how: s.how,
+        evidence: s.evidence,
+        orderIndex: i,
+      })),
+    ),
     skipDuplicates: true,
   });
   console.log('✅ Created skills');
