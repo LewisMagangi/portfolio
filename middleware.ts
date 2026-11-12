@@ -9,6 +9,10 @@ import { jwtVerify } from 'jose';
 const PUBLIC_WRITES = [
   /^\/api\/contact\/?$/,
   /^\/api\/newsletter\/?$/,
+  // Booking a call, and changing one through the secret link in its confirmation email.
+  /^\/api\/bookings\/?$/,
+  /^\/api\/bookings\/links\/?$/,
+  /^\/api\/bookings\/[A-Za-z0-9_-]{20,}\/?$/,
   /^\/api\/analytics\//,
   /^\/api\/auth\/(login|logout|setup)\/?$/,
   /^\/api\/admin\/init\/?$/,
