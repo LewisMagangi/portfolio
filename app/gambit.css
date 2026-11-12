@@ -602,3 +602,89 @@
 @media (prefers-reduced-motion: reduce) { .gb-cs:not(.is-flipped) .gb-cs-book, .gb-cs:not(.is-flipped) .gb-cs-book svg { animation: none; border-color: var(--line-strong); } }
 .gb-cs.is-hint:not(.is-flipped) .gb-cs-book svg { animation: gb-cs-bookflip 1.3s cubic-bezier(.19,1,.22,1) 2; transform-origin: 30% 50%; }
 @media (max-width: 820px) { .gb-cs-book, .gb-cs-ctl { min-height: var(--target-touch); min-width: var(--target-touch); } }
+
+/* ---------- GameTheatre (Chess): ported from bundle.css v8 ---------- */
+/* ================= v8: GameTheatre, best rated wins replayed, and a live view ================= */
+.gb-gt { --sq-l: var(--board-light); --sq-d: var(--board-dark); --sq-hl: color-mix(in srgb, var(--ink) 22%, transparent); --sq-coord-l: var(--board-dark); --sq-coord-d: var(--board-light);
+  width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 12px; padding: 14px; box-sizing: border-box; border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--surface); }
+.gb-gt[data-board="lichess"] { --sq-l: #f0d9b5; --sq-d: #b58863; --sq-hl: rgba(155, 199, 0, .41); --sq-coord-l: #b58863; --sq-coord-d: #f0d9b5; }
+.gb-gt[data-board="chesscom"] { --sq-l: #ebecd0; --sq-d: #739552; --sq-hl: rgba(255, 255, 51, .5); --sq-coord-l: #739552; --sq-coord-d: #ebecd0; }
+.gb-gt-bar { display: flex; align-items: center; gap: 12px; min-height: 32px; }
+.gb-gt-lights { display: flex; gap: 8px; padding-left: 2px; }
+.gb-gt-light { position: relative; width: 14px; height: 14px; padding: 0; border-radius: 50%; border: 1px solid rgb(0 0 0 / .18); cursor: pointer; transition: transform 200ms var(--ease-tilda, ease), box-shadow 200ms var(--ease-tilda, ease); }
+.gb-gt-light::after { content: ""; position: absolute; inset: -15px; border-radius: 50%; }
+.gb-gt-light.is-gambit { background: linear-gradient(135deg, var(--board-light) 50%, var(--board-dark) 50%); }
+.gb-gt-light.is-lichess { background: linear-gradient(135deg, #f0d9b5 50%, #b58863 50%); }
+.gb-gt-light.is-chesscom { background: linear-gradient(135deg, #ebecd0 50%, #739552 50%); }
+.gb-gt-light:hover { transform: scale(1.12); }
+.gb-gt-light[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--ink); }
+.gb-gt-light:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.gb-gt-label { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; line-height: 20px; font-weight: 500; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gb-gt-livedot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px var(--success-soft); animation: gb-gt-pulse 1.6s ease-in-out infinite; }
+@keyframes gb-gt-pulse { 50% { opacity: .45; } }
+.gb-gt-icons { display: flex; gap: 2px; }
+.gb-gt-icon { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 10px; background: transparent; color: var(--ink-muted); cursor: pointer; transition: background 200ms var(--ease-tilda, ease), color 200ms var(--ease-tilda, ease); }
+.gb-gt-icon:hover, .gb-gt-icon[aria-pressed="true"] { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.gb-gt-icon:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-gt-stage { display: flex; flex-direction: column; gap: 8px; }
+.gb-gt-player { display: flex; align-items: center; gap: 8px; min-height: 28px; font-size: 14px; line-height: 20px; }
+.gb-gt-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--line-strong); box-sizing: border-box; flex: none; }
+.gb-gt-dot.is-white { background: #fff; } .gb-gt-dot.is-black { background: #111; }
+.gb-gt-title { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--award); }
+.gb-gt-name { font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gb-gt-rating { font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle); font-variant-numeric: tabular-nums; }
+.gb-gt-result { margin-left: auto; min-width: 24px; text-align: center; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--ink-subtle); }
+.gb-gt-result.is-win { color: var(--success); }
+.gb-gt-clock { margin-left: auto; padding: 2px 8px; border-radius: 6px; background: var(--surface-raised); font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.gb-gt-board { position: relative; display: grid; grid-template-columns: repeat(8, 1fr); width: 100%; aspect-ratio: 1; border-radius: 6px; overflow: hidden; outline: none; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.gb-gt-board:focus-visible { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus); }
+.gb-gt-sq { position: relative; aspect-ratio: 1; transition: background-color 300ms var(--ease-tilda, ease); }
+.gb-gt-sq.is-light { background: var(--sq-l); } .gb-gt-sq.is-dark { background: var(--sq-d); }
+.gb-gt-sq.is-last { background-image: linear-gradient(var(--sq-hl), var(--sq-hl)); }
+.gb-gt-sq.is-check { background-image: radial-gradient(circle, rgb(255 0 0) 0%, rgb(231 0 0) 25%, rgb(169 0 0 / 0) 89%, rgb(158 0 0 / 0) 100%); }
+.gb-gt-rank, .gb-gt-file { position: absolute; font-family: var(--font-sans); font-size: clamp(8px, 1.6vw, 11px); line-height: 1; font-weight: 600; pointer-events: none; }
+.gb-gt-rank { top: 3px; left: 3px; } .gb-gt-file { right: 3px; bottom: 3px; }
+.gb-gt-sq.is-light .gb-gt-rank, .gb-gt-sq.is-light .gb-gt-file { color: var(--sq-coord-l); }
+.gb-gt-sq.is-dark .gb-gt-rank, .gb-gt-sq.is-dark .gb-gt-file { color: var(--sq-coord-d); }
+.gb-gt-pc { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.gb-gt-pc.is-moved { z-index: 2; animation: gb-gt-slide 180ms cubic-bezier(.19, 1, .22, 1) both; }
+@keyframes gb-gt-slide { from { transform: translate(var(--dx), var(--dy)); } to { transform: none; } }
+.gb-gt-board.is-dim .gb-gt-pc { opacity: .25; }
+.gb-gt-idle { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 24px; text-align: center; background: color-mix(in srgb, var(--surface) 72%, transparent); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); animation: gb-cs-in 520ms var(--ease-tilda, ease) both; }
+.gb-gt-idle strong { font-size: 18px; line-height: 26px; font-weight: 500; }
+.gb-gt-idle span { max-width: 32ch; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.gb-gt-idle-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; margin-top: 8px; font-size: 14px; }
+.gb-gt-ctl { display: flex; align-items: center; gap: 4px; }
+.gb-gt-ctl .gb-iconbtn { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 0; color: var(--ink); }
+.gb-gt-ctl .gb-iconbtn:disabled { color: var(--ink-subtle); opacity: .5; cursor: default; }
+.gb-gt-ctl .gb-iconbtn:not(:disabled):hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.gb-gt-ctl .gb-iconbtn svg + svg { margin-left: -10px; }
+.gb-gt-now { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; font-family: var(--font-mono); font-size: 13px; line-height: 18px; font-variant-numeric: tabular-nums; }
+.gb-gt-now em { font-style: normal; font-size: 11px; color: var(--ink-subtle); }
+.gb-gt-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; line-height: 16px; color: var(--ink-subtle); }
+.gb-gt-open { margin-left: auto; color: var(--ink); font-size: 13px; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.gb-gt-foot { display: flex; align-items: center; min-height: 36px; }
+.gb-gt-foot .gb-gt-open { margin-left: 0; }
+.gb-gt-picker { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-top: 10px; border-top: 1px solid var(--line); }
+.gb-gt-speed { display: flex; align-items: center; gap: 4px; }
+.gb-gt-speed-name { font-size: 12px; line-height: 16px; color: var(--ink-muted); margin-right: 4px; }
+.gb-gt-pick { width: 28px; height: 28px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--ink-muted); font-family: var(--font-mono); font-size: 12px; cursor: pointer; transition: background 200ms var(--ease-tilda, ease), color 200ms var(--ease-tilda, ease), border-color 200ms var(--ease-tilda, ease); }
+.gb-gt-pick:hover { border-color: var(--line-strong); color: var(--ink); }
+.gb-gt-pick[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.gb-gt-pick:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-gt-credit { margin: 0; font-size: 11px; line-height: 16px; color: var(--ink-subtle); }
+@media (max-width: 820px) { .gb-gt-pick { width: 36px; height: 36px; } .gb-gt-ctl .gb-iconbtn, .gb-gt-icon { width: 44px; height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .gb-gt-pc.is-moved, .gb-gt-livedot, .gb-gt-idle { animation: none; } .gb-gt-sq { transition: none; } }
+/* v8.8: chess clocks on the replays, so a viewer can tell a game in play from one that is over */
+.gb-gt-player .gb-gt-result { margin-left: auto; }
+.gb-gt-player .gb-gt-result + .gb-gt-clock { margin-left: 8px; }
+.gb-gt-clock { min-width: 64px; text-align: right; color: var(--ink-subtle); transition: background 300ms var(--ease-tilda, ease), color 300ms var(--ease-tilda, ease); }
+.gb-gt-clock.is-running { background: var(--ink); color: var(--bg); }
+.gb-gt-clock.is-low { background: color-mix(in srgb, var(--danger) 85%, var(--bg)); color: #fff; }
+.gb-gt-clock.is-flag { color: var(--danger); text-decoration: line-through; text-decoration-thickness: 1px; }
+.gb-gt-state { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; line-height: 16px; font-weight: 500; color: var(--ink-muted); }
+.gb-gt-state::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-subtle); }
+.gb-gt-state.is-play::before { background: var(--success); animation: gb-gt-pulse 1.6s ease-in-out infinite; }
+.gb-gt-state.is-final { color: var(--ink); }
+.gb-gt-state.is-final::before { background: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .gb-gt-state.is-play::before { animation: none; } .gb-gt-clock { transition: none; } }
