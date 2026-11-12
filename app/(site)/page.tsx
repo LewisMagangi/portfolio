@@ -34,10 +34,11 @@ import {
   WORK,
 } from "@/lib/content/home"
 import { getApprovedClientReviews } from "@/lib/reviews"
+import { getServices } from "@/lib/services"
 import { BOOK_HREF } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
-// Approving a client review revalidates "/"; this is the fallback refresh.
+// Approving a client review or saving in Admin › Services revalidates "/"; this is the fallback refresh.
 export const revalidate = 3600
 
 const BOOK_LABEL = "Book a free discovery call"
@@ -84,7 +85,7 @@ function Head({ id, title, lead, as: H = "h2", titleClass = "heading" }: { id: s
 }
 
 export default async function HomePage() {
-  const clientReviews = await getApprovedClientReviews()
+  const [clientReviews, offer] = await Promise.all([getApprovedClientReviews(), getServices("home")])
   const refs = [...TRUST.refs, ...clientReviews]
 
   return (
@@ -177,8 +178,8 @@ export default async function HomePage() {
       {/* Services and pricing */}
       <Section id="services" labelledBy="svc-h">
         <Head id="svc-h" title={SERVICES.heading} lead={SERVICES.lead} />
-        <ServiceList items={SERVICES.items} />
-        <PricingTiers tiers={SERVICES.tiers} footnote={SERVICES.footnote} ctaLabel={BOOK_LABEL} />
+        <ServiceList items={offer.items} />
+        <PricingTiers tiers={offer.tiers} footnote={SERVICES.footnote} ctaLabel={BOOK_LABEL} />
         <ol
           aria-label="How a project works"
           className="m-0 grid list-none grid-cols-3 gap-8 p-0 [counter-reset:s] max-md:grid-cols-1 max-md:gap-4"

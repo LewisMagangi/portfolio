@@ -513,6 +513,45 @@ model ChessGame {
 }
 
 // ===================================
+// SERVICES & PRICING (Admin › Services)
+// ===================================
+
+model Service {
+  id         String   @id @default(uuid())
+  title      String
+  body       String   @db.Text
+  // A Gambit icon name: code, brain, database, shield ...
+  icon       String   @default("code")
+  points     String[]
+  showOnHome Boolean  @default(true) @map("show_on_home")
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("services")
+}
+
+model PriceTier {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  // Typical price as shown, e.g. "$900"
+  price      String
+  // The tier this one builds on ("Everything in Bronze, plus")
+  base       String?
+  for        String
+  includes   String[]
+  // Optional, e.g. "Most chosen". Empty unless it is true.
+  badge      String?
+  showOnHome Boolean  @default(true) @map("show_on_home")
+  highlight  Boolean  @default(false)
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("price_tiers")
+}
+
+// ===================================
 // CONTACT & MESSAGES
 // ===================================
 

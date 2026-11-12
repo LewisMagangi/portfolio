@@ -7,6 +7,7 @@ import {
   FileText,
   Folder,
   GraduationCap,
+  Handshake,
   Horse,
   LockSimple,
   PenNib,
@@ -39,6 +40,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
     title: "Content",
     items: [
       { label: "Projects", href: "/admin/projects", icon: Folder },
+      { label: "Services", href: "/admin/services", icon: Handshake },
       { label: "Blog", href: "/admin/blog", icon: PenNib },
       { label: "References", href: "/admin/testimonials", icon: Quotes, count: "reviews" },
       { label: "Experience", href: "/admin/experiences", icon: Briefcase },

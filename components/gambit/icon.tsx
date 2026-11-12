@@ -29,7 +29,7 @@ import {
 } from "@phosphor-icons/react"
 
 // The Gambit bundle's icon names, mapped to the Phosphor (regular) icons its paths came from.
-const ICONS = {
+export const ICONS = {
   arrow: ArrowRight,
   newtab: ArrowUpRight,
   brain: Brain,

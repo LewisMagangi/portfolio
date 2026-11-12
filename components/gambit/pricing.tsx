@@ -31,9 +31,12 @@ export function ServiceList({ items }: { items: readonly Service[] }) {
   )
 }
 
-export type Tier = { name: string; price: string; base?: string; for: string; includes: string[] }
+export type Tier = { name: string; price: string; base?: string; for: string; includes: string[]; note?: string; featured?: boolean }
 
-/** Cumulative tiers ("Everything in Bronze, plus"). No invented "most popular" badge. */
+/**
+ * Cumulative tiers ("Everything in Bronze, plus"). A badge (`note`) shows only when Admin › Services sets one.
+ * A featured tier gets the stronger border, but its button stays outline: one primary action per view.
+ */
 export function PricingTiers({
   tiers,
   footnote,
@@ -49,9 +52,10 @@ export function PricingTiers({
     <div className="gb-tiers">
       <ul className="gb-tiers-list">
         {tiers.map((t) => (
-          <li key={t.name} className="gb-tier">
+          <li key={t.name} className={cn("gb-tier", t.featured && "is-featured")}>
             <div className="gb-tier-head">
               <h3>{t.name}</h3>
+              {t.note && <span className="gb-tier-note">{t.note}</span>}
             </div>
             <p className="gb-tier-price">
               <span className="gb-tier-from">Typically</span>

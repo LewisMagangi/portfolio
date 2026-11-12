@@ -5,6 +5,7 @@ import { Accordion } from "@/components/gambit/accordion"
 import { PricingTiers, ServiceList } from "@/components/gambit/pricing"
 import { buttonVariants } from "@/components/ui/button"
 import { FAQ, SERVICES } from "@/lib/content/home"
+import { getServices } from "@/lib/services"
 import { BOOK_HREF } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -41,7 +42,11 @@ function Head({ id, title, lead }: { id: string; title: string; lead?: string })
   )
 }
 
-export default function ServicesPage() {
+// Saving in Admin › Services revalidates "/services"; this is the fallback refresh.
+export const revalidate = 3600
+
+export default async function ServicesPage() {
+  const offer = await getServices()
   return (
     <>
       <header>
@@ -67,14 +72,14 @@ export default function ServicesPage() {
       <div id="what" className="border-t border-line">
         <section data-reveal="" aria-labelledby="what-h" className={sec}>
           <Head id="what-h" title="What I do." />
-          <ServiceList items={SERVICES.items} />
+          <ServiceList items={offer.items} />
         </section>
       </div>
 
       <div id="pricing" className="border-t border-line">
         <section data-reveal="" aria-labelledby="price-h" className={sec}>
           <Head id="price-h" title="What it costs." lead="Each tier includes everything in the one before it." />
-          <PricingTiers tiers={SERVICES.tiers} footnote={SERVICES.footnote} ctaLabel={BOOK_LABEL} />
+          <PricingTiers tiers={offer.tiers} footnote={SERVICES.footnote} ctaLabel={BOOK_LABEL} />
         </section>
       </div>
 
