@@ -81,7 +81,7 @@ export async function PUT(
     }
 
     // Letters: update only the fields that were sent, so a status change keeps the rest.
-    const { name, role, company, content, avatar, rating, featured, status } = body;
+    const { name, role, company, content, quote, relation, letterUrl, avatar, rating, featured, status } = body;
     const testimonial = await prisma.testimonial.update({
       where: { id: params.id },
       data: {
@@ -89,6 +89,9 @@ export async function PUT(
         role,
         company,
         content,
+        quote,
+        relation,
+        letterUrl,
         avatar,
         rating,
         featured,

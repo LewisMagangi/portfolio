@@ -126,7 +126,7 @@ export default function CVManager() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-[50vh] items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
       </div>
     );
@@ -137,7 +137,7 @@ export default function CVManager() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

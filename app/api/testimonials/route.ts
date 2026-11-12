@@ -58,16 +58,7 @@ export async function POST(request: NextRequest) {
     requireAuth(request);
 
     const body = await request.json();
-    const {
-      name,
-      role,
-      company,
-      content,
-      avatar,
-      rating,
-      featured,
-      status
-    } = body;
+    const { name, role, company, content, quote, relation, letterUrl, avatar, rating, featured, status } = body;
 
     if (!name || !role || !content) {
       return NextResponse.json(
@@ -82,6 +73,10 @@ export async function POST(request: NextRequest) {
         role,
         company,
         content,
+        quote: quote || null,
+        relation: relation || null,
+        letterUrl: letterUrl || null,
+        source: 'LETTER',
         avatar,
         rating: rating || 5,
         featured: featured || false,

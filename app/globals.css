@@ -22,6 +22,7 @@
     --success: #3dd68c;
     --success-soft: #0f2a1c;
     --award: #f5b14c;
+    --square: #181818;
     --award-soft: #2a1f0c;
     --danger: #ff6166;
     --focus: var(--ink);
@@ -66,6 +67,7 @@
     --success: #0b7a47;
     --success-soft: #e3f4ea;
     --award: #8a5300;
+    --square: #f2f2f2;
     --award-soft: #fbf0dc;
     --danger: #c4262e;
     --board-light: #e4e4df;

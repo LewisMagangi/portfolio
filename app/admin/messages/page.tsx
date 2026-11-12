@@ -146,14 +146,14 @@ export default function AdminMessagesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
+      <div className="flex min-h-[50vh] items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

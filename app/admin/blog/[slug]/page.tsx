@@ -128,14 +128,14 @@ export default function EditBlogPostPage() {
 
   if (fetchLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-6 flex items-center justify-center">
+      <div className="flex min-h-[50vh] items-center justify-center text-white">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-6">
+    <div className="text-white">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/blog">
