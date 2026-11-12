@@ -2,7 +2,7 @@
 // A reviewer's words are stored and published exactly as sent. Nothing here edits name, role or content.
 import { revalidatePath } from "next/cache"
 
-import { adminAddress, sendMail } from "@/lib/email"
+import { sendAlert, sendMail } from "@/lib/email"
 import { prisma } from "@/lib/prisma"
 import type { ReviewInput } from "@/lib/review-schema"
 
@@ -28,8 +28,7 @@ export async function createClientReview(input: ReviewInput) {
   })
 
   // Sent straight away; a daily digest is still undecided (design/v8/HANDOFF.md, "Not decided yet").
-  await sendMail({
-    to: adminAddress(),
+  await sendAlert({
     replyTo: input.email,
     subject: `New review from ${input.name}`,
     text: [

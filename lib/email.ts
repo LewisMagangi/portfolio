@@ -21,13 +21,12 @@ function getTransport() {
   return transport
 }
 
-/** Lewis's inboxes for site alerts: the main one first, then the second. ALERT_EMAILS (comma separated) overrides. */
-const DEFAULT_ADMIN_EMAILS = ["lewismagangi1@gmail.com", "momanyilewis10@gmail.com"]
-
-/** Where notifications for Lewis go. */
-export function adminAddress() {
-  return process.env.ALERT_EMAILS || DEFAULT_ADMIN_EMAILS.join(", ")
-}
+/**
+ * Lewis's inboxes for site alerts. Alerts go to the main one only; the backup gets them when the main one
+ * can't be reached. ALERT_EMAIL and ALERT_EMAIL_BACKUP override them.
+ */
+const PRIMARY_ALERT_EMAIL = "lewismagangi1@gmail.com"
+const BACKUP_ALERT_EMAIL = "momanyilewis10@gmail.com"
 
 /** Sends one email. Never throws: a failed email must not undo the action that triggered it. */
 export async function sendMail({ to, subject, text, replyTo }: Mail): Promise<boolean> {
@@ -37,10 +36,25 @@ export async function sendMail({ to, subject, text, replyTo }: Mail): Promise<bo
     return false
   }
   try {
-    await t.sendMail({ from: `Lewis Magangi <${process.env.SMTP_USER}>`, to, subject, text, replyTo })
+    const info = await t.sendMail({ from: `Lewis Magangi <${process.env.SMTP_USER}>`, to, subject, text, replyTo })
+    // The server can refuse a recipient without throwing.
+    if (info.rejected?.length) {
+      console.error(`[email] recipient refused: ${subject}`)
+      return false
+    }
     return true
   } catch (err) {
     console.error(`[email] failed: ${subject}`, err)
     return false
   }
+}
+
+/** Emails Lewis: the main inbox first, the backup only if the main one fails. */
+export async function sendAlert(mail: Omit<Mail, "to">): Promise<boolean> {
+  const primary = process.env.ALERT_EMAIL || PRIMARY_ALERT_EMAIL
+  const backup = process.env.ALERT_EMAIL_BACKUP || BACKUP_ALERT_EMAIL
+  if (!getTransport()) return sendMail({ ...mail, to: primary })
+  if (await sendMail({ ...mail, to: primary })) return true
+  console.warn("[email] main inbox failed, sending to the backup")
+  return backup && backup !== primary ? sendMail({ ...mail, to: backup }) : false
 }
