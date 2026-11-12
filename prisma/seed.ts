@@ -6,6 +6,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, UserRole, ProjectStatus, PostStatus, SkillCategory, TechCategory } from '../lib/generated/prisma';
 import bcrypt from 'bcryptjs';
+import { POSTS as V8_POSTS } from '../lib/content/blog-posts';
 import { GROUPS as SKILL_GROUPS, GROUP_CATEGORY, LEVEL_DB } from '../lib/content/skills';
 
 // Create PostgreSQL connection pool
@@ -356,21 +357,11 @@ async function main() {
       where: { slug: 'building-accessible-voice-interfaces' },
       update: {},
       create: {
-        title: 'Building Accessible Voice Interfaces with Whisper and Coqui TTS',
+        title: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.title,
         slug: 'building-accessible-voice-interfaces',
-        excerpt: 'How we achieved WCAG 2.1 AA compliance while implementing local voice processing for enhanced privacy.',
-        content: `# Building Accessible Voice Interfaces
-
-In this article, I'll share our journey of building a privacy-first voice exam platform that meets WCAG 2.1 AA standards...
-
-## The Challenge
-
-Traditional voice interfaces rely on cloud services, which raises privacy concerns...
-
-## Our Solution
-
-We implemented local processing using Whisper for speech-to-text and Coqui TTS for text-to-speech...`,
-        coverImage: '/images/blog/voice-interfaces.jpg',
+        excerpt: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.excerpt,
+        content: V8_POSTS.find((p) => p.slug === 'building-accessible-voice-interfaces')!.content,
+        coverImage: null,
         authorId: admin.id,
         status: PostStatus.PUBLISHED,
         publishedAt: new Date('2025-11-01'),
@@ -393,13 +384,11 @@ We implemented local processing using Whisper for speech-to-text and Coqui TTS f
       where: { slug: 'django-to-nextjs-journey' },
       update: {},
       create: {
-        title: 'Django to Next.js: A Full-Stack Journey',
+        title: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.title,
         slug: 'django-to-nextjs-journey',
-        excerpt: 'Lessons learned from working across both backend and frontend ecosystems in production environments.',
-        content: `# From Django to Next.js
-
-My journey working with both Django and Next.js has taught me valuable lessons about full-stack development...`,
-        coverImage: '/images/blog/django-nextjs.jpg',
+        excerpt: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.excerpt,
+        content: V8_POSTS.find((p) => p.slug === 'django-to-nextjs-journey')!.content,
+        coverImage: null,
         authorId: admin.id,
         status: PostStatus.PUBLISHED,
         publishedAt: new Date('2025-10-15'),

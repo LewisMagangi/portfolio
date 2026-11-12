@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-// Writes anyone may make: the contact form, analytics beacons, signing in and out, and first time setup
+// Writes anyone may make: the contact form, blog subscriptions (which only send a confirmation email),
+// analytics beacons, signing in and out, and first time setup
 // (setup and init check for themselves that no admin exists yet, or that the init key matches).
 const PUBLIC_WRITES = [
   /^\/api\/contact\/?$/,
+  /^\/api\/newsletter\/?$/,
   /^\/api\/analytics\//,
   /^\/api\/auth\/(login|logout|setup)\/?$/,
   /^\/api\/admin\/init\/?$/,

@@ -1,6 +1,7 @@
 // app/api/blog/posts/[slug]/route.ts
 // Single blog post operations
 
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyAuth } from '@/lib/auth';
@@ -151,6 +152,8 @@ export async function PUT(
       }
     });
 
+    revalidatePath('/blog', 'layout');
+
     return NextResponse.json({
       success: true,
       data: post,
@@ -173,6 +176,8 @@ export async function DELETE(
     await prisma.blogPost.delete({
       where: { slug: params.slug }
     });
+
+    revalidatePath('/blog', 'layout');
 
     return NextResponse.json({
       success: true,

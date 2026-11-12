@@ -694,3 +694,88 @@
 .gb-gt-state.is-final { color: var(--ink); }
 .gb-gt-state.is-final::before { background: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .gb-gt-state.is-play::before { animation: none; } .gb-gt-clock { transition: none; } }
+
+/* ---------- Bookshelf (Reading board; bundle.css › gb-shelf) ---------- */
+.gb-shelf { display: flex; flex-direction: column; gap: var(--space-8); }
+.gb-shelf h2, .gb-shelf summary { margin: 0 0 var(--space-3); display: flex; align-items: center; gap: var(--space-2); font-size: 16px; line-height: 24px; font-weight: 500; }
+.gb-shelf h2 span, .gb-shelf summary > span { font-size: 12px; line-height: 16px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--surface-raised); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.gb-shelf ul { list-style: none; margin: 0; padding: 0; }
+.gb-shelf .gb-book-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: var(--space-2) var(--space-6); align-items: center; padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.gb-book-t { display: flex; flex-direction: column; min-width: 0; }
+.gb-book-t strong { font-size: 16px; line-height: 24px; font-weight: 500; text-wrap: balance; }
+.gb-book-t span, .gb-book-where { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.gb-book-prog { display: flex; flex-direction: column; gap: 6px; }
+.gb-meter { display: block; height: 4px; border-radius: var(--radius-pill); background: var(--surface-raised); overflow: hidden; }
+.gb-meter i { display: block; height: 100%; border-radius: inherit; background: var(--ink); }
+.gb-shelf-more summary { cursor: pointer; list-style: none; min-height: var(--target-touch); margin: 0; border-radius: var(--radius-sm); }
+.gb-shelf-more summary::-webkit-details-marker { display: none; }
+.gb-shelf-more summary svg { margin-left: auto; color: var(--ink-subtle); transition: transform var(--dur-open) var(--ease-out); }
+.gb-shelf-more[open] summary svg { transform: rotate(180deg); }
+.gb-shelf-more summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-shelf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-8); }
+.gb-shelf .gb-shelf-grid .gb-book-row { grid-template-columns: 1fr; }
+.gb-shelf-genres { display: flex; flex-direction: column; gap: var(--space-6); }
+.gb-shelf-genre { margin: 0 0 var(--space-2); font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-subtle); }
+.gb-shelf-empty { margin: 0; padding: var(--space-6); border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty; }
+@media (max-width: 640px) { .gb-shelf .gb-book-row { grid-template-columns: 1fr; } .gb-shelf-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .gb-shelf-more summary svg { transition: none; } }
+
+/* ---------- Article prose, progress hairline and contents (Blog-Post board; bundle.css) ---------- */
+.gb-prose { min-width: 0; font-size: 18px; line-height: 30px; color: var(--ink); max-width: 680px; }
+.gb-prose > * { margin: 0; }
+.gb-prose > * + * { margin-top: 24px; }
+.gb-prose h2 { font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -0.02em; margin-top: 56px; scroll-margin-top: 96px; }
+.gb-prose h3 { font-size: 20px; line-height: 28px; font-weight: 600; margin-top: 40px; scroll-margin-top: 96px; }
+.gb-prose p, .gb-prose li { color: color-mix(in srgb, var(--ink) 86%, var(--bg)); text-wrap: pretty; }
+.gb-prose ul, .gb-prose ol { padding-left: 24px; }
+.gb-prose li + li { margin-top: 8px; }
+.gb-prose strong { color: var(--ink); font-weight: 600; }
+.gb-prose code { font-family: var(--font-mono); font-size: .85em; padding: 2px 6px; border-radius: 6px; background: var(--surface-raised); }
+.gb-prose pre { margin-top: 32px; max-width: 100%; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--surface); overflow-x: auto; font-size: 14px; line-height: 24px; }
+.gb-prose pre code { padding: 0; background: none; font-size: inherit; }
+.gb-prose blockquote { padding: 4px 0 4px 20px; border: 0; box-shadow: inset 2px 0 0 var(--ink); font-size: 20px; line-height: 32px; color: var(--ink); }
+.gb-prose blockquote p { color: inherit; }
+.gb-prose figure { margin-top: 40px; }
+.gb-prose figcaption { margin-top: 12px; font-size: 14px; line-height: 20px; color: var(--ink-subtle); }
+.gb-prose img { max-width: 100%; height: auto; border-radius: var(--radius-lg); }
+.gb-prose a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; transition: text-decoration-color var(--dur-fast) var(--ease-out); }
+.gb-prose a:hover { text-decoration-color: var(--ink); }
+/* The first paragraph is the lede. */
+.gb-prose > p:first-child { font-size: 20px; line-height: 32px; color: var(--ink); }
+/* A step diagram written in a post as a figure with class gb-flow holding an ol and a figcaption. */
+.gb-flow ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.gb-prose .gb-flow li { position: relative; margin: 0; padding: 8px 12px; font-size: 14px; line-height: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.gb-flow li + li::after { content: ""; position: absolute; left: 20px; top: -13px; width: 1px; height: 12px; background: var(--line-strong); }
+@media (max-width: 640px) { .gb-prose { font-size: 16px; line-height: 28px; } .gb-prose h2 { font-size: 24px; line-height: 32px; } .gb-prose > p:first-child { font-size: 18px; line-height: 28px; } }
+
+.gb-readbar { position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: calc(var(--z-nav) + 3); pointer-events: none; }
+.gb-readbar i { display: block; height: 100%; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+.gb-toc { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 8px; }
+.gb-toc > p { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; }
+.gb-toc ol { list-style: none; margin: 0; padding: 0 0 0 12px; border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.gb-toc a { position: relative; display: block; padding: 4px 0; min-height: var(--target-min); font-size: 14px; line-height: 20px; color: var(--ink-subtle); text-decoration: none; transition: color 200ms var(--ease-out); }
+.gb-toc a::before { content: ""; position: absolute; left: -13px; top: 6px; bottom: 6px; width: 1px; background: var(--ink); transform: scaleY(0); transition: transform 300ms var(--ease-out); }
+.gb-toc a:hover, .gb-toc a[aria-current] { color: var(--ink); }
+.gb-toc a[aria-current]::before { transform: scaleY(1); }
+.gb-toc a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-toc-toggle { display: none; }
+@media (max-width: 960px) {
+  .gb-toc { position: static; gap: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .gb-toc > p { display: none; }
+  .gb-toc-toggle { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; min-height: 48px; padding: 0 16px; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; cursor: pointer; border-radius: 12px; }
+  .gb-toc-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .gb-toc-cur { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-subtle); font-weight: 400; }
+  .gb-toc-toggle svg { transition: transform 200ms var(--ease-out); }
+  .gb-toc.is-open .gb-toc-toggle svg { transform: rotate(180deg); }
+  .gb-toc ol { display: none; margin: 0 16px 12px; }
+  .gb-toc.is-open ol { display: flex; }
+  .gb-toc a { min-height: 44px; display: flex; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) { .gb-toc a, .gb-toc a::before, .gb-toc-toggle svg { transition: none; } }
+
+/* Blog: the sound wave over the featured post's dither (Blog board › lm-feature-wave). */
+.gb-blog-wave { position: relative; display: flex; gap: 6px; align-items: center; height: 40%; }
+.gb-blog-wave i { width: 6px; border-radius: 3px; background: var(--ink); height: 30%; }
+.gb-blog-wave i:nth-child(2) { height: 60%; } .gb-blog-wave i:nth-child(3) { height: 90%; } .gb-blog-wave i:nth-child(4) { height: 50%; }
+.gb-blog-wave i:nth-child(5) { height: 100%; } .gb-blog-wave i:nth-child(6) { height: 45%; } .gb-blog-wave i:nth-child(7) { height: 75%; }
+.gb-blog-wave i:nth-child(8) { height: 35%; } .gb-blog-wave i:nth-child(9) { height: 55%; }
