@@ -496,3 +496,109 @@
 .gb-status-danger { background: transparent; color: var(--danger); box-shadow: inset 0 0 0 1px var(--danger); }
 /* Admin log in: a chessboard that fades out from the card (Admin-Login board). */
 .gb-login-board { position: absolute; inset: 0; pointer-events: none; background: repeating-conic-gradient(var(--square, #181818) 0 25%, var(--bg) 0 50%) 0 0 / 128px 128px; -webkit-mask-image: radial-gradient(ellipse 50% 60% at 50% 45%, #000 0%, transparent 80%); mask-image: radial-gradient(ellipse 50% 60% at 50% 45%, #000 0%, transparent 80%); }
+
+/* ---------- CourseStory (Education): ported from bundle.css v8.4 to v8.7 ---------- */
+/* ================= v8: CourseStory, a programme card that flips to its courses as stories ================= */
+.gb-cs { perspective: 1600px; min-width: 0; }
+.gb-cs-inner { position: relative; display: grid; transform-style: preserve-3d; transition: transform 800ms var(--ease-tilda, cubic-bezier(.19,1,.22,1)); }
+.gb-cs.is-flipped .gb-cs-inner { transform: rotateY(180deg); }
+.gb-cs-face { grid-area: 1 / 1; min-width: 0; box-sizing: border-box; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.gb-cs-front { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+.gb-cs-back { transform: rotateY(180deg); padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 14px; min-height: 780px; outline: none; }
+.gb-cs-back:focus-visible { box-shadow: 0 0 0 2px var(--focus); }
+.gb-cs-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-subtle); }
+.gb-cs-result { color: var(--ink); }
+.gb-cs-titlerow { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.gb-cs-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gb-cs-title h3 { margin: 0; }
+.gb-cs-title span { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.gb-cs-book { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: inherit; cursor: pointer; transition: border-color 200ms var(--ease-tilda, ease), transform 200ms var(--ease-tilda, ease); }
+.gb-cs-book:hover { border-color: var(--line-strong); }
+.gb-cs-book:active { transform: scale(.97); }
+.gb-cs-book:focus-visible, .gb-cs-ctl:focus-visible, .gb-cs-verify:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.gb-cs-book-n { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.gb-cs-links { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; line-height: 20px; }
+.gb-cs-group { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+.gb-cs-group h4 { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-muted); }
+.gb-cs-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gb-cs-chip { font-size: 12px; line-height: 16px; color: var(--ink-muted); background: var(--surface-raised); border-radius: 6px; padding: 4px 8px; }
+/* Bars: a steady, linear fill, as a status does. Only the content between them eases. */
+.gb-cs-bars { display: flex; gap: 4px; }
+.gb-cs-bar { position: relative; flex: 1; height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 18%, transparent); overflow: hidden; }
+.gb-cs-bar-fill { position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; }
+.gb-cs-bar-fill.is-done { transform: scaleX(1); }
+.gb-cs-bar-fill.is-run { animation-name: gb-cs-fill; animation-timing-function: linear; animation-fill-mode: forwards; }
+@keyframes gb-cs-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.gb-cs-head { display: flex; align-items: center; gap: 12px; }
+.gb-cs-ring { flex: none; }
+.gb-cs-ring circle { stroke: var(--line-strong); transition: stroke 400ms var(--ease-tilda, ease); }
+.gb-cs-ring circle.is-seen { stroke: var(--ink); }
+.gb-cs-ring.is-loading { animation: gb-cs-spin 900ms linear infinite; }
+.gb-cs-ring.is-loading circle { stroke: var(--ink-subtle); }
+@keyframes gb-cs-spin { to { transform: rotate(360deg); } }
+.gb-cs-ring-n { font-family: var(--font-mono); font-size: 10px; font-weight: 500; fill: var(--ink-muted); }
+.gb-cs-ring.is-loading .gb-cs-ring-n { opacity: 0; }
+.gb-cs-who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.gb-cs-who strong { font-size: 14px; line-height: 20px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gb-cs-who span { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-subtle); }
+.gb-cs-ctl { flex: none; display: inline-grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; transition: background 200ms var(--ease-tilda, ease); }
+.gb-cs-ctl:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.gb-cs-stage { position: relative; flex: 1; min-height: 0; cursor: pointer; -webkit-user-select: none; user-select: none; touch-action: pan-y; -webkit-touch-callout: none; transition: opacity 300ms var(--ease-tilda, ease); }
+.gb-cs-stage.is-held { opacity: .72; }
+.gb-cs-loading { display: grid; place-items: center; height: 100%; min-height: 360px; font-size: 14px; color: var(--ink-subtle); }
+.gb-cs-slide { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; animation: gb-cs-in 520ms var(--ease-tilda, cubic-bezier(.19,1,.22,1)) both; }
+.gb-cs-slide.from-left { animation-name: gb-cs-in-l; }
+@keyframes gb-cs-in { from { opacity: 0; transform: translateX(16px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes gb-cs-in-l { from { opacity: 0; transform: translateX(-16px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+.gb-cs-kicker { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-subtle); }
+.gb-cs-course { margin: 0; font-size: 24px; line-height: 32px; font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; }
+.gb-cs-about { margin: 0; font-size: 14px; line-height: 22px; color: var(--ink-muted); max-width: 56ch; }
+.gb-cs-chapters { list-style: none; margin: 4px 0 0; padding: 0; counter-reset: ch; display: flex; flex-direction: column; }
+.gb-cs-chapters li { counter-increment: ch; display: grid; grid-template-columns: 28px minmax(0, 1fr); padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 20px; }
+.gb-cs-chapters li::before { content: counter(ch, decimal-leading-zero); font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle); }
+.gb-cs-verify { align-self: flex-start; position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.gb-cs-hint { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-subtle); text-align: center; }
+@media (hover: none) { .gb-cs-hint { display: block; } }
+@media (prefers-reduced-motion: reduce) {
+  .gb-cs-inner { transition: none; transform: none !important; }
+  .gb-cs-face { -webkit-backface-visibility: visible; backface-visibility: visible; transition: opacity 200ms; }
+  .gb-cs-back { transform: none; }
+  .gb-cs:not(.is-flipped) .gb-cs-back, .gb-cs.is-flipped .gb-cs-front { opacity: 0; visibility: hidden; }
+  .gb-cs-slide { animation: none; }
+  .gb-cs-ring.is-loading { animation: none; }
+}
+
+/* v8.4: each course story shows its certificate */
+.gb-cs-cert { position: relative; margin: 0 0 4px; aspect-ratio: 880 / 508; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-raised); }
+.gb-cs-cert::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--ink) 6%, transparent) 50%, transparent 70%); background-size: 200% 100%; animation: gb-cs-shimmer 1.2s linear infinite; }
+.gb-cs-cert.is-ready::before { display: none; }
+.gb-cs-cert img { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.02); transition: opacity 500ms var(--ease-tilda, cubic-bezier(.19,1,.22,1)), transform 700ms var(--ease-tilda, cubic-bezier(.19,1,.22,1)); -webkit-user-drag: none; }
+.gb-cs-cert.is-ready img { opacity: 1; transform: none; }
+@keyframes gb-cs-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.gb-cs-preload { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .gb-cs-cert::before { animation: none; } .gb-cs-cert img { transition: none; transform: none; } }
+
+/* v8.5: a nudge toward the book button. The card's edge lifts twice, like a page about to turn, while the button
+   pulses and its label slides in. 2.6s, once, on the Tilda curve. */
+.gb-cs-book-label { max-width: 0; overflow: hidden; white-space: nowrap; font-size: 13px; line-height: 20px; color: var(--ink); opacity: 0; transition: max-width 500ms var(--ease-tilda, cubic-bezier(.19,1,.22,1)), opacity 300ms var(--ease-tilda, ease), margin 500ms var(--ease-tilda, ease); }
+.gb-cs-book:hover .gb-cs-book-label, .gb-cs-book:focus-visible .gb-cs-book-label, .gb-cs.is-hint .gb-cs-book-label { max-width: 120px; opacity: 1; margin-left: 2px; }
+.gb-cs-book { position: relative; }
+.gb-cs-book::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--ink); opacity: 0; pointer-events: none; }
+.gb-cs.is-hint .gb-cs-book::after { animation: gb-cs-ring 1.3s var(--ease-tilda, cubic-bezier(.19,1,.22,1)) 2; }
+.gb-cs.is-hint .gb-cs-book { border-color: var(--line-strong); }
+.gb-cs.is-hint .gb-cs-book svg { animation: gb-cs-bookflip 1.3s var(--ease-tilda, cubic-bezier(.19,1,.22,1)) 2; transform-origin: 30% 50%; }
+/* v8.7: the card itself no longer moves; only the book button carries the hint. */
+@keyframes gb-cs-ring { 0% { opacity: .6; transform: scale(1); } 100% { opacity: 0; transform: scale(1.35); } }
+@keyframes gb-cs-bookflip { 0%, 100% { transform: none; } 35% { transform: perspective(60px) rotateY(-28deg); } }
+@media (prefers-reduced-motion: reduce) { .gb-cs.is-hint .gb-cs-book::after, .gb-cs.is-hint .gb-cs-book svg, .gb-cs.is-hint .gb-cs-inner { animation: none; } .gb-cs-book-label { transition: none; } }
+
+/* v8.6: the book button carries a quiet light at all times until the card is turned: a soft sheen crosses it every
+   few seconds and its edge breathes. White on the dark theme, ink on the light one. */
+.gb-cs:not(.is-flipped) .gb-cs-book { background-color: var(--bg); background-image: linear-gradient(110deg, transparent 35%, color-mix(in srgb, var(--ink) 16%, transparent) 50%, transparent 65%); background-size: 260% 100%; background-repeat: no-repeat; animation: gb-cs-sheen 3.6s cubic-bezier(.19,1,.22,1) infinite, gb-cs-breathe 3.6s ease-in-out infinite; }
+.gb-cs:not(.is-flipped) .gb-cs-book svg { color: var(--ink); animation: gb-cs-glint 3.6s ease-in-out infinite; }
+@keyframes gb-cs-sheen { 0%, 35% { background-position: 130% 0; } 75%, 100% { background-position: -30% 0; } }
+@keyframes gb-cs-breathe { 0%, 100% { border-color: var(--line); box-shadow: 0 0 0 0 transparent; } 55% { border-color: color-mix(in srgb, var(--ink) 45%, var(--line)); box-shadow: 0 0 18px color-mix(in srgb, var(--ink) 10%, transparent); } }
+@keyframes gb-cs-glint { 0%, 40%, 100% { opacity: .75; } 60% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .gb-cs:not(.is-flipped) .gb-cs-book, .gb-cs:not(.is-flipped) .gb-cs-book svg { animation: none; border-color: var(--line-strong); } }
+.gb-cs.is-hint:not(.is-flipped) .gb-cs-book svg { animation: gb-cs-bookflip 1.3s cubic-bezier(.19,1,.22,1) 2; transform-origin: 30% 50%; }
+@media (max-width: 820px) { .gb-cs-book, .gb-cs-ctl { min-height: var(--target-touch); min-width: var(--target-touch); } }
