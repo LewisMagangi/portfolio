@@ -1,58 +1,65 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
-import { Toaster } from "@/components/ui/sonner";
+import type { Metadata, Viewport } from "next"
+import { GeistMono } from "geist/font/mono"
+import { Poppins } from "next/font/google"
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+import { Cursor } from "@/components/site/cursor"
+import { RevealObserver } from "@/components/site/reveal-observer"
+import { ThemeProvider } from "@/components/site/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
+import { FOOTER_BLURB } from "@/lib/site"
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+import "./globals.css"
+import "./gambit.css"
+
+const poppins = Poppins({
   subsets: ["latin"],
-});
+  weight: ["400", "500", "600"],
+  variable: "--font-poppins",
+  display: "swap",
+  adjustFontFallback: true,
+})
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
-  title: "Lewis Magangi | Full-Stack Software Engineer",
-  description: "Full-Stack Software Engineer with expertise in Django, React, and Next.js. Building secure, scalable applications.",
-  keywords: ["Software Engineer", "Full-Stack Developer", "Django", "React", "Next.js", "Python"],
+  // Default address from design/v8/boards/OG-Image.dc.html
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lewismagangi.vercel.app"),
+  title: {
+    default: "Lewis Magangi, software engineer",
+    template: "%s, Lewis Magangi",
+  },
+  description: FOOTER_BLURB,
   authors: [{ name: "Lewis Magangi" }],
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://lewismagangi.com",
-    title: "Lewis Magangi | Full-Stack Software Engineer",
-    description: "Full-Stack Software Engineer specializing in Django and React",
-    siteName: "Lewis Magangi Portfolio",
+    locale: "en_GB",
+    title: "Lewis Magangi, software engineer",
+    description: FOOTER_BLURB,
+    siteName: "Lewis Magangi",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lewis Magangi | Full-Stack Software Engineer",
-    description: "Full-Stack Software Engineer specializing in Django and React",
+    title: "Lewis Magangi, software engineer",
+    description: FOOTER_BLURB,
   },
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900`}
-      >
-        <Navigation />
-        <main className="min-h-screen">
+    <html lang="en" className={`${poppins.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
           {children}
-        </main>
-        <Footer />
-        <Toaster />
+          <Cursor />
+          <RevealObserver />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

@@ -152,22 +152,22 @@ export default function AdminSkillsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Manage Skills</h1>
-            <p className="text-slate-400">Add, edit, or delete your skills</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink mb-2">Manage Skills</h1>
+            <p className="text-ink-muted">Add, edit, or delete your skills</p>
           </div>
-          <Button className="bg-cyan-500 hover:bg-cyan-600" onClick={openNewDialog}>
+          <Button className="" onClick={openNewDialog}>
             <Plus className="mr-2" size={20} />
             Add Skill
           </Button>
@@ -181,23 +181,23 @@ export default function AdminSkillsPage() {
               if (!categorySkills || categorySkills.length === 0) return null;
 
               return (
-                <Card key={category} className="bg-slate-800 border-slate-700">
+                <Card key={category} className="bg-surface border-line">
                   <CardHeader>
-                    <CardTitle className="text-cyan-400">{formatCategory(category)}</CardTitle>
+                    <CardTitle className="text-ink">{formatCategory(category)}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {categorySkills.map(skill => (
                         <div
                           key={skill.id}
-                          className="flex items-center justify-between p-4 bg-slate-700 rounded-lg"
+                          className="flex items-center justify-between p-4 bg-surface-raised rounded-lg"
                         >
                           <div className="flex items-center gap-3">
                             {skill.icon && (
                               <span className="text-2xl">{skill.icon}</span>
                             )}
                             <div>
-                              <p className="font-medium text-white">{skill.name}</p>
+                              <p className="font-medium text-ink">{skill.name}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <div className="flex gap-0.5">
                                   {[1, 2, 3, 4, 5].map(level => (
@@ -205,14 +205,14 @@ export default function AdminSkillsPage() {
                                       key={level}
                                       className={`w-2 h-2 rounded-full ${
                                         level <= skill.proficiencyLevel
-                                          ? 'bg-cyan-400'
-                                          : 'bg-slate-500'
+                                          ? 'bg-ink'
+                                          : 'bg-surface-raised !text-ink-muted'
                                       }`}
                                     />
                                   ))}
                                 </div>
                                 {skill.yearsOfExperience && (
-                                  <span className="text-xs text-slate-400">
+                                  <span className="text-xs text-ink-muted">
                                     {skill.yearsOfExperience}y
                                   </span>
                                 )}
@@ -231,7 +231,7 @@ export default function AdminSkillsPage() {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleDelete(skill.id)}
-                              className="text-red-500 hover:text-red-400"
+                              className="text-danger hover:text-danger"
                             >
                               <Trash2 size={14} />
                             </Button>
@@ -246,8 +246,8 @@ export default function AdminSkillsPage() {
           </div>
         ) : (
           <Card className="p-12 text-center">
-            <p className="text-slate-400 mb-4">No skills yet. Add your first one!</p>
-            <Button className="bg-cyan-500 hover:bg-cyan-600" onClick={openNewDialog}>
+            <p className="text-ink-muted mb-4">No skills yet. Add your first one!</p>
+            <Button className="" onClick={openNewDialog}>
               <Plus className="mr-2" size={20} />
               Add Skill
             </Button>
@@ -256,7 +256,7 @@ export default function AdminSkillsPage() {
 
         {/* Add/Edit Dialog */}
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="bg-slate-800 border-slate-700 text-white">
+          <DialogContent className="bg-surface border-line text-ink">
             <DialogHeader>
               <DialogTitle>
                 {editingSkill ? 'Edit Skill' : 'Add New Skill'}
@@ -270,7 +270,7 @@ export default function AdminSkillsPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -280,7 +280,7 @@ export default function AdminSkillsPage() {
                   id="category"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full h-10 px-3 bg-slate-700 border border-slate-600 rounded-md"
+                  className="w-full h-10 px-3 bg-surface-raised border border-line-strong rounded-md"
                   aria-label="Skill Category"
                 >
                   {SKILL_CATEGORIES.map(cat => (
@@ -299,7 +299,7 @@ export default function AdminSkillsPage() {
                     max={5}
                     value={formData.proficiencyLevel}
                     onChange={(e) => setFormData({ ...formData, proficiencyLevel: parseInt(e.target.value) })}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -310,7 +310,7 @@ export default function AdminSkillsPage() {
                     step="0.5"
                     value={formData.yearsOfExperience}
                     onChange={(e) => setFormData({ ...formData, yearsOfExperience: e.target.value })}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function AdminSkillsPage() {
                     value={formData.icon}
                     onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                     placeholder="🔧"
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -333,13 +333,13 @@ export default function AdminSkillsPage() {
                     type="number"
                     value={formData.orderIndex}
                     onChange={(e) => setFormData({ ...formData, orderIndex: parseInt(e.target.value) })}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button type="submit" className="bg-cyan-500 hover:bg-cyan-600">
+                <Button type="submit" className="">
                   {editingSkill ? 'Save Changes' : 'Create Skill'}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>

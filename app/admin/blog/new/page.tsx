@@ -113,7 +113,7 @@ export default function NewBlogPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-6">
+    <div className="text-ink">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/blog">
@@ -125,7 +125,7 @@ export default function NewBlogPostPage() {
           <h1 className="text-2xl font-bold">Create New Blog Post</h1>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-surface border-line">
           <CardHeader>
             <CardTitle>Post Details</CardTitle>
           </CardHeader>
@@ -142,7 +142,7 @@ export default function NewBlogPostPage() {
                       handleChange('slug', generateSlug(e.target.value));
                     }}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -152,7 +152,7 @@ export default function NewBlogPostPage() {
                     value={formData.slug}
                     onChange={(e) => handleChange('slug', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function NewBlogPostPage() {
                   onChange={(e) => handleChange('excerpt', e.target.value)}
                   required
                   rows={2}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -177,7 +177,7 @@ export default function NewBlogPostPage() {
                   onChange={(e) => handleChange('content', e.target.value)}
                   required
                   rows={15}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                   placeholder="Write your blog post content here... (Markdown supported)"
                 />
               </div>
@@ -189,7 +189,7 @@ export default function NewBlogPostPage() {
                     id="coverImage"
                     value={formData.coverImage}
                     onChange={(e) => handleChange('coverImage', e.target.value)}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -198,7 +198,7 @@ export default function NewBlogPostPage() {
                     id="status"
                     value={formData.status}
                     onChange={(e) => handleChange('status', e.target.value)}
-                    className="w-full h-10 px-3 bg-slate-700 border border-slate-600 rounded-md"
+                    className="w-full h-10 px-3 bg-surface-raised border border-line-strong rounded-md"
                     aria-label="Blog Post Status"
                   >
                     <option value="DRAFT">Draft</option>
@@ -224,7 +224,7 @@ export default function NewBlogPostPage() {
                               handleChange('categories', formData.categories.filter(c => c !== cat.id));
                             }
                           }}
-                          className="rounded border-slate-600"
+                          className="rounded border-line-strong"
                         />
                         <span className="text-sm">{cat.name}</span>
                       </label>
@@ -249,7 +249,7 @@ export default function NewBlogPostPage() {
                               handleChange('tags', formData.tags.filter(t => t !== tag.id));
                             }
                           }}
-                          className="rounded border-slate-600"
+                          className="rounded border-line-strong"
                         />
                         <span className="text-sm">{tag.name}</span>
                       </label>
@@ -262,7 +262,7 @@ export default function NewBlogPostPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-cyan-500 hover:bg-cyan-600"
+                  className=""
                 >
                   <Save className="mr-2" size={16} />
                   {loading ? 'Creating...' : 'Create Post'}

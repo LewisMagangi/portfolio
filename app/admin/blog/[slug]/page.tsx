@@ -128,14 +128,14 @@ export default function EditBlogPostPage() {
 
   if (fetchLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-6 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center text-ink">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-6">
+    <div className="text-ink">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/blog">
@@ -147,7 +147,7 @@ export default function EditBlogPostPage() {
           <h1 className="text-2xl font-bold">Edit Blog Post</h1>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-surface border-line">
           <CardHeader>
             <CardTitle>Post Details</CardTitle>
           </CardHeader>
@@ -161,7 +161,7 @@ export default function EditBlogPostPage() {
                     value={formData.title}
                     onChange={(e) => handleChange('title', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function EditBlogPostPage() {
                     value={formData.slug}
                     onChange={(e) => handleChange('slug', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function EditBlogPostPage() {
                   onChange={(e) => handleChange('excerpt', e.target.value)}
                   required
                   rows={2}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -196,7 +196,7 @@ export default function EditBlogPostPage() {
                   onChange={(e) => handleChange('content', e.target.value)}
                   required
                   rows={15}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -207,7 +207,7 @@ export default function EditBlogPostPage() {
                     id="coverImage"
                     value={formData.coverImage}
                     onChange={(e) => handleChange('coverImage', e.target.value)}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -216,7 +216,7 @@ export default function EditBlogPostPage() {
                     id="status"
                     value={formData.status}
                     onChange={(e) => handleChange('status', e.target.value)}
-                    className="w-full h-10 px-3 bg-slate-700 border border-slate-600 rounded-md"
+                    className="w-full h-10 px-3 bg-surface-raised border border-line-strong rounded-md"
                     aria-label="Blog Post Status"
                   >
                     <option value="DRAFT">Draft</option>
@@ -242,7 +242,7 @@ export default function EditBlogPostPage() {
                               handleChange('categories', formData.categories.filter(c => c !== cat.id));
                             }
                           }}
-                          className="rounded border-slate-600"
+                          className="rounded border-line-strong"
                         />
                         <span className="text-sm">{cat.name}</span>
                       </label>
@@ -267,7 +267,7 @@ export default function EditBlogPostPage() {
                               handleChange('tags', formData.tags.filter(t => t !== tag.id));
                             }
                           }}
-                          className="rounded border-slate-600"
+                          className="rounded border-line-strong"
                         />
                         <span className="text-sm">{tag.name}</span>
                       </label>
@@ -280,7 +280,7 @@ export default function EditBlogPostPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-cyan-500 hover:bg-cyan-600"
+                  className=""
                 >
                   <Save className="mr-2" size={16} />
                   {loading ? 'Saving...' : 'Save Changes'}

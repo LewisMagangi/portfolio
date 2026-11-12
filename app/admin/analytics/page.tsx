@@ -54,14 +54,14 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -72,8 +72,8 @@ export default function AnalyticsPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-4xl font-bold text-white">Analytics</h1>
-            <p className="text-slate-400">Site metrics and download statistics</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink">Analytics</h1>
+            <p className="text-ink-muted">Site metrics and download statistics</p>
           </div>
         </div>
 
@@ -82,44 +82,44 @@ export default function AnalyticsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">CV Downloads</CardTitle>
-              <Download className="text-cyan-400" size={20} />
+              <Download className="text-ink" size={20} />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-cyan-400">{data.cvDownloads}</div>
-              <p className="text-xs text-slate-400 mt-1">Total CV downloads</p>
+              <div className="text-3xl font-bold text-ink">{data.cvDownloads}</div>
+              <p className="text-xs text-ink-muted mt-1">Total CV downloads</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Downloads</CardTitle>
-              <FileText className="text-blue-400" size={20} />
+              <FileText className="text-ink-muted" size={20} />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-400">{data.totalDownloads}</div>
-              <p className="text-xs text-slate-400 mt-1">All file downloads</p>
+              <div className="text-3xl font-bold text-ink-muted">{data.totalDownloads}</div>
+              <p className="text-xs text-ink-muted mt-1">All file downloads</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Page Views</CardTitle>
-              <Eye className="text-green-400" size={20} />
+              <Eye className="text-ink-muted" size={20} />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-400">{data.pageViews}</div>
-              <p className="text-xs text-slate-400 mt-1">This month</p>
+              <div className="text-3xl font-bold text-ink-muted">{data.pageViews}</div>
+              <p className="text-xs text-ink-muted mt-1">This month</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Growth</CardTitle>
-              <TrendingUp className="text-purple-400" size={20} />
+              <TrendingUp className="text-ink-muted" size={20} />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-400">+12%</div>
-              <p className="text-xs text-slate-400 mt-1">From last month</p>
+              <div className="text-3xl font-bold text-ink-muted">+12%</div>
+              <p className="text-xs text-ink-muted mt-1">From last month</p>
             </CardContent>
           </Card>
         </div>
@@ -134,21 +134,21 @@ export default function AnalyticsPage() {
             {data.recentDownloads.length > 0 ? (
               <div className="space-y-4">
                 {data.recentDownloads.map((download) => (
-                  <div key={download.id} className="flex items-center justify-between p-4 bg-slate-800 rounded-lg">
+                  <div key={download.id} className="flex items-center justify-between p-4 bg-surface rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                        <Download className="text-cyan-400" size={20} />
+                      <div className="w-10 h-10 bg-surface-raised rounded-lg flex items-center justify-center">
+                        <Download className="text-ink" size={20} />
                       </div>
                       <div>
-                        <p className="font-medium text-white">{download.fileType} Download</p>
-                        <p className="text-sm text-slate-400">{download.ipAddress}</p>
+                        <p className="font-medium text-ink">{download.fileType} Download</p>
+                        <p className="text-sm text-ink-muted">{download.ipAddress}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-ink-muted">
                         {new Date(download.createdAt).toLocaleDateString()}
                       </p>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-ink-subtle">
                         {new Date(download.createdAt).toLocaleTimeString()}
                       </p>
                     </div>
@@ -157,9 +157,9 @@ export default function AnalyticsPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <Download className="mx-auto text-slate-500 mb-4" size={48} />
-                <p className="text-slate-400">No downloads yet</p>
-                <p className="text-sm text-slate-500 mt-1">Downloads will appear here once users start downloading your CV</p>
+                <Download className="mx-auto text-ink-subtle mb-4" size={48} />
+                <p className="text-ink-muted">No downloads yet</p>
+                <p className="text-sm text-ink-subtle mt-1">Downloads will appear here once users start downloading your CV</p>
               </div>
             )}
           </CardContent>

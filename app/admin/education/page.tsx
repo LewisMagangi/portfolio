@@ -73,23 +73,23 @@ export default function AdminEducationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Manage Education</h1>
-            <p className="text-slate-400">Add, edit, or delete education entries</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink mb-2">Manage Education</h1>
+            <p className="text-ink-muted">Add, edit, or delete education entries</p>
           </div>
           <Link href="/admin/education/new">
-            <Button className="bg-cyan-500 hover:bg-cyan-600">
+            <Button className="">
               <Plus className="mr-2" size={20} />
               Add Education
             </Button>
@@ -100,36 +100,36 @@ export default function AdminEducationPage() {
         {education.length > 0 ? (
           <div className="space-y-4">
             {education.map((edu) => (
-              <Card key={edu.id} className="bg-slate-800 border-slate-700 p-6">
+              <Card key={edu.id} className="bg-surface border-line p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center">
-                      <GraduationCap className="text-cyan-400" size={24} />
+                    <div className="w-12 h-12 bg-surface-raised rounded-lg flex items-center justify-center">
+                      <GraduationCap className="text-ink" size={24} />
                     </div>
                     
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
+                        <h3 className="text-xl font-bold text-ink">{edu.degree}</h3>
                         {edu.isCurrent && (
-                          <span className="px-2 py-1 bg-green-500 text-white rounded text-xs">
+                          <span className="px-2 py-1 bg-success-soft text-success rounded text-xs">
                             Current
                           </span>
                         )}
                       </div>
                       
-                      <p className="text-cyan-400 font-medium">{edu.institution}</p>
+                      <p className="text-ink font-medium">{edu.institution}</p>
                       
                       {edu.fieldOfStudy && (
-                        <p className="text-slate-400 text-sm">{edu.fieldOfStudy}</p>
+                        <p className="text-ink-muted text-sm">{edu.fieldOfStudy}</p>
                       )}
                       
-                      <div className="flex items-center gap-4 text-sm text-slate-400 mt-2">
+                      <div className="flex items-center gap-4 text-sm text-ink-muted mt-2">
                         <span className="flex items-center gap-1">
                           <Calendar size={14} />
                           {formatDate(edu.startDate)} - {edu.isCurrent ? 'Present' : (edu.endDate ? formatDate(edu.endDate) : 'N/A')}
                         </span>
                         {edu.grade && (
-                          <span className="px-2 py-0.5 bg-slate-700 rounded text-xs">
+                          <span className="px-2 py-0.5 bg-surface-raised rounded text-xs">
                             Grade: {edu.grade}
                           </span>
                         )}
@@ -137,7 +137,7 @@ export default function AdminEducationPage() {
                       
                       {edu.highlights.length > 0 && (
                         <div className="mt-3">
-                          <p className="text-sm text-slate-500">
+                          <p className="text-sm text-ink-subtle">
                             {edu.highlights.length} highlight{edu.highlights.length !== 1 ? 's' : ''}
                           </p>
                         </div>
@@ -156,7 +156,7 @@ export default function AdminEducationPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => handleDelete(edu.id)}
-                      className="border-red-500 text-red-500 hover:bg-red-500/10"
+                      className="border-danger text-danger hover:bg-surface-raised"
                     >
                       <Trash2 size={14} />
                     </Button>
@@ -167,9 +167,9 @@ export default function AdminEducationPage() {
           </div>
         ) : (
           <Card className="p-12 text-center">
-            <p className="text-slate-400 mb-4">No education entries yet. Add your first one!</p>
+            <p className="text-ink-muted mb-4">No education entries yet. Add your first one!</p>
             <Link href="/admin/education/new">
-              <Button className="bg-cyan-500 hover:bg-cyan-600">
+              <Button className="">
                 <Plus className="mr-2" size={20} />
                 Add Education
               </Button>

@@ -76,32 +76,32 @@ export default function AdminBlogPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'PUBLISHED': return 'bg-green-500';
-      case 'DRAFT': return 'bg-yellow-500';
-      case 'ARCHIVED': return 'bg-gray-500';
-      default: return 'bg-slate-500';
+      case 'PUBLISHED': return 'bg-success-soft !text-success';
+      case 'DRAFT': return 'bg-award-soft !text-award';
+      case 'ARCHIVED': return 'bg-surface-raised !text-ink-muted';
+      default: return 'bg-surface-raised !text-ink-muted';
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Manage Blog Posts</h1>
-            <p className="text-slate-400">Create, edit, or delete blog articles</p>
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink mb-2">Manage Blog Posts</h1>
+            <p className="text-ink-muted">Create, edit, or delete blog articles</p>
           </div>
           <Link href="/admin/blog/new">
-            <Button className="bg-cyan-500 hover:bg-cyan-600">
+            <Button className="">
               <Plus className="mr-2" size={20} />
               New Post
             </Button>
@@ -115,7 +115,7 @@ export default function AdminBlogPage() {
               key={status}
               variant={filter === status ? 'default' : 'outline'}
               onClick={() => setFilter(status)}
-              className={filter === status ? 'bg-cyan-500' : ''}
+              className={filter === status ? '' : ''}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </Button>
@@ -126,10 +126,10 @@ export default function AdminBlogPage() {
         {posts.length > 0 ? (
           <div className="space-y-4">
             {posts.map((post) => (
-              <Card key={post.id} className="bg-slate-800 border-slate-700 p-6">
+              <Card key={post.id} className="bg-surface border-line p-6">
                 <div className="flex gap-6">
                   {post.coverImage && (
-                    <div className="w-48 h-32 bg-slate-700 relative rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-48 h-32 bg-surface-raised relative rounded-lg overflow-hidden flex-shrink-0">
                       <Image
                         src={post.coverImage}
                         alt={post.title}
@@ -141,21 +141,21 @@ export default function AdminBlogPage() {
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(post.status)}`}>
+                      <span className={`px-2 py-1 rounded text-xs text-ink ${getStatusColor(post.status)}`}>
                         {post.status}
                       </span>
                       {post.categories.slice(0, 2).map((cat, idx) => (
-                        <span key={idx} className="px-2 py-1 bg-slate-700 rounded text-xs text-cyan-400">
+                        <span key={idx} className="px-2 py-1 bg-surface-raised rounded text-xs text-ink">
                           {cat.category.name}
                         </span>
                       ))}
                     </div>
                     
-                    <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+                    <h3 className="text-xl font-bold text-ink mb-2">{post.title}</h3>
+                    <p className="text-ink-muted text-sm mb-4 line-clamp-2">{post.excerpt}</p>
                     
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-sm text-slate-400">
+                      <div className="flex items-center gap-4 text-sm text-ink-muted">
                         <span>By {post.author.name}</span>
                         {post.publishedAt && (
                           <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
@@ -176,7 +176,7 @@ export default function AdminBlogPage() {
                           variant="outline"
                           size="sm"
                           onClick={() => handleDelete(post.slug)}
-                          className="border-red-500 text-red-500 hover:bg-red-500/10"
+                          className="border-danger text-danger hover:bg-surface-raised"
                         >
                           <Trash2 size={14} />
                         </Button>
@@ -189,9 +189,9 @@ export default function AdminBlogPage() {
           </div>
         ) : (
           <Card className="p-12 text-center">
-            <p className="text-slate-400 mb-4">No blog posts found. Create your first one!</p>
+            <p className="text-ink-muted mb-4">No blog posts found. Create your first one!</p>
             <Link href="/admin/blog/new">
-              <Button className="bg-cyan-500 hover:bg-cyan-600">
+              <Button className="">
                 <Plus className="mr-2" size={20} />
                 New Post
               </Button>

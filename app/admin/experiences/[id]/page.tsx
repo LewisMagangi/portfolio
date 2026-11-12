@@ -133,14 +133,14 @@ export default function EditExperiencePage() {
 
   if (fetchLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-6 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
+      <div className="flex min-h-[50vh] items-center justify-center text-ink">
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-line-strong border-t-ink" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-6">
+    <div className="text-ink">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <Link href="/admin/experiences">
@@ -152,7 +152,7 @@ export default function EditExperiencePage() {
           <h1 className="text-2xl font-bold">Edit Experience</h1>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-surface border-line">
           <CardHeader>
             <CardTitle>Experience Details</CardTitle>
           </CardHeader>
@@ -166,7 +166,7 @@ export default function EditExperiencePage() {
                     value={formData.company}
                     onChange={(e) => handleChange('company', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function EditExperiencePage() {
                     value={formData.role}
                     onChange={(e) => handleChange('role', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function EditExperiencePage() {
                     id="location"
                     value={formData.location}
                     onChange={(e) => handleChange('location', e.target.value)}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -197,7 +197,7 @@ export default function EditExperiencePage() {
                     id="employmentType"
                     value={formData.employmentType}
                     onChange={(e) => handleChange('employmentType', e.target.value)}
-                    className="w-full h-10 px-3 bg-slate-700 border border-slate-600 rounded-md"
+                    className="w-full h-10 px-3 bg-surface-raised border border-line-strong rounded-md"
                     aria-label="Employment Type"
                   >
                     {EMPLOYMENT_TYPES.map(type => (
@@ -218,7 +218,7 @@ export default function EditExperiencePage() {
                     value={formData.startDate}
                     onChange={(e) => handleChange('startDate', e.target.value)}
                     required
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div>
@@ -229,7 +229,7 @@ export default function EditExperiencePage() {
                     value={formData.endDate}
                     onChange={(e) => handleChange('endDate', e.target.value)}
                     disabled={formData.isCurrent}
-                    className="bg-slate-700 border-slate-600"
+                    className="bg-bg border-line-strong"
                   />
                 </div>
                 <div className="flex items-end">
@@ -238,7 +238,7 @@ export default function EditExperiencePage() {
                       type="checkbox"
                       checked={formData.isCurrent}
                       onChange={(e) => handleChange('isCurrent', e.target.checked)}
-                      className="rounded border-slate-600"
+                      className="rounded border-line-strong"
                     />
                     <span>Currently working here</span>
                   </label>
@@ -252,7 +252,7 @@ export default function EditExperiencePage() {
                   value={formData.description}
                   onChange={(e) => handleChange('description', e.target.value)}
                   rows={4}
-                  className="bg-slate-700 border-slate-600"
+                  className="bg-bg border-line-strong"
                 />
               </div>
 
@@ -270,7 +270,7 @@ export default function EditExperiencePage() {
                       <Input
                         value={achievement}
                         onChange={(e) => updateAchievement(index, e.target.value)}
-                        className="bg-slate-700 border-slate-600"
+                        className="bg-bg border-line-strong"
                       />
                       {formData.achievements.length > 1 && (
                         <Button
@@ -278,7 +278,7 @@ export default function EditExperiencePage() {
                           variant="outline"
                           size="icon"
                           onClick={() => removeAchievement(index)}
-                          className="border-red-500 text-red-500 hover:bg-red-500/10"
+                          className="border-danger text-danger hover:bg-surface-raised"
                         >
                           <X size={14} />
                         </Button>
@@ -292,7 +292,7 @@ export default function EditExperiencePage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-cyan-500 hover:bg-cyan-600"
+                  className=""
                 >
                   <Save className="mr-2" size={16} />
                   {loading ? 'Saving...' : 'Save Changes'}

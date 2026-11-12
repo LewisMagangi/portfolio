@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/auth';
 
 export async function GET(
   request: NextRequest,
@@ -59,7 +60,9 @@ export async function GET(
       }
     });
 
-    if (!post) {
+    // An unpublished post doesn't exist for anyone but the signed in admin.
+    const isAdmin = Boolean(verifyAuth(request));
+    if (!post || (post.status !== 'PUBLISHED' && !isAdmin)) {
       return NextResponse.json(
         { success: false, error: 'Post not found' },
         { status: 404 }

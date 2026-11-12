@@ -1,280 +1,216 @@
-// app/admin/page.tsx
-'use client';
+"use client"
 
-import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import {
-  FolderKanban,
-  FileText,
-  MessageSquare,
-  User,
-  Settings,
-  LogOut,
-  TrendingUp,
-  Eye,
-  Mail
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Briefcase, FolderSimplePlus, PenNib, Quotes, UploadSimple, type Icon } from "@phosphor-icons/react"
+import Link from "next/link"
+import { useEffect, useState, type ReactNode } from "react"
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  avatar?: string;
+import { PageHeader } from "@/components/admin/admin-shell"
+import { StatusBadge } from "@/components/admin/status-badge"
+import { buttonVariants } from "@/components/ui/button"
+
+type Message = { id: string; name: string; subject?: string | null; status: string; createdAt: string }
+type Draft = { id: string; slug: string; title: string; status: string; updatedAt?: string; createdAt: string }
+type Data = {
+  name: string
+  projects: number
+  featured: number
+  posts: number
+  drafts: Draft[]
+  messages: Message[]
+  newMessages: number
+  reviews: number
 }
 
-export default function AdminDashboard() {
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    projects: 0,
-    blogPosts: 0,
-    messages: 0,
-    views: 0
-  });
+const QUICK: { icon: Icon; label: string; href: string }[] = [
+  { icon: FolderSimplePlus, label: "New project", href: "/admin/projects/new" },
+  { icon: PenNib, label: "New blog post", href: "/admin/blog/new" },
+  { icon: Quotes, label: "Review the references", href: "/admin/testimonials" },
+  { icon: Briefcase, label: "Add experience", href: "/admin/experiences/new" },
+  { icon: UploadSimple, label: "Upload CV", href: "/admin/cv" },
+]
 
-  const fetchUser = useCallback(async () => {
-    try {
-      const response = await fetch('/api/auth/me');
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        router.push('/admin/login');
-      }
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      router.push('/admin/login');
-    } finally {
-      setLoading(false);
-    }
-  }, [router]);
+const EAT_HOUR = new Intl.DateTimeFormat("en-GB", { hour: "numeric", hourCycle: "h23", timeZone: "Africa/Nairobi" })
+const DAY = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "Africa/Nairobi" })
+
+function greeting(name: string) {
+  const h = Number(EAT_HOUR.format(new Date()))
+  const part = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"
+  return name ? `${part}, ${name.split(/\s+/)[0]}` : part
+}
+
+function when(iso: string) {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000)
+  return days <= 0 ? "Today" : days === 1 ? "Yesterday" : days < 7 ? `${days} days ago` : DAY.format(new Date(iso))
+}
+
+async function json(url: string) {
+  try {
+    const res = await fetch(url)
+    return res.ok ? await res.json() : null
+  } catch {
+    return null
+  }
+}
+
+function Kpi({ label, value, sub, href }: { label: string; value: ReactNode; sub: string; href: string }) {
+  return (
+    <Link
+      href={href}
+      className="flex flex-col gap-1 rounded-lg border border-line bg-surface p-5 text-ink no-underline transition-colors duration-fast ease-out hover:border-line-strong"
+    >
+      <span className="label text-ink-subtle">{label}</span>
+      <span className="font-mono text-[32px] font-medium leading-[38px] tabular-nums">{value}</span>
+      <span className="text-[13px] text-ink-muted">{sub}</span>
+    </Link>
+  )
+}
+
+function Table({ head, children, empty }: { head: string[]; children: ReactNode; empty: string | null }) {
+  return (
+    <div className="overflow-x-auto rounded-lg border border-line">
+      <table className="w-full border-collapse text-sm">
+        <thead>
+          <tr className="text-left text-xs text-ink-subtle">
+            {head.map((h) => (
+              <th key={h} scope="col" className="border-b border-line px-4 py-2.5 font-medium">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {empty ? (
+            <tr>
+              <td colSpan={head.length} className="px-4 py-6 text-center text-ink-muted">
+                {empty}
+              </td>
+            </tr>
+          ) : (
+            children
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+/** Admin dashboard (Admin-Dashboard board): what changed, and the next things to do. */
+export default function AdminDashboard() {
+  const [d, setD] = useState<Data | null>(null)
 
   useEffect(() => {
-    fetchUser();
-    fetchStats();
-  }, [fetchUser]);
+    Promise.all([
+      json("/api/auth/me"),
+      json("/api/projects"),
+      json("/api/blog/posts?status=PUBLISHED&limit=1"),
+      json("/api/blog/posts?status=DRAFT&limit=5"),
+      json("/api/contact"),
+      json("/api/testimonials?status=PENDING&source=CLIENT_REVIEW"),
+    ]).then(([me, projects, posts, drafts, contact, reviews]) => {
+      const msgs: Message[] = contact?.data ?? []
+      setD({
+        name: me?.user?.name ?? "",
+        projects: projects?.count ?? 0,
+        // /api/projects returns its list as `posts`
+        featured: (projects?.posts ?? projects?.data ?? []).filter((p: { featured?: boolean }) => p.featured).length,
+        posts: posts?.pagination?.total ?? 0,
+        drafts: drafts?.data ?? [],
+        messages: msgs.slice(0, 3),
+        newMessages: msgs.filter((m) => m.status === "NEW").length,
+        reviews: reviews?.data?.length ?? 0,
+      })
+    })
+  }, [])
 
-  const fetchStats = async () => {
-    try {
-      const [projectsRes, postsRes, messagesRes] = await Promise.all([
-        fetch('/api/projects'),
-        fetch('/api/blog/posts'),
-        fetch('/api/contact?status=NEW')
-      ]);
-
-      const [projectsData, postsData, messagesData] = await Promise.all([
-        projectsRes.json(),
-        postsRes.json(),
-        messagesRes.json()
-      ]);
-
-      setStats({
-        projects: projectsData.count || 0,
-        blogPosts: postsData.pagination?.total || 0,
-        messages: messagesData.data?.length || 0,
-        views: 0 // Would fetch from analytics
-      });
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      router.push('/admin/login');
-      router.refresh();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent" />
-      </div>
-    );
-  }
+  const v = (n: number | undefined) => (d ? n : "–")
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
-            <p className="text-slate-400">Welcome back, {user?.name}!</p>
-          </div>
-          <Button variant="outline" onClick={handleLogout} className="border-red-500 text-red-500 hover:bg-red-500/10">
-            <LogOut className="mr-2" size={20} />
-            Logout
-          </Button>
-        </div>
+    <>
+      <PageHeader crumb="Admin / Overview" title={d ? greeting(d.name) : "Dashboard"} description="Here’s what changed since you last logged in.">
+        <a href="/" target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          View site
+        </a>
+        <Link href="/admin/projects/new" className={buttonVariants({ size: "sm" })}>
+          New project
+        </Link>
+      </PageHeader>
 
-        {/* Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
-              <FolderKanban className="text-cyan-400" size={20} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-cyan-400">{stats.projects}</div>
-              <p className="text-xs text-slate-400 mt-1">Active and completed</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Blog Posts</CardTitle>
-              <FileText className="text-blue-400" size={20} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-blue-400">{stats.blogPosts}</div>
-              <p className="text-xs text-slate-400 mt-1">Published articles</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">New Messages</CardTitle>
-              <Mail className="text-purple-400" size={20} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-purple-400">{stats.messages}</div>
-              <p className="text-xs text-slate-400 mt-1">Unread inquiries</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-              <Eye className="text-green-400" size={20} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-green-400">{stats.views}</div>
-              <p className="text-xs text-slate-400 mt-1">This month</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Link href="/admin/projects">
-            <Card className="hover:border-cyan-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <FolderKanban className="text-cyan-400" size={24} />
-                </div>
-                <CardTitle>Projects</CardTitle>
-                <CardDescription>Manage portfolio projects</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/blog">
-            <Card className="hover:border-blue-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <FileText className="text-blue-400" size={24} />
-                </div>
-                <CardTitle>Blog Posts</CardTitle>
-                <CardDescription>Create and publish articles</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/experiences">
-            <Card className="hover:border-green-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp className="text-green-400" size={24} />
-                </div>
-                <CardTitle>Experiences</CardTitle>
-                <CardDescription>Manage work history</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/education">
-            <Card className="hover:border-indigo-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <User className="text-indigo-400" size={24} />
-                </div>
-                <CardTitle>Education</CardTitle>
-                <CardDescription>Manage education entries</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/skills">
-            <Card className="hover:border-yellow-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Settings className="text-yellow-400" size={24} />
-                </div>
-                <CardTitle>Skills</CardTitle>
-                <CardDescription>Manage technical skills</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/testimonials">
-            <Card className="hover:border-pink-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <MessageSquare className="text-pink-400" size={24} />
-                </div>
-                <CardTitle>Testimonials</CardTitle>
-                <CardDescription>Manage client reviews</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/messages">
-            <Card className="hover:border-purple-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Mail className="text-purple-400" size={24} />
-                </div>
-                <CardTitle>Messages</CardTitle>
-                <CardDescription>View contact inquiries</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/analytics">
-            <Card className="hover:border-orange-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Eye className="text-orange-400" size={24} />
-                </div>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>View site metrics</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-
-          <Link href="/admin/profile">
-            <Card className="hover:border-green-500 transition-colors cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <User className="text-green-400" size={24} />
-                </div>
-                <CardTitle>Profile</CardTitle>
-                <CardDescription>Manage your account settings</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        </div>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-4" aria-busy={!d}>
+        <Kpi label="Projects" value={v(d?.projects)} sub={d ? `${d.featured} featured on the site` : "Loading"} href="/admin/projects" />
+        <Kpi label="Blog posts" value={v(d?.posts)} sub={d ? `${d.drafts.length} in draft` : "Loading"} href="/admin/blog" />
+        <Kpi label="New messages" value={v(d?.newMessages)} sub="Unread in the inbox" href="/admin/messages" />
+        <Kpi label="Reviews waiting" value={v(d?.reviews)} sub="Client reviews to confirm" href="/admin/testimonials" />
       </div>
-    </div>
-  );
+
+      <div className="flex flex-wrap items-start gap-6">
+        <section className="flex min-w-0 flex-[3_1_520px] flex-col gap-3" aria-labelledby="dash-msgs">
+          <div className="flex items-baseline justify-between">
+            <h2 id="dash-msgs" className="title m-0">
+              Latest messages
+            </h2>
+            <Link href="/admin/messages" className="text-[13px] text-ink-muted no-underline hover:text-ink">
+              Open inbox
+            </Link>
+          </div>
+          <Table head={["From", "Status", "Received"]} empty={!d ? "Loading" : d.messages.length ? null : "No messages yet."}>
+            {d?.messages.map((m) => (
+              <tr key={m.id} className="border-b border-line last:border-b-0">
+                <td className="px-4 py-3">
+                  <Link href="/admin/messages" className="font-medium text-ink no-underline hover:underline">
+                    {m.name}
+                  </Link>
+                  {m.subject && <div className="text-[13px] text-ink-muted">{m.subject}</div>}
+                </td>
+                <td className="px-4 py-3">
+                  <StatusBadge status={m.status} />
+                </td>
+                <td className="px-4 py-3 font-mono text-xs text-ink-subtle">{when(m.createdAt)}</td>
+              </tr>
+            ))}
+          </Table>
+
+          <h2 className="title mb-0 mt-4">Drafts</h2>
+          <Table head={["Title", "Status", "Edited"]} empty={!d ? "Loading" : d.drafts.length ? null : "No drafts."}>
+            {d?.drafts.map((p) => (
+              <tr key={p.id} className="border-b border-line last:border-b-0">
+                <td className="px-4 py-3">
+                  <Link href={`/admin/blog/${p.slug}`} className="font-medium text-ink no-underline hover:underline">
+                    {p.title}
+                  </Link>
+                  <div className="text-[13px] text-ink-muted">Blog post</div>
+                </td>
+                <td className="px-4 py-3">
+                  <StatusBadge status={p.status} />
+                </td>
+                <td className="px-4 py-3 font-mono text-xs text-ink-subtle">{when(p.updatedAt ?? p.createdAt)}</td>
+              </tr>
+            ))}
+          </Table>
+        </section>
+
+        <aside className="flex min-w-0 flex-[1_1_280px] flex-col gap-4">
+          <div className="flex flex-col gap-1 rounded-lg border border-line bg-surface p-5">
+            <span className="label mb-1.5 text-ink-subtle">Quick actions</span>
+            {QUICK.map((q) => (
+              <Link
+                key={q.href}
+                href={q.href}
+                className="flex min-h-10 items-center gap-2.5 rounded-md px-2 text-sm text-ink-muted no-underline transition-colors duration-fast ease-out hover:bg-surface-raised hover:text-ink max-md:min-h-11"
+              >
+                <q.icon size={16} aria-hidden />
+                {q.label}
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-col items-start gap-2.5 rounded-lg border border-line bg-surface p-5">
+            <span className="label text-ink-subtle">CV</span>
+            <strong className="font-mono text-[13px] font-medium">Lewis_Magangi_CV.pdf</strong>
+            <Link href="/admin/cv" className={buttonVariants({ variant: "outline", size: "sm" })}>
+              Replace CV
+            </Link>
+          </div>
+        </aside>
+      </div>
+    </>
+  )
 }

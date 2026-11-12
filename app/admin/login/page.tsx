@@ -1,117 +1,130 @@
-// app/admin/login/page.tsx
-'use client';
+"use client"
 
-import { useState } from 'react';
+import { ArrowLeft, Eye, EyeSlash } from "@phosphor-icons/react"
+import Link from "next/link"
+import { useRef, useState, type FormEvent } from "react"
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogIn, Eye, EyeOff } from 'lucide-react';
-import { toast } from 'sonner';
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
+const control =
+  "box-border min-h-11 w-full rounded-md border border-line-strong bg-bg px-3 py-2.5 font-sans text-base text-ink placeholder:text-ink-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]"
+
+/** Admin log in (Admin-Login board): one card on a faded chessboard. */
 export default function AdminLoginPage() {
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [loading, setLoading] = useState(false)
+  const [show, setShow] = useState(false)
+  const [error, setError] = useState("")
+  const passwordRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = new FormData(e.currentTarget)
+    setLoading(true)
+    setError("")
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success('Login successful!');
-        // Force a full page navigation to ensure cookies are properly set
-        window.location.href = '/admin';
-      } else {
-        toast.error(data.message || 'Login failed');
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.get("email"), password: form.get("password") }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && data.success) {
+        const from = new URLSearchParams(window.location.search).get("from")
+        // A full navigation so the new session cookie is sent with the next request.
+        window.location.href = from?.startsWith("/admin") ? from : "/admin"
+        return
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Login failed. Please try again.');
+      setError(
+        res.status === 401 && data.message === "Account is deactivated"
+          ? "This account is switched off."
+          : res.status === 401
+            ? "That email and password don’t match. Check both, or reset the password with npm run admin:reset."
+            : "Couldn’t log in just now. Try again in a minute.",
+      )
+      passwordRef.current?.select()
+    } catch {
+      setError("Couldn’t reach the server. Check your connection and try again.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-slate-800 border-slate-700">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-cyan-400 flex items-center justify-center gap-2">
-            <LogIn className="w-6 h-6" />
-            Admin Login
-          </CardTitle>
-          <CardDescription className="text-slate-400">
-            Sign in to manage your portfolio content
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="email" className="text-slate-300">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="Enter your email"
-                className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+    <div data-theme="dark" className="relative grid min-h-screen place-items-center overflow-hidden bg-bg p-8 font-sans text-ink max-sm:p-4">
+      <div aria-hidden className="gb-login-board" />
+      <main className="relative flex w-full max-w-[400px] flex-col gap-6">
+        <div className="flex items-center gap-2.5">
+          <span className="gb-mono">LM</span>
+          <strong>Admin</strong>
+          <span className="rounded-sm bg-surface-raised px-1.5 py-0.5 font-mono text-[10px] tracking-[0.08em]">CMS</span>
+        </div>
+
+        <form onSubmit={submit} className="flex flex-col gap-[18px] rounded-lg border border-line bg-surface p-8 max-sm:p-6">
+          <div className="flex flex-col gap-1">
+            <h1 className="m-0 text-2xl font-semibold leading-[30px] tracking-[-0.02em]">Log in</h1>
+            <p className="m-0 text-sm text-ink-muted">Manage projects, posts, certificates and messages.</p>
+          </div>
+
+          {error && (
+            <p role="alert" className="m-0 text-sm text-danger">
+              {error}
+            </p>
+          )}
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="text-sm font-medium">
+              Email
+            </label>
+            <input id="email" name="email" type="email" autoComplete="username" required autoFocus className={control} />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="password" className="text-sm font-medium">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                ref={passwordRef}
+                id="password"
+                name="password"
+                type={show ? "text" : "password"}
+                autoComplete="current-password"
                 required
+                aria-describedby="password-hint"
+                className={cn(control, "pr-12")}
               />
+              <button
+                type="button"
+                onClick={() => setShow((s) => !s)}
+                aria-label={show ? "Hide password" : "Show password"}
+                aria-pressed={show}
+                className="absolute right-0 top-0 grid size-11 place-items-center rounded-md text-ink-muted hover:text-ink"
+              >
+                {show ? <EyeSlash size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
+              </button>
             </div>
+            <span id="password-hint" className="text-xs text-ink-subtle">
+              At least 12 characters.
+            </span>
+          </div>
 
-            <div>
-              <Label htmlFor="password" className="text-slate-300">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  placeholder="Enter your password"
-                  className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 pr-10"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
+          <button type="submit" disabled={loading} className={cn(buttonVariants(), "h-11 w-full justify-center disabled:opacity-60")}>
+            {loading ? "Logging in" : "Log in"}
+          </button>
+          <span className="text-center font-mono text-xs text-ink-subtle">Admins only. Secured session.</span>
+        </form>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white"
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+        <div className="flex justify-between text-[13px]">
+          <Link href="/" className="inline-flex min-h-11 items-center gap-1.5 text-ink-muted no-underline hover:text-ink">
+            <ArrowLeft size={14} aria-hidden />
+            Back to site
+          </Link>
+          <Link href="/admin/setup" className="inline-flex min-h-11 items-center text-ink-muted no-underline hover:text-ink">
+            First run? Set up admin
+          </Link>
+        </div>
+      </main>
     </div>
-  );
+  )
 }

@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, MessageStatus } from '@/lib/generated/prisma';
 import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,6 +57,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    // Messages are private: only a signed in admin can list them.
+    if (!verifyAuth(request)) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const statusParam = searchParams.get('status');
 

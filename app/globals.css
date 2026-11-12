@@ -3,37 +3,476 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+/* Gambit v8.7 tokens (design/v8/gambit/tokens.css), mapped onto shadcn/ui (design/v8/gambit/shadcn-handoff.md).
+   Dark is the default. next-themes sets both `class` and `data-theme` on <html>. */
+@layer base {
+  :root,
+  [data-theme="dark"] {
+    --bg: #000000;
+    --surface: #181818;
+    --surface-raised: #1f1f1f;
+    --line: #272727;
+    --line-strong: #6b6b6b;
+    --ink: #ededed;
+    --ink-muted: #a1a1a1;
+    --ink-subtle: #8f8f8f;
+    --primary-color: #ffffff;
+    --on-primary: #000000;
+    --primary-hover: #d4d4d4;
+    --success: #3dd68c;
+    --success-soft: #0f2a1c;
+    --award: #f5b14c;
+    --square: #181818;
+    --award-soft: #2a1f0c;
+    --danger: #ff6166;
+    --focus: var(--ink);
+    --board-light: #cfcfc9;
+    --board-dark: #8f8f89;
+
+    /* shadcn semantic variables (HSL channels) */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 93%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 93%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 93%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 93%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 63%;
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 93%;
+    --destructive: 358 100% 69%;
+    --destructive-foreground: 0 0% 0%;
+    --border: 0 0% 15%;
+    --input: 0 0% 42%;
+    --ring: 0 0% 93%;
+    color-scheme: dark;
+  }
+
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #fafafa;
+    --surface-raised: #f2f2f2;
+    --line: #e5e5e5;
+    --line-strong: #8c8c8c;
+    --ink: #0a0a0a;
+    --ink-muted: #525252;
+    --ink-subtle: #666666;
+    --primary-color: #000000;
+    --on-primary: #ffffff;
+    --primary-hover: #2e2e2e;
+    --success: #0b7a47;
+    --success-soft: #e3f4ea;
+    --award: #8a5300;
+    --square: #f2f2f2;
+    --award-soft: #fbf0dc;
+    --danger: #c4262e;
+    --board-light: #e4e4df;
+    --board-dark: #a3a39d;
+
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 4%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 32%;
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 357 67% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 55%;
+    --ring: 0 0% 4%;
+    color-scheme: light;
+  }
+
+  :root {
+    /* next/font sets --font-poppins and --font-geist-mono on <html> */
+    --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+    --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+    --radius: 0.5rem;
+    --content-max: 1080px;
+    --prose-max: 680px;
+    --nav-height: 56px;
+    --z-nav: 50;
+    --z-skip: 200;
+
+    /* Motion (v8, Tilda timing) */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-tilda: cubic-bezier(0.19, 1, 0.22, 1);
+    --dur-fast: 200ms;
+    --dur-press: 160ms;
+    --dur-open: 300ms;
+    --dur-exit: 200ms;
+    --dur-layout: 500ms;
+    --rise-title: 48px;
+    --rise-text: 32px;
+    --rise-item: 24px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Browser surfaces carry the palette too. */
+  ::selection {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  * {
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 999px;
+    border: 2px solid var(--bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--line-strong);
+  }
+  input,
+  textarea {
+    caret-color: var(--ink);
+  }
+
+  /* Prose links: a quiet underline that firms up on hover. Links with a class style themselves. */
+  a {
+    color: inherit;
+  }
+  a:not([class]) {
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+  a:not([class]):hover {
+    text-decoration-color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  [id] {
+    scroll-margin-top: 96px;
+  }
+
+  /* Numbers that sit in columns line up. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer components {
+  /* Type scale (tokens.css). Display sizes step down on phones. */
+  .display-xl {
+    font-size: 60px;
+    line-height: 60px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .display {
+    font-size: 48px;
+    line-height: 48px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .heading {
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .title {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .lead {
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 400;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+  @media (max-width: 640px) {
+    .display-xl {
+      font-size: 36px;
+      line-height: 40px;
+    }
+    .display {
+      font-size: 36px;
+      line-height: 40px;
+    }
+    .heading {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+
 }
 
-body {
-  background: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
-  color: #f8fafc;
-  min-height: 100vh;
-}
+/* Gambit component rules live outside @layer so Tailwind never purges them: several of these classes are
+   applied at runtime (cursor states, shader fades, reveal flags) and never appear literally in the source. */
+  /* SplitWords: each word rises from its own clip on the hero heading. */
+  .gb-split {
+    text-wrap: balance;
+  }
+  .gb-split-w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .gb-split-w > span {
+    display: inline-block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gb-motion .gb-split-w > span {
+      animation: gb-word-up 1200ms var(--ease-tilda) both;
+      animation-delay: calc(120ms + var(--i) * 60ms);
+    }
+  }
+  @media (max-width: 640px) {
+    .gb-split-br {
+      display: none;
+    }
+  }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
+  /* Reveals (v8): headings 1.2s rising 48px, body 0.7s rising 32px after 100ms, list items 0.5s rising 24px
+     staggered 60ms from 200ms. Buttons are never part of a reveal. Off under reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    html.gb-reveal-on [data-reveal] :is(h1, h2, h3, .display, .heading) {
+      opacity: 0;
+      transform: translateY(var(--rise-title));
+      transition:
+        opacity 1200ms var(--ease-tilda),
+        transform 1200ms var(--ease-tilda);
+    }
+    html.gb-reveal-on [data-reveal] :is(p, .lead):not(li p, li .lead, button p) {
+      opacity: 0;
+      transform: translateY(var(--rise-text));
+      transition:
+        opacity 700ms var(--ease-tilda) 100ms,
+        transform 700ms var(--ease-tilda) 100ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li {
+      opacity: 0;
+      transform: translateY(var(--rise-item));
+      transition:
+        opacity 500ms var(--ease-tilda) 200ms,
+        transform 500ms var(--ease-tilda) 200ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(2) {
+      transition-delay: 260ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(3) {
+      transition-delay: 320ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(4) {
+      transition-delay: 380ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(5) {
+      transition-delay: 440ms;
+    }
+    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(n + 6) {
+      transition-delay: 500ms;
+    }
+    html.gb-reveal-on [data-reveal].is-in :is(h1, h2, h3, .display, .heading, p, .lead, li) {
+      opacity: 1;
+      transform: none;
+    }
+    /* The paragraph hide rule carries a :not() that outranks the line above (0,4,2 vs 0,4,1); match it so body
+       text actually reveals. (Same bug exists in bundle.css.) */
+    html.gb-reveal-on [data-reveal].is-in :is(p, .lead):not(li p, li .lead, button p) {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
-::-webkit-scrollbar-track {
-  background: rgb(15 23 42);
-}
+  /* Dither shader layer */
+  .gb-shader {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    contain: strict;
+    transform: translateZ(0);
+  }
+  .gb-shader canvas {
+    display: block;
+    image-rendering: pixelated;
+  }
+  .gb-shader-fade-right {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+  }
+  .gb-shader-fade-radial {
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 70% 40%, #000 10%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 70% at 70% 40%, #000 10%, transparent 75%);
+  }
+  .gb-shader-fade-bottom {
+    -webkit-mask-image: linear-gradient(transparent, #000 40%);
+    mask-image: linear-gradient(transparent, #000 40%);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: rgb(51 65 85);
-  border-radius: 5px;
-}
+  /* Phone menu: links rise in after the sheet opens. */
+  @media (prefers-reduced-motion: no-preference) {
+    .gb-sheet-in {
+      animation: gb-menu-in var(--dur-layout) var(--ease-out) both;
+      animation-delay: calc(80ms + var(--i, 0) * 60ms);
+    }
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(71 85 105);
+  /* Cursor: a small board square that follows, and turns on its diagonal over anything you can use. */
+  html.gb-cursor-on,
+  html.gb-cursor-on * {
+    cursor: none !important;
+  }
+  html.gb-cursor-on :is(input, textarea, select, [contenteditable="true"], iframe) {
+    cursor: auto !important;
+  }
+  html.gb-cursor-on :is(input[type="text"], input[type="email"], input[type="search"], input[type="url"], textarea) {
+    cursor: text !important;
+  }
+  .gb-cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: 2147483000;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
+  }
+  .gb-cursor.is-on {
+    opacity: 1;
+  }
+  .gb-cursor.is-native {
+    opacity: 0;
+  }
+  .gb-cursor-pos {
+    position: fixed;
+    left: 0;
+    top: 0;
+    will-change: transform;
+  }
+  .gb-cursor-dot {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: #fff;
+    transition: transform 300ms var(--ease-out);
+  }
+  .gb-cursor-ring {
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    opacity: 0.5;
+    display: grid;
+    place-items: center;
+    transition:
+      transform 400ms var(--ease-out),
+      opacity 200ms var(--ease-out),
+      border-radius 400ms var(--ease-out);
+  }
+  .gb-cursor-label {
+    font: 600 10px/1 var(--font-sans);
+    color: #fff;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
+    white-space: nowrap;
+  }
+  .gb-cursor.is-link .gb-cursor-ring {
+    transform: rotate(45deg) scale(1.25);
+    opacity: 0.9;
+  }
+  .gb-cursor.is-link .gb-cursor-dot {
+    transform: rotate(45deg) scale(0.6);
+  }
+  .gb-cursor.is-label .gb-cursor-ring {
+    transform: scale(1.7);
+    opacity: 1;
+    border-radius: 15px;
+  }
+  .gb-cursor.is-label .gb-cursor-label {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  .gb-cursor.is-label .gb-cursor-dot {
+    opacity: 0;
+  }
+  .gb-cursor.is-down .gb-cursor-ring {
+    transform: scale(0.85);
+  }
+  .gb-cursor.is-down.is-link .gb-cursor-ring {
+    transform: rotate(45deg) scale(1.05);
+  }
+  .gb-cursor.is-idle:not(.is-link):not(.is-label) .gb-cursor-ring {
+    animation: gb-breathe 2.4s var(--ease-out) infinite alternate;
+  }
+
+@keyframes gb-word-up {
+  from {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+}
+@keyframes gb-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes gb-breathe {
+  to {
+    transform: scale(1.12) rotate(8deg);
+    opacity: 0.32;
+  }
 }
