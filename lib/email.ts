@@ -21,9 +21,12 @@ function getTransport() {
   return transport
 }
 
+/** Lewis's inboxes for site alerts: the main one first, then the second. ALERT_EMAILS (comma separated) overrides. */
+const DEFAULT_ADMIN_EMAILS = ["lewismagangi1@gmail.com", "momanyilewis10@gmail.com"]
+
 /** Where notifications for Lewis go. */
 export function adminAddress() {
-  return process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || ""
+  return process.env.ALERT_EMAILS || DEFAULT_ADMIN_EMAILS.join(", ")
 }
 
 /** Sends one email. Never throws: a failed email must not undo the action that triggered it. */
