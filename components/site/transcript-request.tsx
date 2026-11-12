@@ -37,11 +37,12 @@ export function TranscriptRequest() {
     if (state.status === "sent") doneRef.current?.focus()
     else if (state.status === "error") {
       const first = ORDER.find((f) => state.fields[f])
-      formRef.current?.querySelector<HTMLElement>(first ? `[name="${first}"]` : "input")?.focus()
+      formRef.current?.querySelector<HTMLElement>(`[name="${first ?? "name"}"]`)?.focus()
     }
   }, [state])
   useEffect(() => {
-    if (open && state.status === "idle") formRef.current?.querySelector<HTMLElement>("input")?.focus()
+    // Not the hidden anti-spam field, which comes first in the markup.
+    if (open && state.status === "idle") formRef.current?.querySelector<HTMLElement>('[name="name"]')?.focus()
   }, [open, state.status])
 
   const a11y = (name: TranscriptField, id: string) => ({

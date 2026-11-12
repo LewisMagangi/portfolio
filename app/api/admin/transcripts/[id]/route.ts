@@ -16,7 +16,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       return NextResponse.json({ success: false, error: result.error }, { status: result.error === "not_found" ? 404 : 409 })
     }
     const { status, expiresAt } = result.request
-    return NextResponse.json({ success: true, data: { status, expiresAt, emailed: result.emailed } })
+    const link = "link" in result ? result.link : undefined
+    return NextResponse.json({ success: true, data: { status, expiresAt, emailed: result.emailed, link } })
   } catch (err) {
     console.error("Transcript decision failed", err)
     return NextResponse.json({ success: false, error: "Could not update the request" }, { status: 500 })

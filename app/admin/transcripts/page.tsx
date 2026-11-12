@@ -59,7 +59,7 @@ const DATETIME = new Intl.DateTimeFormat("en-GB", {
 })
 const until = (r: Request) =>
   r.status === "APPROVED" && r.expiresAt ? DATE.format(new Date(r.expiresAt)) : r.status === "REVOKED" ? "Revoked" : r.status === "EXPIRED" && r.expiresAt ? `Closed ${DATE.format(new Date(r.expiresAt))}` : "None"
-const kb = (n: number) => (n > 1024 * 1024 ? `${(n / 1024 / 1024).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`)
+const kb = (n: number) => (n > 1024 * 1024 ? `${(n / 1024 / 1024).toFixed(1)} MB` : n < 1024 ? "under 1 KB" : `${Math.round(n / 1024)} KB`)
 
 /** Admin › Transcripts (Admin-Transcripts board): requests to see the private transcript, and the file itself. */
 export default function AdminTranscriptsPage() {
@@ -72,6 +72,7 @@ export default function AdminTranscriptsPage() {
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<{ text: string; tone?: "danger" } | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [manualLink, setManualLink] = useState<{ name: string; link: string } | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
 
   const load = useCallback(async () => {
@@ -112,7 +113,8 @@ export default function AdminTranscriptsPage() {
       if (!res.ok) throw new Error(body.error)
       const first = r.name.split(/\s+/)[0]
       const date = body.data.expiresAt ? DATE.format(new Date(body.data.expiresAt)) : ""
-      const mailNote = body.data.emailed ? "" : " The email didn’t send (SMTP isn’t set up), so share the link another way or set up SMTP."
+      const mailNote = body.data.emailed ? "" : " The email didn’t send, so copy the link below and share it yourself."
+      setManualLink(body.data.link ? { name: r.name, link: body.data.link } : null)
       setNotice(
         action === "decline"
           ? { text: `Declined. ${first} gets a short note, no link.${body.data.emailed ? "" : mailNote}`, tone: "danger" }
@@ -171,6 +173,22 @@ export default function AdminTranscriptsPage() {
       <p aria-live="polite" className={cn("m-0 min-h-5 text-sm", notice?.tone === "danger" ? "text-danger" : "text-ink-muted")}>
         {notice?.text}
       </p>
+
+      {manualLink && (
+        <div className="flex flex-col gap-2 rounded-lg border border-line-strong bg-surface p-4" role="status">
+          <span className="text-sm font-medium">Private link for {manualLink.name}</span>
+          <span className="text-xs text-ink-subtle">Shown once. It isn’t stored anywhere you can see again; approve again to make a new one.</span>
+          <div className="flex flex-wrap gap-2">
+            <input readOnly value={manualLink.link} onFocus={(e) => e.currentTarget.select()} aria-label="Private link" className="min-h-10 min-w-0 flex-1 rounded-md border border-line-strong bg-bg px-3 font-mono text-xs text-ink" />
+            <button type="button" className={buttonVariants({ variant: "outline", size: "sm" })} onClick={() => navigator.clipboard?.writeText(manualLink.link)}>
+              Copy
+            </button>
+            <button type="button" className={buttonVariants({ variant: "ghost", size: "sm" })} onClick={() => setManualLink(null)}>
+              Done
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-wrap items-start gap-6">
         <section aria-labelledby="tr-list" className="flex min-w-0 flex-[3_1_520px] flex-col gap-3">

@@ -81,7 +81,8 @@ export async function decideTranscriptRequest(id: string, action: TranscriptActi
         "Lewis",
       ].join("\n"),
     })
-    return { ok: true as const, request: updated, emailed: sent }
+    // If the email didn't go out, hand the link to the admin (once) so it can be shared another way.
+    return { ok: true as const, request: updated, emailed: sent, link: sent ? undefined : `${SITE}/transcript/${token}` }
   }
 
   if (action === "decline") {
