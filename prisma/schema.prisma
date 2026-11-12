@@ -696,3 +696,76 @@ model PrivateDocument {
 
   @@map("private_documents")
 }
+
+// ===================================
+// BOOKINGS (Book, Book-Manage and Admin-Bookings boards)
+// ===================================
+
+model Booking {
+  id             String        @id @default(uuid())
+  // LM-XXXXXX, shown to the visitor and in emails
+  ref            String        @unique
+  // Secret in the manage link; whoever has it can reschedule or cancel
+  token          String        @unique
+  name           String
+  email          String
+  company        String?
+  topic          String
+  notes          String?       @db.Text
+  // The visitor's IANA time zone, from their browser, for "08:30 in London" in emails
+  visitorTz      String?       @map("visitor_tz")
+  startsAt       DateTime      @map("starts_at")
+  durationMin    Int           @default(30) @map("duration_min")
+  // startsAt as ISO while the booking holds its slot, null once cancelled. Unique, so two people can't take one slot.
+  slotKey        String?       @unique @map("slot_key")
+  status         BookingStatus @default(CONFIRMED)
+  cancelReason   String?       @map("cancel_reason")
+  cancelledAt    DateTime?     @map("cancelled_at")
+  rescheduledAt  DateTime?     @map("rescheduled_at")
+  reminderSentAt DateTime?     @map("reminder_sent_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@index([status, startsAt], name: "booking_status_start_idx")
+  @@index([email], name: "booking_email_idx")
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  CONFIRMED
+  RESCHEDULED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+// One row (id "default"): what the booking page offers.
+model BookingSettings {
+  id          String   @id @default("default")
+  open        Boolean  @default(true)
+  timezone    String   @default("Africa/Nairobi")
+  durationMin Int      @default(30) @map("duration_min")
+  bufferMin   Int      @default(15) @map("buffer_min")
+  noticeHours Int      @default(12) @map("notice_hours")
+  horizonDays Int      @default(28) @map("horizon_days")
+  // A fixed Google Meet link sent with every booking
+  meetUrl     String?  @map("meet_url")
+  notify      Boolean  @default(true)
+  // [{ day: 0-6 (Monday first), on, from: "09:00", to: "17:30" }]
+  hours       Json
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("booking_settings")
+}
+
+// Time taken off the calendar in Admin › Bookings.
+model BlockedTime {
+  id        String   @id @default(uuid())
+  startsAt  DateTime @map("starts_at")
+  endsAt    DateTime @map("ends_at")
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([startsAt, endsAt], name: "blocked_time_range_idx")
+  @@map("blocked_times")
+}

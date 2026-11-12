@@ -6,6 +6,8 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, UserRole, ProjectStatus, PostStatus, SkillCategory, TechCategory } from '../lib/generated/prisma';
 import bcrypt from 'bcryptjs';
+import { POSTS as V8_POSTS } from '../lib/content/blog-posts';
+import { GROUPS as SKILL_GROUPS, GROUP_CATEGORY, LEVEL_DB } from '../lib/content/skills';
 
 // Create PostgreSQL connection pool
 const pool = new Pool({
@@ -342,78 +344,27 @@ async function main() {
   });
   console.log('✅ Created blog tags');
 
-  // Create blog posts
-  // First, get category and tag IDs
-  const webDevCategory = await prisma.blogCategory.findUnique({ where: { slug: 'web-development' } });
-  const tutorialsCategory = await prisma.blogCategory.findUnique({ where: { slug: 'tutorials' } });
-  const djangoTag = await prisma.blogTag.findUnique({ where: { slug: 'django' } });
-  const reactTag = await prisma.blogTag.findUnique({ where: { slug: 'react' } });
-  const accessibilityTag = await prisma.blogTag.findUnique({ where: { slug: 'accessibility' } });
-
-  if (webDevCategory && tutorialsCategory && djangoTag && reactTag && accessibilityTag) {
-    await prisma.blogPost.upsert({
-      where: { slug: 'building-accessible-voice-interfaces' },
+  // Create blog posts: the one post on the site (lib/content/blog-posts.ts), under its own topic.
+  for (const post of V8_POSTS) {
+    const topicSlug = post.category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const topic = await prisma.blogCategory.upsert({
+      where: { slug: topicSlug },
+      create: { name: post.category, slug: topicSlug },
       update: {},
-      create: {
-        title: 'Building Accessible Voice Interfaces with Whisper and Coqui TTS',
-        slug: 'building-accessible-voice-interfaces',
-        excerpt: 'How we achieved WCAG 2.1 AA compliance while implementing local voice processing for enhanced privacy.',
-        content: `# Building Accessible Voice Interfaces
-
-In this article, I'll share our journey of building a privacy-first voice exam platform that meets WCAG 2.1 AA standards...
-
-## The Challenge
-
-Traditional voice interfaces rely on cloud services, which raises privacy concerns...
-
-## Our Solution
-
-We implemented local processing using Whisper for speech-to-text and Coqui TTS for text-to-speech...`,
-        coverImage: '/images/blog/voice-interfaces.jpg',
-        authorId: admin.id,
-        status: PostStatus.PUBLISHED,
-        publishedAt: new Date('2025-11-01'),
-        readTime: 8,
-        categories: {
-          create: [
-            { categoryId: webDevCategory.id },
-            { categoryId: tutorialsCategory.id },
-          ],
-        },
-        tags: {
-          create: [
-            { tagId: accessibilityTag.id },
-          ],
-        },
-      },
     });
-
     await prisma.blogPost.upsert({
-      where: { slug: 'django-to-nextjs-journey' },
+      where: { slug: post.slug },
       update: {},
       create: {
-        title: 'Django to Next.js: A Full-Stack Journey',
-        slug: 'django-to-nextjs-journey',
-        excerpt: 'Lessons learned from working across both backend and frontend ecosystems in production environments.',
-        content: `# From Django to Next.js
-
-My journey working with both Django and Next.js has taught me valuable lessons about full-stack development...`,
-        coverImage: '/images/blog/django-nextjs.jpg',
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt,
+        content: post.content,
         authorId: admin.id,
         status: PostStatus.PUBLISHED,
-        publishedAt: new Date('2025-10-15'),
-        readTime: 6,
-        categories: {
-          create: [
-            { categoryId: webDevCategory.id },
-          ],
-        },
-        tags: {
-          create: [
-            { tagId: djangoTag.id },
-            { tagId: reactTag.id },
-          ],
-        },
+        publishedAt: new Date(`${post.publishedAt}T09:00:00+03:00`),
+        readTime: post.readTime,
+        categories: { create: [{ categoryId: topic.id }] },
       },
     });
   }
@@ -451,58 +402,18 @@ My journey working with both Django and Next.js has taught me valuable lessons a
   });
   console.log('✅ Created testimonials');
 
-  // Create skills
-  const skillCategories = [
-    {
-      category: 'BACKEND',
-      skills: [
-        { name: 'Python', proficiencyLevel: 5, yearsOfExperience: 3 },
-        { name: 'Django', proficiencyLevel: 5, yearsOfExperience: 2 },
-        { name: 'Django REST Framework', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Flask', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'Node.js', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'FRONTEND',
-      skills: [
-        { name: 'React', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Next.js', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'TypeScript', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'TailwindCSS', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'DATABASE',
-      skills: [
-        { name: 'PostgreSQL', proficiencyLevel: 4, yearsOfExperience: 2 },
-        { name: 'Prisma', proficiencyLevel: 4, yearsOfExperience: 1 },
-        { name: 'MongoDB', proficiencyLevel: 3, yearsOfExperience: 1 },
-      ],
-    },
-    {
-      category: 'DEVOPS',
-      skills: [
-        { name: 'Docker', proficiencyLevel: 3, yearsOfExperience: 1 },
-        { name: 'Git', proficiencyLevel: 5, yearsOfExperience: 3 },
-      ],
-    },
-  ];
-
-  const allSkills = [];
-  for (const category of skillCategories) {
-    for (const skill of category.skills) {
-      allSkills.push({
-        name: skill.name,
-        category: category.category as SkillCategory,
-        proficiencyLevel: skill.proficiencyLevel,
-        yearsOfExperience: skill.yearsOfExperience,
-      });
-    }
-  }
-
+  // Create skills: the launch list on /skills, with levels and evidence (v8). No ratings.
   await prisma.skill.createMany({
-    data: allSkills,
+    data: SKILL_GROUPS.flatMap((g) =>
+      g.skills.map((s, i) => ({
+        name: s.name,
+        category: GROUP_CATEGORY[g.id as keyof typeof GROUP_CATEGORY] as SkillCategory,
+        level: LEVEL_DB[s.level],
+        how: s.how,
+        evidence: s.evidence,
+        orderIndex: i,
+      })),
+    ),
     skipDuplicates: true,
   });
   console.log('✅ Created skills');

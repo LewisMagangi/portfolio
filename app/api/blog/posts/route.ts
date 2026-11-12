@@ -1,6 +1,7 @@
 // app/api/blog/posts/route.ts
 // Blog posts API
 
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma, PostStatus } from '@/lib/generated/prisma';
 import { prisma } from '@/lib/prisma';
@@ -149,6 +150,9 @@ export async function POST(request: NextRequest) {
         }
       }
     });
+
+    // The blog index and the post page show it now, not at the hourly refresh.
+    revalidatePath('/blog', 'layout');
 
     return NextResponse.json({
       success: true,

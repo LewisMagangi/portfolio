@@ -4,8 +4,9 @@ import Link from "next/link"
 import { StoryRail } from "@/components/gambit/story-rail"
 import { SplitWords } from "@/components/site/split-words"
 import { buttonVariants } from "@/components/ui/button"
-import { CLOSE, GROUPS, INTRO, LEVELS, NOW, type SkillLevel } from "@/lib/content/skills"
+import { CLOSE, INTRO, LEVELS, NOW, type SkillLevel } from "@/lib/content/skills"
 import { BOOK_HREF } from "@/lib/site"
+import { getSkillGroups } from "@/lib/skills"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -15,14 +16,18 @@ export const metadata: Metadata = {
 
 const BOOK_LABEL = "Book a free discovery call"
 
-// The legend lists only the levels in use, so it never explains a circle the page doesn't show.
-const USED_LEVELS = (Object.keys(LEVELS) as SkillLevel[]).filter((l) => GROUPS.some((g) => g.skills.some((s) => s.level === l)))
+// Saving in Admin › Skills revalidates "/skills"; this is the fallback refresh.
+export const revalidate = 3600
 
 function LevelDot({ level }: { level: SkillLevel }) {
   return <span className="gb-level-dot" data-level={level} aria-hidden />
 }
 
-export default function SkillsPage() {
+export default async function SkillsPage() {
+  const GROUPS = await getSkillGroups()
+  // The legend lists only the levels in use, so it never explains a circle the page doesn't show.
+  const USED_LEVELS = (Object.keys(LEVELS) as SkillLevel[]).filter((l) => GROUPS.some((g) => g.skills.some((s) => s.level === l)))
+
   return (
     <>
       <StoryRail items={GROUPS.map((g) => ({ id: g.id, label: g.title }))} after="skills-top" ctaLabel="Book a free call" />

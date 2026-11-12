@@ -5,20 +5,33 @@ export type Evidence = { label: string; href: string }
 export type Skill = { name: string; how: string; level: SkillLevel; evidence: Evidence[] }
 export type SkillGroup = { id: string; title: string; note: string; skills: Skill[] }
 
+/** Page group id → database SkillCategory (Admin › Skills stores each group as one category). */
+export const GROUP_CATEGORY = {
+  backend: "BACKEND",
+  frontend: "FRONTEND",
+  data: "DATABASE",
+  ai: "AI_ML",
+  security: "SECURITY",
+  delivery: "DEVOPS",
+} as const satisfies Record<string, string>
+
+/** Database SkillLevel for each page level. */
+export const LEVEL_DB = { shipped: "SHIPPED", trained: "TRAINED", learning: "LEARNING" } as const satisfies Record<SkillLevel, string>
+
 export const LEVELS: Record<SkillLevel, { label: string; meaning: string }> = {
   shipped: { label: "Shipped", meaning: "used in delivered work" },
   trained: { label: "Trained", meaning: "finished a certified course" },
   learning: { label: "Learning", meaning: "in progress" },
 }
 
-// Where each skill was used. Case studies get their own page; the smaller builds live on /work.
+// Where each skill was used: each project has its own page under /work.
 const P = {
   wamumbi: { label: "Wamumbi", href: "/work/wamumbi-charity-platform" },
   nexus: { label: "Project Nexus", href: "/work/project-nexus" },
   atm: { label: "Solar Water ATM", href: "/work/solar-powered-water-atm" },
-  fishing: { label: "Sustainable Fishing", href: "/work" },
-  crypto: { label: "Cryptosuite", href: "/work" },
-  shell: { label: "Simple Shell", href: "/work" },
+  fishing: { label: "Sustainable Fishing", href: "/work/sustainable-fishing" },
+  crypto: { label: "Cryptosuite", href: "/work/dynamic-cryptosuite-selection" },
+  shell: { label: "Simple Shell", href: "/work/simple-shell" },
   site: { label: "This site", href: "/" },
   bsc: { label: "BSc Computer Forensics", href: "/education" },
   aiTrack: { label: "Associate AI Engineer", href: "/ai-ml" },

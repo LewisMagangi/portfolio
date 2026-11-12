@@ -5,6 +5,7 @@ import type { ReactNode } from "react"
 import { Accordion } from "@/components/gambit/accordion"
 import { CarouselControls } from "@/components/gambit/carousel"
 import { CaseStudyCard } from "@/components/gambit/case-study-card"
+import { FEATURED } from "@/lib/content/work"
 import { CertificateCarousel } from "@/components/gambit/certificate-carousel"
 import { ChallengeBoard } from "@/components/gambit/challenge-board"
 import { DeviceMockup } from "@/components/gambit/device-mockup"
@@ -39,6 +40,9 @@ import { BOOK_HREF } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 // Approving a client review or saving in Admin › Services revalidates "/"; this is the fallback refresh.
+
+// Case study pages live at the slugs in lib/content/work.ts.
+const workHref = (title: string) => `/work/${FEATURED.find((f) => f.title === title)?.slug ?? ""}`
 export const revalidate = 3600
 
 const BOOK_LABEL = "Book a free discovery call"
@@ -140,7 +144,7 @@ export default async function HomePage() {
             style={{ ["--slide" as string]: "100%" }}
           >
             {WORK.cases.map((c) => (
-              <CaseStudyCard key={c.title} study={c} href={`/work/${c.title.toLowerCase().replace(/\s+/g, "-")}`} />
+              <CaseStudyCard key={c.title} study={c} href={workHref(c.title)} />
             ))}
           </div>
         </div>

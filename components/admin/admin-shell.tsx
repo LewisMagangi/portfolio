@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  CalendarBlank,
   ArrowSquareOut,
   Briefcase,
   ChartBar,
@@ -25,7 +26,7 @@ import { useEffect, useState, type ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 
-type Item = { label: string; href: string; icon: Icon; count?: "reviews" | "messages" | "transcripts" }
+type Item = { label: string; href: string; icon: Icon; count?: "reviews" | "messages" | "transcripts" | "bookings" }
 
 // The Gambit admin groups (AdminSidebar), limited to the admin pages that exist today.
 const GROUPS: { title: string; items: Item[] }[] = [
@@ -53,6 +54,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
     title: "Inbox",
     items: [
       { label: "Messages", href: "/admin/messages", icon: Tray, count: "messages" },
+      { label: "Bookings", href: "/admin/bookings", icon: CalendarBlank, count: "bookings" },
       { label: "Transcripts", href: "/admin/transcripts", icon: LockSimple, count: "transcripts" },
     ],
   },
@@ -84,7 +86,7 @@ async function count(url: string, pick: (data: unknown) => unknown[] = (d) => (A
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const [counts, setCounts] = useState({ reviews: 0, messages: 0, transcripts: 0 })
+  const [counts, setCounts] = useState({ reviews: 0, messages: 0, transcripts: 0, bookings: 0 })
   const [open, setOpen] = useState(false)
   const bare = BARE.some((p) => pathname.startsWith(p))
 
@@ -105,7 +107,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
       count("/api/admin/transcripts", (d) =>
         ((d as { requests?: { status: string }[] })?.requests ?? []).filter((r) => r.status === "PENDING"),
       ),
-    ]).then(([reviews, messages, transcripts]) => live && setCounts({ reviews, messages, transcripts }))
+      count("/api/admin/bookings", (d) => (d as { upcoming?: unknown[] })?.upcoming ?? []),
+    ]).then(([reviews, messages, transcripts, bookings]) => live && setCounts({ reviews, messages, transcripts, bookings }))
     return () => {
       live = false
     }
