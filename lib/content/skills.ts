@@ -24,14 +24,14 @@ export const LEVELS: Record<SkillLevel, { label: string; meaning: string }> = {
   learning: { label: "Learning", meaning: "in progress" },
 }
 
-// Where each skill was used. Case studies get their own page; the smaller builds live on /work.
+// Where each skill was used: each project has its own page under /work.
 const P = {
   wamumbi: { label: "Wamumbi", href: "/work/wamumbi-charity-platform" },
   nexus: { label: "Project Nexus", href: "/work/project-nexus" },
   atm: { label: "Solar Water ATM", href: "/work/solar-powered-water-atm" },
-  fishing: { label: "Sustainable Fishing", href: "/work" },
-  crypto: { label: "Cryptosuite", href: "/work" },
-  shell: { label: "Simple Shell", href: "/work" },
+  fishing: { label: "Sustainable Fishing", href: "/work/sustainable-fishing" },
+  crypto: { label: "Cryptosuite", href: "/work/dynamic-cryptosuite-selection" },
+  shell: { label: "Simple Shell", href: "/work/simple-shell" },
   site: { label: "This site", href: "/" },
   bsc: { label: "BSc Computer Forensics", href: "/education" },
   aiTrack: { label: "Associate AI Engineer", href: "/ai-ml" },
