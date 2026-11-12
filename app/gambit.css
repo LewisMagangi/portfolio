@@ -379,3 +379,9 @@
   from { opacity: 0; transform: translateX(16px); filter: blur(2px); }
   to { opacity: 1; transform: none; filter: none; }
 }
+
+/* Skill level circles (Skills board .sk-dot): Shipped filled, Trained half, Learning outline. No bars, no ratings. */
+.gb-level-dot { display: inline-block; width: 10px; height: 10px; flex: none; box-sizing: border-box; border-radius: 50%; border: 1.5px solid var(--ink); }
+.gb-level-dot[data-level="shipped"] { background: var(--ink); }
+.gb-level-dot[data-level="trained"] { background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); }
+.gb-level-dot[data-level="learning"] { background: transparent; border-color: var(--ink-subtle); }
