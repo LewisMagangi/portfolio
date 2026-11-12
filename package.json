@@ -14,7 +14,8 @@
     "db:migrate:deploy": "prisma migrate deploy --config ./prisma/prisma.config.ts",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio --config ./prisma/prisma.config.ts",
-    "postinstall": "prisma generate --config ./prisma/prisma.config.ts || true"
+    "postinstall": "prisma generate --config ./prisma/prisma.config.ts || true",
+    "admin:reset": "node scripts/reset-admin-password.mjs"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.81",
