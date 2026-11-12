@@ -4,8 +4,11 @@ import gsap from "gsap"
 import Link from "next/link"
 import { useEffect, useRef, useState, type KeyboardEvent } from "react"
 
+import { buttonVariants } from "@/components/ui/button"
 import { keepDates, prefersReducedMotion } from "@/lib/dom"
 import { cn } from "@/lib/utils"
+
+import { TaskView, TaskViewIcon } from "./task-view"
 
 // Event-time clock (kept outside the component so render stays pure).
 const now = () => Date.now()
@@ -32,17 +35,29 @@ export type TimelineItemData = {
 /**
  * Every move in order. One move is open at a time. With `scrollSpy`, the move at the reading line opens and the
  * rail fills continuously with scroll (GSAP quickTo, no scroll interception). Marks are true circles.
+ * With `controls`, a sticky bar adds kind filters, the move count and Task view (every move at once).
  */
 export function Timeline({
   items,
   initial,
   scrollSpy = false,
+  controls = false,
+  taskTitle,
 }: {
   items: TimelineItemData[]
   initial?: number
   scrollSpy?: boolean
+  controls?: boolean
+  taskTitle?: string
 }) {
   const [active, setActive] = useState(initial ?? items.length - 1)
+  const [filter, setFilter] = useState("All")
+  const [taskOpen, setTaskOpen] = useState(false)
+  const taskBtnRef = useRef<HTMLButtonElement>(null)
+  const kinds = Array.from(new Set(items.map((it) => it.kind)))
+  const visible = items.map((it, i) => ({ it, i })).filter((x) => filter === "All" || x.it.kind === filter)
+  const vIdx = visible.map((x) => x.i)
+  const pos = vIdx.indexOf(active)
   const listRef = useRef<HTMLOListElement>(null)
   const trackRef = useRef<HTMLLIElement>(null)
   const fillRef = useRef<HTMLSpanElement>(null)
@@ -52,6 +67,25 @@ export function Timeline({
     clickedAt.current = now()
     setActive(i)
   }
+
+  // A link to /career#<id> opens that move, and the scroll spy holds off while the page settles on it.
+  useEffect(() => {
+    const openFromHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+      const i = id ? items.findIndex((it) => it.id === id) : -1
+      if (i < 0) return
+      setFilter("All")
+      clickedAt.current = now() + 800
+      setActive(i)
+      // Centre it on the reading line, where the scroll spy looks, once its panel has opened.
+      window.setTimeout(() => {
+        listRef.current?.querySelector<HTMLElement>(`[data-i="${i}"]`)?.scrollIntoView({ block: "center" })
+      }, 350)
+    }
+    openFromHash()
+    window.addEventListener("hashchange", openFromHash)
+    return () => window.removeEventListener("hashchange", openFromHash)
+  }, [items])
 
   // Scroll spy: the move crossing the reading line (about 45% down) opens, unless one was just clicked.
   useEffect(() => {
@@ -70,7 +104,7 @@ export function Timeline({
     )
     list.querySelectorAll(".gb-tline-item").forEach((el) => io.observe(el))
     return () => io.disconnect()
-  }, [scrollSpy])
+  }, [scrollSpy, filter])
 
   // The rail: follows the reading line with scroll spy, otherwise eases to the open move.
   useEffect(() => {
@@ -101,7 +135,7 @@ export function Timeline({
       measure()
       const lr = list.getBoundingClientRect()
       let target: number
-      if (scrollSpy) {
+      if (scrollSpy && !taskOpen) {
         target = window.innerHeight * 0.45 - lr.top - top
       } else {
         const cur = list.querySelector<HTMLElement>(".gb-tline-item.is-active .gb-tline-dot")
@@ -134,34 +168,76 @@ export function Timeline({
       if (raf) cancelAnimationFrame(raf)
       gsap.killTweensOf(fill)
     }
-  }, [active, scrollSpy])
+  }, [active, scrollSpy, filter, taskOpen])
 
   const onKey = (e: KeyboardEvent) => {
     if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return
     e.preventDefault()
-    const next = Math.max(0, Math.min(items.length - 1, active + (e.key === "ArrowDown" ? 1 : -1)))
+    const k = Math.max(0, pos)
+    const next = vIdx[Math.max(0, Math.min(vIdx.length - 1, k + (e.key === "ArrowDown" ? 1 : -1)))]
     go(next)
     listRef.current?.querySelector<HTMLElement>(`[data-i="${next}"] .gb-tline-head`)?.focus()
   }
 
-  // Show each year once, on its first move.
-  const yearLabels = items.map((it, i) => (it.year && it.year !== items[i - 1]?.year ? it.year : null))
+  // Picking a card in Task view opens that move here, with every kind showing, and brings it into view.
+  const pick = (i: number) => {
+    setFilter("All")
+    go(i)
+    window.setTimeout(() => {
+      const el = listRef.current?.querySelector<HTMLElement>(`[data-i="${i}"]`)
+      el?.scrollIntoView({ block: "center", behavior: prefersReducedMotion() ? "auto" : "smooth" })
+      el?.querySelector<HTMLElement>(".gb-tline-head")?.focus({ preventScroll: true })
+    }, 60)
+  }
+
+  // Show each year once, on the first visible move of that year.
+  const yearLabels = visible.map((x, j) => (x.it.year && x.it.year !== visible[j - 1]?.it.year ? x.it.year : null))
   return (
     <div className="gb-tline">
+      {controls && (
+        <div className="gb-tline-bar">
+          <div className="gb-tline-filters" role="group" aria-label="Filter moves">
+            {["All", ...kinds].map((k) => (
+              <button key={k} type="button" className="gb-chip" aria-pressed={filter === k} onClick={() => setFilter(k)}>
+                {k}
+                <span className="gb-chip-n">{k === "All" ? items.length : items.filter((x) => x.kind === k).length}</span>
+              </button>
+            ))}
+          </div>
+          <div className="gb-tline-play">
+            <span className="gb-tline-count" aria-live="polite">
+              {pos >= 0 ? `Move ${pos + 1} of ${vIdx.length}` : `${vIdx.length} moves`}
+            </span>
+            <button
+              ref={taskBtnRef}
+              type="button"
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "gb-tline-tv max-md:min-h-11")}
+              aria-haspopup="dialog"
+              onClick={() => setTaskOpen(true)}
+            >
+              <TaskViewIcon />
+              Task view
+            </button>
+          </div>
+        </div>
+      )}
+      {controls && (
+        <TaskView open={taskOpen} onOpenChange={setTaskOpen} items={items} active={active} title={taskTitle} onPick={pick} returnFocus={() => taskBtnRef.current} />
+      )}
       <ol className="gb-tline-list" ref={listRef} onKeyDown={onKey}>
         <li className="gb-tline-track" aria-hidden ref={trackRef}>
           <span className="gb-tline-fill" ref={fillRef} />
         </li>
-        {items.map((it, i) => {
+        {visible.map(({ it, i }, j) => {
           const on = i === active
-          const year = yearLabels[i]
+          const year = yearLabels[j]
           const pid = `tl-panel-${i}`
           return (
             <li
               key={i}
               data-i={i}
               id={it.id}
-              className={cn("gb-tline-item", on && "is-active", it.key && "is-key", i === items.length - 1 && "is-last")}
+              className={cn("gb-tline-item", on && "is-active", it.key && "is-key", j === visible.length - 1 && "is-last")}
             >
               <div className="gb-tline-when">
                 {year && <span className="gb-tline-year">{year}</span>}

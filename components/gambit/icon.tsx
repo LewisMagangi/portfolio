@@ -16,11 +16,13 @@ import {
   Globe,
   Horse,
   MouseScroll,
+  Pause,
   Play,
   PuzzlePiece,
   ShieldCheck,
   Trophy,
   VideoCamera,
+  X,
   type Icon as PhosphorIcon,
 } from "@phosphor-icons/react"
 
@@ -41,11 +43,13 @@ const ICONS = {
   globe: Globe,
   knight: Horse,
   mouse: MouseScroll,
+  pause: Pause,
   play: Play,
   puzzle: PuzzlePiece,
   shield: ShieldCheck,
   trophy: Trophy,
   video: VideoCamera,
+  x: X,
 } satisfies Record<string, PhosphorIcon>
 
 export type IconName = keyof typeof ICONS
