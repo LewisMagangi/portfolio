@@ -31,7 +31,7 @@ A Nairobi software engineer with a computer forensics degree who ships Next.js a
 - **Private by default:** the BSc transcript is shown only through an approved request that lasts 60 days. Never publish the Jawabu Credit role, the chaplaincy certificate, the unfinished ALX programmes (Cyber Security, Data Analysis, Data Science, Data Engineering), or any ID documents.
 - Lewis never edits a reviewer's words.
 - Pricing is typical, per project, in US dollars: Bronze $600, Silver $900, Gold $1,200.
-- Undecided: a public verify link for the ML Engineer track certificate; whether client reviews email Lewis immediately or as a daily digest.
+- Client reviews reach Lewis as one daily digest (07:00 EAT) while any are waiting, not one email per review.
 
 ## Brand Commitments
 

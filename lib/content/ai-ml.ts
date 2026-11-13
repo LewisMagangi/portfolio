@@ -13,9 +13,9 @@ export const BANNER = {
   status: "Completed 9 Nov 2026",
 }
 
-// The ML Engineer card has no public verify link yet, so it shows none.
 export const TRACKS: Track[] = [
   {
+    verify: "https://www.datacamp.com/completed/statement-of-accomplishment/track/13caa7481279bc4aff0dcb5697ad2bac1169b302",
     issuer: "DataCamp, career track",
     meta: "Nov 2026, 43 hr",
     title: "Machine Learning Engineer",

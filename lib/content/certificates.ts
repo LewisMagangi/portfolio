@@ -29,6 +29,7 @@ export const GROUPS: CertGroup[] = [
         title: "Machine Learning Engineer",
         date: "Nov 2026",
         length: "43 HR",
+        verify: "https://www.datacamp.com/completed/statement-of-accomplishment/track/13caa7481279bc4aff0dcb5697ad2bac1169b302",
         note: "Twelve courses, each verifiable on the Education page",
         learned: ["Supervised learning with scikit-learn", "MLOps concepts & deployment", "MLflow tracking & registry", "ETL & ELT pipelines", "Data quality with Great Expectations", "DVC versioning", "Drift detection & monitoring", "Docker", "CI/CD for ML", "Shell"],
       },

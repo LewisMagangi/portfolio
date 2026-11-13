@@ -362,7 +362,7 @@ export type Certificate = {
 }
 
 export const CERTS: Certificate[] = [
-  { title: "Machine Learning Engineer", issuer: "DataCamp", date: "Nov 2026", image: "/certificates/machine-learning-engineer.png", w: 1100, h: 635 },
+  { title: "Machine Learning Engineer", issuer: "DataCamp", date: "Nov 2026", image: "/certificates/machine-learning-engineer.png", w: 1100, h: 635, fileUrl: "https://www.datacamp.com/completed/statement-of-accomplishment/track/13caa7481279bc4aff0dcb5697ad2bac1169b302" },
   { title: "Machine Learning in Production in Python", issuer: "DataCamp", date: "Oct 2026", image: "/certificates/machine-learning-in-production.jpg", w: 1100, h: 635 },
   { title: "Associate AI Engineer for Developers", issuer: "DataCamp", date: "Aug 2026", image: "/certificates/associate-ai-engineer.jpg", w: 1100, h: 635, fileUrl: "https://drive.google.com/file/d/1hwtO1PBwQ1Dx-2wGyDWw6puYhVRIpx-Z/view?usp=sharing" },
   { title: "ProDev Backend, Professional Diploma", issuer: "ALX", date: "Dec 2025", image: "/certificates/alx-prodev-backend.jpg", w: 1100, h: 618, fileUrl: "https://drive.google.com/file/d/1Ez-h4ARvLdx4Up-1K3V6K4Cemb_EDivp/view?usp=sharing" },
