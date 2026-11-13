@@ -497,6 +497,38 @@ enum CertificateStatus {
 }
 
 // ===================================
+// AWARDS (Admin › Awards)
+// ===================================
+
+// The rankings and honours on Home. Each links to the work behind it.
+model Award {
+  id         String    @id @default(uuid())
+  // Short result: #3, 7/9, Best, Top
+  rank       String
+  title      String
+  event      String
+  year       String
+  // RANKING shows the rank in amber; QUIET (no placing) in ink
+  tone       AwardTone @default(RANKING)
+  href       String?
+  linkLabel  String?   @map("link_label")
+  // Certificate or letter link
+  proofUrl   String?   @map("proof_url")
+  featured   Boolean   @default(true)
+  orderIndex Int       @default(0) @map("order_index")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@index([orderIndex], name: "award_order_idx")
+  @@map("awards")
+}
+
+enum AwardTone {
+  RANKING
+  QUIET
+}
+
+// ===================================
 // LEARNING TRACKS (DataCamp course stories)
 // ===================================
 

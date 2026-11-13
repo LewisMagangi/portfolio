@@ -18,6 +18,7 @@ import {
   SquaresFour,
   Stack,
   Tray,
+  Trophy,
   User,
   type Icon,
 } from "@phosphor-icons/react"
@@ -49,6 +50,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
       { label: "Education", href: "/admin/education", icon: GraduationCap },
       { label: "Skills", href: "/admin/skills", icon: Stack },
       { label: "Certificates", href: "/admin/certificates", icon: Certificate },
+      { label: "Awards", href: "/admin/awards", icon: Trophy },
       { label: "Chess", href: "/admin/chess", icon: Horse },
     ],
   },

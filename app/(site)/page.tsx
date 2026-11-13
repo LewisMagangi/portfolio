@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 
 import { Accordion } from "@/components/gambit/accordion"
 import { CarouselControls } from "@/components/gambit/carousel"
+import { AwardCard } from "@/components/gambit/award-card"
 import { CaseStudyCard } from "@/components/gambit/case-study-card"
 import { FEATURED } from "@/lib/content/work"
 import { CertificateCarousel } from "@/components/gambit/certificate-carousel"
@@ -33,7 +34,9 @@ import {
   TRUST,
   WORK,
 } from "@/lib/content/home"
+import { getAwards } from "@/lib/awards"
 import { getCertificates } from "@/lib/certificates"
+import { AWARDS_HEAD } from "@/lib/content/awards"
 import { getApprovedClientReviews } from "@/lib/reviews"
 import { getServices } from "@/lib/services"
 import { BOOK_HREF } from "@/lib/site"
@@ -89,7 +92,7 @@ function Head({ id, title, lead, as: H = "h2", titleClass = "heading" }: { id: s
 }
 
 export default async function HomePage() {
-  const [clientReviews, offer, certs] = await Promise.all([getApprovedClientReviews(), getServices("home"), getCertificates()])
+  const [clientReviews, offer, certs, awards] = await Promise.all([getApprovedClientReviews(), getServices("home"), getCertificates(), getAwards()])
   const refs = [...TRUST.refs, ...clientReviews]
 
   return (
@@ -213,6 +216,18 @@ export default async function HomePage() {
           </Link>
         </div>
       </Section>
+
+      {/* Awards: rankings and honours, each linked to the work behind it */}
+      {awards.length > 0 && (
+        <Section id="awards" labelledBy="awards-h">
+          <Head id="awards-h" title={AWARDS_HEAD.heading} lead={AWARDS_HEAD.lead} />
+          <div className="grid grid-cols-2 gap-x-12 max-lg:grid-cols-1">
+            {awards.map((a) => (
+              <AwardCard key={`${a.rank}-${a.title}`} award={a} />
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* References and certificates */}
       <Section id="trust" labelledBy="trust-h">
