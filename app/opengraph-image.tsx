@@ -2,6 +2,8 @@
 import { ImageResponse } from "next/og"
 
 // Edge, with assets bundled through import.meta.url: the nodejs runtime's @vercel/og breaks on Windows paths in Next 14.
+// Edge functions must stay under 1 MB, so the fonts are subset (Basic Latin; Geist Mono to "LM" only) and the
+// portrait is pre-cropped to 600 by 840 (app/og-portrait.jpg, from public/portrait/lewis-magangi.jpg).
 export const runtime = "edge"
 export const alt = "Lewis Magangi. I build secure systems, one measured move at a time."
 export const size = { width: 1200, height: 630 }
@@ -39,8 +41,8 @@ export default async function Image() {
   const [regular, semibold, mono, portrait] = await Promise.all([
     load(new URL("./fonts/Poppins-Regular.ttf", import.meta.url)),
     load(new URL("./fonts/Poppins-SemiBold.ttf", import.meta.url)),
-    load(new URL("../node_modules/geist/dist/fonts/geist-mono/GeistMono-SemiBold.ttf", import.meta.url)),
-    load(new URL("../public/portrait/lewis-magangi.jpg", import.meta.url)),
+    load(new URL("./fonts/GeistMono-SemiBold-LM.ttf", import.meta.url)),
+    load(new URL("./og-portrait.jpg", import.meta.url)),
   ])
   // Satori takes the raw bytes as an image source.
   const portraitSrc = portrait as unknown as string
@@ -85,7 +87,7 @@ export default async function Image() {
             src={portraitSrc}
             width={300}
             height={420}
-            style={{ width: 300, height: 420, objectFit: "cover", objectPosition: "center 20%", borderRadius: 16, border: `1px solid ${LINE}`, flex: "none" }}
+            style={{ width: 300, height: 420, objectFit: "cover", borderRadius: 16, border: `1px solid ${LINE}`, flex: "none" }}
           />
         </div>
       </div>
