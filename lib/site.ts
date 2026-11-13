@@ -52,6 +52,16 @@ export const FOOTER: FooterColumn[] = [
   },
 ]
 
+/** The ways to reach me on /contact, verbatim from design/v8/boards/Contact.dc.html. */
+export const CONTACT_LINKS: { k: string; v: string; href: string }[] = [
+  { k: "Email", v: "lewismomanyi34@gmail.com", href: "mailto:lewismomanyi34@gmail.com" },
+  { k: "LinkedIn", v: "in/lewis-magangi", href: "https://www.linkedin.com/in/lewis-magangi/" },
+  { k: "GitHub", v: "LewisMagangi", href: "https://github.com/LewisMagangi" },
+  { k: "LeetCode", v: "LewisMagangi", href: "https://leetcode.com/u/LewisMagangi/" },
+  { k: "Lichess", v: "Lique", href: "https://lichess.org/@/Lique" },
+  { k: "Chess.com", v: "liquelaliqour", href: "https://www.chess.com/member/liquelaliqour" },
+]
+
 export const LEGAL: FooterLink[] = [
   { label: "Privacy", href: "/legal#privacy" },
   { label: "Terms", href: "/legal#terms" },
