@@ -339,10 +339,8 @@ export default function AdminCertificatesPage() {
           </p>
         </section>
 
-        <aside className="flex min-w-0 flex-[1_1_360px] flex-col rounded-lg border border-line bg-surface p-5" aria-label="Editor">
-          {!editing || (editing.id && !cur) ? (
-            <p className="m-0 text-sm text-ink-muted">Pick a certificate to edit it, or add one.</p>
-          ) : (
+        {editing && !(editing.id && !cur) && (
+          <aside className="flex min-w-0 flex-[1_1_360px] flex-col rounded-lg border border-line bg-surface p-5" aria-label="Editor">
             <form key={formKey} onSubmit={save} className="flex flex-col gap-4" noValidate>
               <h2 className="title m-0">{editing.id === null ? "New certificate" : "Edit certificate"}</h2>
               {formError && (
@@ -455,8 +453,8 @@ export default function AdminCertificatesPage() {
                 </span>
               </div>
             </form>
-          )}
-        </aside>
+          </aside>
+        )}
       </div>
 
       <Dialog open={!!deleting} onOpenChange={(open) => !open && setDeleting(null)}>
