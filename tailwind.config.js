@@ -100,6 +100,7 @@ module.exports = {
       },
       maxWidth: {
         content: "var(--content-max)",
+        wide: "1280px",
         prose: "var(--prose-max)",
       },
       height: {

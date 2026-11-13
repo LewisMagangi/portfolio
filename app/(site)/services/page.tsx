@@ -25,9 +25,9 @@ const STEPS = [
 
 // "Work behind each service" (Services board). Case studies get their own page.
 const PROOF = [
-  { title: "Web development", body: "Wamumbi, a charity platform taken from mock data to a live dashboard.", href: "/work/wamumbi-charity-platform" },
+  { title: "Web development", body: "Wamumbi, a charity platform its officials run, deployed on real data.", href: "/work/wamumbi-charity-platform" },
   { title: "AI and ML engineering", body: "DataCamp Associate AI Engineer, and Machine Learning in Production.", href: "/ai-ml" },
-  { title: "Data", body: "The 3NF schema and 17 seeded reference tables under Wamumbi.", href: "/work/wamumbi-charity-platform" },
+  { title: "Data", body: "The 3NF schema and 51 tables under Wamumbi.", href: "/work/wamumbi-charity-platform" },
   { title: "Cybersecurity", body: "BSc Computer Forensics, and Dynamic Cryptosuite, best final year project.", href: "/education#programmes" },
 ]
 

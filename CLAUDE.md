@@ -82,3 +82,11 @@ Load the skill before doing the kind of work it covers.
     - Codewars: LewisMagangi
     - Lichess: Lique
     - Chess.com: liquelaliqour
+
+## Standing rules added in v9
+
+- **Frames:** only deployed sites get a device frame. A build that isn't running keeps its words and case study, never a stand in screen. One device at a time: the bar switches desktop (1440) and phone (390) in a stage that keeps its height.
+- **Wamumbi** is the hero frame, with the before and after curtain (wamumbi.vercel.app under wamumbi-red.vercel.app). It waits for a drag, the arrow keys or "Play the change".
+- **Motion budget (impeccable):** the hero words and the tagline reveal are the authored moments; section headings keep a quiet rise; body text and list items do not animate. This replaces the v8 reveal timings for body and lists.
+- **Case studies:** the period sits under the title (no labels above headings), and the result reads as one sentence, not a stat row.
+- **Hero heading:** solid colour, semibold (600). No gradient text.

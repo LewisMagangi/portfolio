@@ -54,7 +54,7 @@ export const GROUPS: SkillGroup[] = [
     skills: [
       s("Python and Django", "Django 5, Django REST Framework", "shipped", [P.nexus, P.atm, P.fishing]),
       s("TypeScript APIs with tRPC", "Typed endpoints validated with Zod", "shipped", [P.wamumbi]),
-      s("API documentation", "OpenAPI and Swagger, 51 endpoints documented", "shipped", [P.wamumbi]),
+      s("API documentation", "OpenAPI and Swagger docs for 103 tRPC procedures", "shipped", [P.wamumbi]),
       s("Authentication", "JWT with blacklisting, OAuth, email verification, Clerk", "shipped", [P.nexus, P.wamumbi]),
       s("Flask", "Migrated a Flask prototype to Django", "shipped", [P.atm]),
       s("C and Unix", "A working shell, process control, system calls", "shipped", [P.shell]),
@@ -77,7 +77,7 @@ export const GROUPS: SkillGroup[] = [
     note: "Schemas you can trust, so every record can be traced back to where it came from.",
     skills: [
       s("PostgreSQL", "Hosted on Neon, with referential integrity", "shipped", [P.wamumbi, P.nexus]),
-      s("Prisma", "Prisma 7, lazy init, idempotent seeding of 17 tables", "shipped", [P.wamumbi, P.site]),
+      s("Prisma", "Prisma 7 on Neon, 51 tables with versioned migrations", "shipped", [P.wamumbi, P.site]),
       s("Data modelling", "Third normal form from DBML, lookup tables", "shipped", [P.wamumbi]),
       s("Data pipelines", "ETL and ELT in Python, deployed and maintained", "trained", [P.mlTrack]),
       s("Data quality", "Great Expectations checks on incoming data", "trained", [P.mlTrack]),

@@ -29,7 +29,7 @@ export type Project = {
 
 export const INTRO = {
   title: "Shipped for charities, communities and competitions.",
-  lead: "Eight projects across full stack web, accessibility, security and systems. Featured work first; the archive follows.",
+  lead: "Nine projects across full stack web, accessibility, security and systems. Live sites first; the rest follow.",
 }
 
 export const FILTERS = ["All", "Next.js", "Django", "Security", "Systems", "Award winning"] as const
@@ -42,6 +42,8 @@ export type FeaturedCard = {
   period: string
   status?: string
   award?: string
+  /** False for a build with no case study page yet (it links to the live site instead). */
+  caseStudy?: boolean
   liveUrl?: string
   repoUrl?: string
   live: boolean
@@ -50,42 +52,56 @@ export type FeaturedCard = {
   mock: Mock
   filters: Filter[]
 }
-export type ArchiveRow = { slug: string; year: string; title: string; line: string; filters: Filter[] }
+export type ArchiveRow = { slug: string; year: string; title: string; line: string; award?: string; filters: Filter[] }
 
 export const FEATURED: FeaturedCard[] = [
   {
     slug: "wamumbi-charity-platform",
     title: "Wamumbi",
     summary:
-      "Charity platform taken from mock data to production: a 3NF schema, 51 tRPC endpoints with Swagger docs, Prisma 7 on Neon, and a CVE-2025-66478 patch.",
+      "A charity platform for the public and the foundation’s officials, deployed on real data ahead of launch: nine roles enforced on the server, approvals and an audit log, real photos from nine outreach events.",
     period: "Apr 2025 to now",
-    status: "Live",
-    liveUrl: "https://wamumbi.vercel.app/",
+    status: "Deployed, launching soon",
+    liveUrl: "https://wamumbi-red.vercel.app/",
     repoUrl: "https://github.com/LewisMagangi/wamumbi",
     live: true,
     tags: ["Next.js", "tRPC", "Prisma", "Neon"],
-    thumb: "wamumbi.vercel.app",
+    thumb: "wamumbi-red.vercel.app",
     mock: {
       brand: "W",
       title: "Campaigns",
       badge: "Live",
       stats: [
-        {
-          l: "API endpoints",
-          v: "51",
-        },
-        {
-          l: "Reference tables",
-          v: "17",
-        },
-        {
-          l: "Commits",
-          v: "80+",
-        },
+        { l: "Roles", v: "9" },
+        { l: "Events", v: "9" },
+        { l: "Access tests", v: "347" },
       ],
       rows: ["Donations", "Campaigns", "Volunteers", "Events"],
     },
     filters: ["Next.js", "Security"],
+  },
+  {
+    slug: "afya-bora",
+    title: "Afya Bora",
+    summary:
+      "A StackOverflow style Q&A where patients ask and doctors answer, with votes, comments, search and a blog. Built for Enactus JOOUST and presented at the 2024 national expo.",
+    period: "May to Jul 2024",
+    status: "Enactus JOOUST",
+    liveUrl: "https://afyabora-telehealth.vercel.app/",
+    live: true,
+    tags: ["Django", "Health", "Enactus"],
+    thumb: "afyabora-telehealth.vercel.app",
+    mock: {
+      brand: "AB",
+      title: "Health Q&A",
+      badge: "Live",
+      stats: [
+        { l: "Doctors", v: "Verified" },
+        { l: "Answers", v: "Voted" },
+      ],
+      rows: ["Question, malaria signs", "Answer from a doctor", "Upvoted answer", "New question"],
+    },
+    filters: ["Django", "Systems"],
   },
   {
     slug: "project-nexus",
@@ -121,73 +137,48 @@ export const FEATURED: FeaturedCard[] = [
     filters: ["Next.js", "Django", "Security"],
   },
   {
-    slug: "solar-powered-water-atm",
-    title: "Solar Water ATM",
+    slug: "curtmag",
+    title: "Curtmag",
     summary:
-      "Led the Flask → Django 5.2 migration for solar water kiosks: metered billing, hardened auth and XSS fixes, leading three developers.",
-    period: "Jun to Jul 2025",
-    award: "#3, Enactus Kenya 2025",
-    live: false,
-    tags: ["Django", "PostgreSQL", "OAuth", "Tests"],
-    thumb: "water-atm, dashboard",
+      "Same day servicing for a garage in Embakasi Jua Kali: book with a number plate and a phone number, no account, and the price confirmed before any work starts.",
+    period: "Now",
+    status: "In progress",
+    caseStudy: false,
+    liveUrl: "https://curtmag.vercel.app/",
+    live: true,
+    tags: ["Django", "Bookings", "M-Pesa"],
+    thumb: "curtmag.vercel.app",
     mock: {
-      brand: "WA",
-      title: "Kiosk usage",
-      badge: "Admin",
-      stats: [
-        {
-          l: "Kiosks",
-          v: "Metered",
-        },
-        {
-          l: "Litres today",
-          v: "Metered",
-        },
-        {
-          l: "Django",
-          v: "5.2",
-        },
-      ],
-      rows: ["Kiosk 01, meter reading", "Kiosk 02, payment", "Kiosk 03, meter reading", "New user"],
-    },
-    filters: ["Django", "Security", "Award winning"],
-  },
-  {
-    slug: "sustainable-fishing",
-    title: "Sustainable Fishing",
-    summary:
-      "Architected three Django apps for catch logging, education and a community timeline, with role based access and a custom admin. Deployed on Render.",
-    period: "Jun to Jul 2025",
-    award: "#5, Enactus Kenya 2025",
-    repoUrl: "https://github.com/LewisMagangi/Sustainable_Fishing",
-    live: false,
-    tags: ["Django", "RBAC", "Render"],
-    thumb: "catch-log, timeline",
-    mock: {
-      brand: "SF",
-      title: "Catch log",
+      brand: "C",
+      title: "Bookings",
       badge: "Live",
       stats: [
-        {
-          l: "Apps",
-          v: "3",
-        },
-        {
-          l: "Roles",
-          v: "3",
-        },
-        {
-          l: "Rank",
-          v: "#5",
-        },
+        { l: "Booking", v: "Number plate" },
+        { l: "Account", v: "Not needed" },
       ],
-      rows: ["Catch logged, tilapia", "Lesson: closed seasons", "Community post", "Finance entry"],
+      rows: ["Book a slot", "Get a quote", "Visit us", "My bookings"],
     },
-    filters: ["Django", "Award winning"],
+    filters: ["Django"],
   },
 ]
 
 export const ARCHIVE: ArchiveRow[] = [
+  {
+    slug: "solar-powered-water-atm",
+    year: "Jun to Jul 2025",
+    title: "Solar Water ATM",
+    award: "#3, Enactus Kenya 2025",
+    line: "Led the Flask to Django 5.2 migration for solar water kiosks: metered billing, hardened auth and XSS fixes, leading three developers.",
+    filters: ["Django", "Security", "Award winning"],
+  },
+  {
+    slug: "sustainable-fishing",
+    year: "Jun to Jul 2025",
+    title: "Sustainable Fishing",
+    award: "#5, Enactus Kenya 2025",
+    line: "Architected three Django apps for catch logging, education and a community timeline, with role based access and a custom admin.",
+    filters: ["Django", "Award winning"],
+  },
   {
     slug: "sne-portal",
     year: "Accessibility",
@@ -201,13 +192,6 @@ export const ARCHIVE: ArchiveRow[] = [
     title: "Dynamic Cryptosuite Selection",
     line: "Capstone: benchmarks AES, RSA, hashing and more on time, CPU and RAM, then picks one per security budget.",
     filters: ["Security", "Systems", "Django"],
-  },
-  {
-    slug: "afya-bora",
-    year: "2024",
-    title: "Afya Bora",
-    line: "Health Q&A for patients and doctors, self hosted on Nginx with UFW, SSH hardening and Let’s Encrypt.",
-    filters: ["Django", "Systems"],
   },
   {
     slug: "simple-shell",
@@ -227,123 +211,75 @@ export const PROJECTS: Project[] = [
   {
     slug: "wamumbi-charity-platform",
     title: "Wamumbi",
-    kind: "Live, volunteer",
+    kind: "Deployed, launching soon",
     period: "Apr 2025 to now",
     h1: "Fundraising, volunteers and campaigns, on real data.",
-    lead: "A platform for the Wamumbi charity foundation: donations, campaigns, events, volunteers, teams and partnerships, built with Next.js, tRPC and Prisma on Neon Postgres.",
+    lead: "A platform for the Wamumbi charity foundation and its officials: donations, campaigns, events, volunteers, teams and projects, built with Next.js, tRPC and Prisma on Neon Postgres, and deployed on real data ahead of launch.",
     facts: [
-      {
-        k: "Role",
-        v: "Full stack engineer",
-      },
-      {
-        k: "Team",
-        v: "Client Application Team, remote",
-      },
-      {
-        k: "Timeline",
-        v: "Apr 2025, present",
-      },
-      {
-        k: "Stack",
-        v: "Next.js 16, tRPC, Prisma 7",
-      },
+      { k: "Role", v: "Full stack engineer" },
+      { k: "Team", v: "Client Application Team, remote" },
+      { k: "Timeline", v: "Apr 2025, present" },
+      { k: "Stack", v: "Next.js 15, tRPC 11, Prisma 7" },
     ],
-    shot: "wamumbi.vercel.app, dashboard",
-    liveUrl: "https://wamumbi.vercel.app/",
+    shot: "wamumbi-red.vercel.app",
+    liveUrl: "https://wamumbi-red.vercel.app/",
     mock: {
       brand: "W",
       title: "Campaigns",
       badge: "Live",
       stats: [
-        {
-          l: "API endpoints",
-          v: "51",
-        },
-        {
-          l: "Reference tables",
-          v: "17",
-        },
-        {
-          l: "Commits",
-          v: "80+",
-        },
+        { l: "Roles", v: "9" },
+        { l: "Events", v: "9" },
+        { l: "Access tests", v: "347" },
       ],
       rows: ["Donations", "Campaigns", "Volunteers", "Events"],
     },
-    mockCaption: "Running live. Select the screen to use the site, or open it in a new tab.",
+    mockCaption: "Deployed on real data ahead of launch. Select the screen to use the site, or open it in a new tab.",
     problem:
-      "The MVP ran on mock data and hard coded values. The foundation needed a dashboard it could trust to run campaigns, track donations and manage volunteers, and documentation a distributed team of volunteers could follow.",
+      "A charity foundation needed one site for the public and for its officials: campaigns, events, donations and volunteers in one place, with each official seeing only what their role allows, and nothing going public without review.",
     did: [
       {
-        h: "Designed a 3NF schema",
-        t: "Synced the DBML design to Prisma, replaced enums with lookup tables, added referential integrity rules, swapped a polymorphic relation for explicit foreign keys and made personal data optional for privacy.",
+        h: "Nine roles, enforced on the server",
+        t: "Every tRPC procedure checks a permission, not just the UI. Donor contact details stay hidden from anyone without finance access, volunteers see an anonymised view, and team leaders only manage their own teams. 347 tests cover the matrix.",
       },
       {
-        h: "Built 51 documented API endpoints",
-        t: "tRPC routers for events, volunteers, blog posts, donations, teams, campaigns and auth, with Zod validation, OpenAPI metadata and interactive Swagger docs at /api/docs.",
+        h: "Approvals and an audit log",
+        t: "New campaigns, events and photos from anyone but a Super Admin wait in an approvals queue. Role changes, approvals and photo moderation are written to an audit log.",
       },
       {
-        h: "Replaced the mocks with live data",
-        t: "Dashboard stats, campaigns and donations now run on tRPC queries and mutations with cache invalidation, loading states, modals and volunteer edit/delete flows.",
+        h: "Real photos from nine outreach events",
+        t: "A gallery and past event pages from 2021 to 2026, captioned and linked to their albums, with photo terms and moderation.",
       },
       {
-        h: "Moved to Prisma 7 on Neon",
-        t: "Lazy initialisation through a proxy so serverless builds never open a connection, plus idempotent upsert seeding across 17 reference tables.",
+        h: "A dashboard officials can run",
+        t: "Role aware overview, donations recorded by finance, reports, teams with leaders, notifications, an inbox for volunteer and partner submissions, and a help page with the officials’ manual.",
       },
       {
-        h: "Patched CVE-2025-66478",
-        t: "Upgraded Next.js to 16.0.7 to close the React2Shell vulnerability and validated the fix in production.",
+        h: "A schema built to last",
+        t: "A 3NF schema synced from DBML to Prisma 7 on Neon, now 51 tables with versioned migrations, plus a patch for the critical Next.js flaw CVE-2025-66478.",
       },
       {
-        h: "Made it accessible and documented",
-        t: "ARIA on progress bars, labelled forms, a docs/ tree for API, database, frontend and deployment, a Clerk production guide, and READMEs cut back to what actually ships.",
+        h: "Handover ready",
+        t: "A handover guide, builds that fail on type and lint errors, link previews, a sitemap, and Terms and Privacy pages people accept before signing up.",
       },
     ],
     arch: [
-      {
-        t: "Next.js App Router",
-        s: "SSR, Clerk auth",
-      },
-      {
-        t: "tRPC + Zod",
-        s: "51 ENDPOINTS, OPENAPI",
-      },
-      {
-        t: "Prisma 7",
-        s: "Lazy init, seeding",
-      },
-      {
-        t: "Neon Postgres",
-        s: "3NF, 17 REF TABLES",
-      },
+      { t: "Next.js App Router", s: "SSR, Clerk auth" },
+      { t: "tRPC 11 + Zod", s: "103 PROCEDURES, 9 ROLES" },
+      { t: "Prisma 7", s: "Versioned migrations" },
+      { t: "Neon Postgres", s: "51 TABLES" },
     ],
     stats: [
-      {
-        v: "51",
-        l: "documented API endpoints",
-      },
-      {
-        v: "17",
-        l: "reference tables seeded",
-      },
-      {
-        v: "80+",
-        l: "commits across 8 branches",
-      },
+      { v: "103", l: "tRPC procedures across 14 routers" },
+      { v: "347", l: "access control tests" },
+      { v: "21", l: "pull requests in the November 2026 rebuild" },
     ],
     outcome:
-      "Wamumbi went from an MVP on mock data to a stable, backend driven product, with docs that let new contributors set up, seed and deploy without asking.",
+      "Wamumbi is deployed on real data with a dashboard the foundation’s officials can run themselves, and a handover guide for whoever picks it up next. It launches on the foundation’s own domain.",
     tags: ["Next.js", "TypeScript", "tRPC", "Zod", "Prisma", "Neon", "Clerk", "Tailwind"],
     links: [
-      {
-        label: "wamumbi.vercel.app",
-        href: "https://wamumbi.vercel.app/",
-      },
-      {
-        label: "Source code",
-        href: "https://github.com/LewisMagangi/wamumbi",
-      },
+      { label: "wamumbi-red.vercel.app", href: "https://wamumbi-red.vercel.app/" },
+      { label: "Source code", href: "https://github.com/LewisMagangi/wamumbi" },
     ],
   },
   {

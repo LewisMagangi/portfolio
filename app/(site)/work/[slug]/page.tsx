@@ -58,9 +58,12 @@ export default function ProjectPage({ params }: Props) {
             </div>
           ))}
         </dl>
-        <div className="mt-4 max-w-[920px]">
-          <DeviceMockup url={p.shot} liveUrl={p.liveUrl} mock={p.mock} caption={p.mockCaption} />
-        </div>
+        {/* v9: only deployed sites get a frame; a build that is not running keeps its words, never a stand in screen. */}
+        {p.liveUrl && (
+          <div className="mt-4 max-w-[1040px]">
+            <DeviceMockup url={p.shot} liveUrl={p.liveUrl} mock={p.mock} caption={p.mockCaption} />
+          </div>
+        )}
         {p.video && (
           <div className="mt-4 max-w-[920px]">
             <VideoEmbed embedSrc={p.video.embed} href={p.video.href} title={p.video.title} caption={p.video.caption} />
