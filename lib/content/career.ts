@@ -56,7 +56,7 @@ const YEARS: { year: string; items: Move[] }[] = [
   {
     year: "2025",
     items: [
-      e("Apr 2025 to now", "Full stack engineer, Wamumbi", "WORK", "Charity platform: 3NF schema, 51 tRPC endpoints with Swagger docs, Prisma 7 on Neon, live dashboards, CVE-2025-66478 patched.", ["Next.js", "tRPC", "Prisma", "Clerk"]),
+      e("Apr 2025 to now", "Full stack engineer, Wamumbi", "WORK", "Charity platform for the public and the foundation’s officials: nine roles enforced on the server, approvals and an audit log, real event photos, Prisma 7 on Neon, CVE-2025-66478 patched. Deployed on real data ahead of launch.", ["Next.js", "tRPC", "Prisma", "Clerk"]),
       e("5 May to 5 Aug 2025", "ALX Professional Foundations", "TRAINING", "12 weeks of workplace skills: design thinking, agile teams, writing a PRD, data storytelling, pitching, and a personal website.", ["Human centred design", "PRDs", "Figma", "Miro"]),
       e("Jun to Jul 2025", "Enactus Kenya National Expo: #3 and #5", "AWARD", "Led three developers on the Solar Water ATM (#3) and Sustainable Fishing (#5) at Ngong Hotel.", ["Team lead", "Django"], "award"),
       e("18 Aug to 9 Dec 2025", "ALX ProDev Backend + Frontend", "TRAINING", "Both diplomas in parallel. DRF, JWT, signals, Docker on the back; Next.js, TypeScript, Redux, hooks on the front.", ["DRF", "JWT", "Docker", "Next.js", "Redux"]),

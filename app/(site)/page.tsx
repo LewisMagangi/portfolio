@@ -6,12 +6,12 @@ import { Accordion } from "@/components/gambit/accordion"
 import { CarouselControls } from "@/components/gambit/carousel"
 import { AwardCard } from "@/components/gambit/award-card"
 import { CaseStudyCard } from "@/components/gambit/case-study-card"
-import { FEATURED } from "@/lib/content/work"
 import { CertificateCarousel } from "@/components/gambit/certificate-carousel"
 import { ChallengeBoard } from "@/components/gambit/challenge-board"
 import { DeviceMockup } from "@/components/gambit/device-mockup"
 import { Icon } from "@/components/gambit/icon"
 import { PricingTiers, ServiceList } from "@/components/gambit/pricing"
+import { SkillsMarquee } from "@/components/gambit/skills-marquee"
 import { ReferenceCard } from "@/components/gambit/reference-card"
 import { StoryRail } from "@/components/gambit/story-rail"
 import { TaglineReveal } from "@/components/gambit/tagline-reveal"
@@ -20,6 +20,7 @@ import { Shader } from "@/components/site/shader"
 import { SplitWords } from "@/components/site/split-words"
 import { buttonVariants } from "@/components/ui/button"
 import {
+  ALSO_BUILT,
   CAREER,
   CLOSE,
   CV_HREF,
@@ -46,8 +47,6 @@ import { cn } from "@/lib/utils"
 
 // Approving a client review or saving in Admin › Services revalidates "/"; this is the fallback refresh.
 
-// Case study pages live at the slugs in lib/content/work.ts.
-const workHref = (title: string) => `/work/${FEATURED.find((f) => f.title === title)?.slug ?? ""}`
 export const revalidate = 3600
 
 const BOOK_LABEL = "Book a free discovery call"
@@ -111,7 +110,7 @@ export default async function HomePage() {
       {/* Hero: the offer, the action, a site that is actually running */}
       <header id="top" className="relative overflow-hidden">
         <Shader shape="warp" type="4x4" size={2} speed={0.12} front="line" fade="right" opacity={0.6} />
-        <div className="relative mx-auto grid max-w-content grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] items-center gap-10 px-8 py-24 max-lg:grid-cols-1 max-lg:gap-12 max-sm:px-4 max-sm:pb-16 max-sm:pt-12">
+        <div className="relative mx-auto grid max-w-wide grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center gap-12 px-8 py-24 max-lg:grid-cols-1 max-lg:gap-12 max-sm:px-4 max-sm:pb-16 max-sm:pt-12">
           <div className="flex min-w-0 flex-col gap-6">
             <SplitWords text={HERO.title} className="display-xl m-0 max-w-[680px]" />
             <p className="lead m-0 max-w-[560px] text-ink-muted">{HERO.lead}</p>
@@ -137,6 +136,9 @@ export default async function HomePage() {
               liveUrl={HERO.device.liveUrl}
               mock={HERO.device.mock}
               mobileMock={HERO.device.mobileMock}
+              shots={HERO.device.shots}
+              openHref={HERO.device.liveUrl}
+              before={HERO.device.before}
               caption={HERO.device.caption}
             />
           </div>
@@ -144,7 +146,7 @@ export default async function HomePage() {
       </header>
 
       {/* Work */}
-      <Section id="work" labelledBy="work-h">
+      <Section id="work" labelledBy="work-h" className="max-w-wide">
         <Head id="work-h" title={WORK.heading} lead={WORK.lead} />
         <div className="min-w-0">
           <div
@@ -156,7 +158,7 @@ export default async function HomePage() {
             style={{ ["--slide" as string]: "100%" }}
           >
             {WORK.cases.map((c) => (
-              <CaseStudyCard key={c.title} study={c} href={workHref(c.title)} />
+              <CaseStudyCard key={c.title} study={c} href={c.slug ? `/work/${c.slug}` : undefined} />
             ))}
           </div>
         </div>
@@ -165,6 +167,23 @@ export default async function HomePage() {
           <Link href="/work" className={buttonVariants({ variant: "outline" })}>
             {WORK.allLabel}
           </Link>
+        </div>
+        <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,9fr)] gap-8 border-t border-line pt-8 max-lg:grid-cols-1 max-lg:gap-4">
+          <h3 className="m-0 text-base font-medium">{ALSO_BUILT.heading}</h3>
+          <ul className="m-0 grid list-none grid-cols-2 gap-8 p-0 max-md:grid-cols-1 max-md:gap-6">
+            {ALSO_BUILT.items.map((b) => (
+              <li key={b.title} className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center gap-3">
+                  <strong className="font-medium">{b.title}</strong>
+                  <span className="gb-tag gb-tag-award">{b.award}</span>
+                </div>
+                <p className="m-0 max-w-[60ch] text-sm text-ink-muted">{b.body}</p>
+                <Link className="gb-link self-start text-sm" href={b.href}>
+                  Read the case study
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Section>
 
@@ -359,6 +378,9 @@ export default async function HomePage() {
           </div>
         </section>
       </div>
+
+      {/* The toolset, last before the footer */}
+      <SkillsMarquee />
     </>
   )
 }

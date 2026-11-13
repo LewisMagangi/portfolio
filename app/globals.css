@@ -197,7 +197,7 @@
   .display-xl {
     font-size: 60px;
     line-height: 60px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.02em;
   }
   .display {
@@ -274,8 +274,9 @@
     }
   }
 
-  /* Reveals (v8): headings 1.2s rising 48px, body 0.7s rising 32px after 100ms, list items 0.5s rising 24px
-     staggered 60ms from 200ms. Buttons are never part of a reveal. Off under reduced motion. */
+  /* Reveals (v9, impeccable): one motion budget. The hero words and the tagline reveal are the authored moments;
+     section headings keep a quiet 1.2s rise. Body text and list items no longer animate, so sections stop
+     entering the same way. Buttons are never part of a reveal. Off under reduced motion. */
   @media (prefers-reduced-motion: no-preference) {
     html.gb-reveal-on [data-reveal] :is(h1, h2, h3, .display, .heading) {
       opacity: 0;
@@ -284,42 +285,7 @@
         opacity 1200ms var(--ease-tilda),
         transform 1200ms var(--ease-tilda);
     }
-    html.gb-reveal-on [data-reveal] :is(p, .lead):not(li p, li .lead, button p) {
-      opacity: 0;
-      transform: translateY(var(--rise-text));
-      transition:
-        opacity 700ms var(--ease-tilda) 100ms,
-        transform 700ms var(--ease-tilda) 100ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li {
-      opacity: 0;
-      transform: translateY(var(--rise-item));
-      transition:
-        opacity 500ms var(--ease-tilda) 200ms,
-        transform 500ms var(--ease-tilda) 200ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(2) {
-      transition-delay: 260ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(3) {
-      transition-delay: 320ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(4) {
-      transition-delay: 380ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(5) {
-      transition-delay: 440ms;
-    }
-    html.gb-reveal-on [data-reveal] :is(ul, ol) > li:nth-child(n + 6) {
-      transition-delay: 500ms;
-    }
-    html.gb-reveal-on [data-reveal].is-in :is(h1, h2, h3, .display, .heading, p, .lead, li) {
-      opacity: 1;
-      transform: none;
-    }
-    /* The paragraph hide rule carries a :not() that outranks the line above (0,4,2 vs 0,4,1); match it so body
-       text actually reveals. (Same bug exists in bundle.css.) */
-    html.gb-reveal-on [data-reveal].is-in :is(p, .lead):not(li p, li .lead, button p) {
+    html.gb-reveal-on [data-reveal].is-in :is(h1, h2, h3, .display, .heading) {
       opacity: 1;
       transform: none;
     }

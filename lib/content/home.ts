@@ -41,19 +41,28 @@ export const HERO = {
   note: "Free, 30 minutes on Google Meet, in your time zone. Hiring for an AI or ML role?",
   cvLabel: "Download my CV",
   device: {
-    url: "afyabora-telehealth.vercel.app",
-    liveUrl: "https://afyabora-telehealth.vercel.app/",
-    caption: "Afya Bora, a telehealth app I built, running live. Select the screen to use it.",
-    mock: mock("AB", "Consultations", "Live", [
-      { l: "Doctors", v: "Verified" },
-      { l: "Bookings", v: "Online" },
-      { l: "Records", v: "Private" },
-    ], ["Book a doctor", "Prescriptions", "Lab results", "Payments"]),
-    mobileMock: mock("AB", "Consultations", "Live", [{ l: "Next visit", v: "Today" }], [
-      "Book a doctor",
-      "Prescriptions",
-      "Lab results",
-    ]),
+    url: "wamumbi-red.vercel.app",
+    liveUrl: "https://wamumbi-red.vercel.app/",
+    shots: {
+      desktop: "/work/wamumbi-after-desk.jpg",
+      phone: "/work/wamumbi-after-phone.jpg",
+      alt: "Wamumbi home page: Bringing hope to orphaned children, with Donate now and See our work",
+    },
+    before: {
+      url: "wamumbi.vercel.app",
+      shots: {
+        desktop: "/work/wamumbi-before-desk.jpg",
+        phone: "/work/wamumbi-before-phone.jpg",
+        alt: "The original Wamumbi home page: Bringing Hope to Orphaned Children, with Donate now and Learn more",
+      },
+    },
+    caption: "Wamumbi, a charity platform I rebuilt, deployed on real data ahead of launch. Open it in a new tab, or compare it with the original.",
+    mock: mock("W", "Campaigns", "Live", [
+      { l: "Roles", v: "9" },
+      { l: "Events", v: "9" },
+      { l: "Access tests", v: "347" },
+    ], ["Donations", "Campaigns", "Volunteers", "Events"]),
+    mobileMock: mock("W", "Campaigns", "Live", [{ l: "Roles", v: "9" }], ["Donations", "Campaigns", "Events"]),
   },
 }
 
@@ -68,46 +77,47 @@ export type CaseStudy = {
   mock: Mock
   problem: string
   approach: string[]
-  results: { v: string; l: string }[]
+  /** One line, read as a sentence (v9: no big number stat row). */
+  outcome: string
+  /** Case study page slug; a build without one links to its live site instead. */
+  slug?: string
+  /** Screenshots in place of a live frame (no open link unless liveUrl is set). */
+  shots?: { desktop: string; phone: string; alt: string }
 }
 
 export const WORK = {
   heading: "Recent work, problem first.",
-  lead: "Three builds for real organisations: what was broken, what I did, and what changed. Each frame runs the live site where one exists.",
-  allLabel: "All eight projects",
+  lead: "What was broken, what I did, and what changed, with the product beside each one.",
+  allLabel: "All nine projects",
   cases: [
     {
-      title: "Wamumbi",
-      period: "Apr 2025 to now",
-      kind: "Live",
-      url: "wamumbi-red.vercel.app",
-      liveUrl: "https://wamumbi-red.vercel.app/",
+      title: "Afya Bora",
+      period: "Enactus JOOUST, May to Jul 2024",
+      url: "afyabora-telehealth.vercel.app",
+      liveUrl: "https://afyabora-telehealth.vercel.app/",
       live: true,
-      mock: mock("W", "Campaigns", "Live", [
-        { l: "API endpoints", v: "51" },
-        { l: "Reference tables", v: "17" },
-        { l: "Commits", v: "80+" },
-      ], ["Donations", "Campaigns", "Volunteers", "Events"]),
+      slug: "afya-bora",
+      mock: mock("AB", "Consultations", "Live", [
+        { l: "Doctors", v: "Verified" },
+        { l: "Bookings", v: "Online" },
+        { l: "Records", v: "Private" },
+      ], ["Book a doctor", "Prescriptions", "Lab results", "Payments"]),
       problem:
-        "A charity foundation’s platform ran on mock data, so staff could not trust it to run campaigns, take donations or manage volunteers.",
+        "Reliable health advice is hard to reach in rural Kenya. I proposed a place where patients could ask, doctors could answer, and the best answers rise to the top.",
       approach: [
-        "Designed the database so every donation and volunteer is traceable",
-        "Built and documented the 51 endpoints the dashboard runs on",
-        "Patched the critical Next.js flaw CVE-2025-66478",
+        "Questions, answers, votes, comments and search, plus a blog for longer posts",
+        "Accounts for patients and doctors, with profiles kept in sync",
+        "Proposed it, built it end to end and deployed it",
       ],
-      results: [
-        { v: "51", l: "documented endpoints" },
-        { v: "17", l: "reference tables seeded" },
-        { v: "80+", l: "commits" },
-      ],
+      outcome: "Presented at the 2024 Enactus Kenya National Expo, where it taught me that judges score real impact, not just clean code.",
     },
     {
       title: "Project Nexus",
-      period: "Nov to Dec 2025",
-      kind: "Capstone",
+      period: "ALX ProDev capstone, Nov to Dec 2025",
       url: "alx-project-nexus-social.vercel.app",
       liveUrl: "https://alx-project-nexus-social.vercel.app/",
       live: true,
+      slug: "project-nexus",
       mock: mock("N", "Feed", "Live", [
         { l: "Commits", v: "150+" },
         { l: "Pull requests", v: "46" },
@@ -120,35 +130,67 @@ export const WORK = {
         "Posts, threads, follows, messaging, communities and search",
         "Automated tests and checks on every commit",
       ],
-      results: [
-        { v: "150+", l: "commits, solo" },
-        { v: "46", l: "pull requests" },
-        { v: "Top", l: "scores in the cohort" },
-      ],
+      outcome: "150+ commits and 46 pull requests, solo in five weeks, and one of the top scores in the cohort.",
     },
     {
-      title: "Solar Water ATM",
-      period: "Jun to Jul 2025",
-      award: "#3 at Enactus Kenya 2025",
-      url: "water-atm admin",
+      title: "Sustainable Fishing",
+      period: "Enactus JOOUST, Jun to Jul 2025",
+      award: "#5, Enactus Kenya 2025",
+      url: "Sustainable Fishing",
       live: false,
-      mock: mock("WA", "Kiosk usage", "Admin", [
-        { l: "Litres today", v: "1,240" },
-        { l: "Kiosks", v: "3" },
-      ], ["Kiosk A", "Kiosk B", "Top ups", "Alerts"]),
+      slug: "sustainable-fishing",
+      shots: {
+        desktop: "/work/fishing-desk.jpg",
+        phone: "/work/fishing-phone.jpg",
+        alt: "Sustainable Fishing home page: a community for responsible fishermen and marine conservation",
+      },
+      mock: mock("SF", "Catch log", "Live", [
+        { l: "Apps", v: "3" },
+        { l: "Roles", v: "3" },
+      ], ["Catch logged", "Lesson: closed seasons", "Community post", "Finance entry"]),
       problem:
-        "Solar kiosks reach communities the grid does not, but every litre has to be paid for and traceable, and the prototype had become hard to extend.",
+        "Communities around the lake needed one place to record what is caught, learn sustainable practice and talk to each other, with roles so the right people can publish and moderate.",
       approach: [
-        "Led three developers moving it from Flask to Django",
-        "Metered usage with automatic pricing and validation",
-        "Closed injection gaps and hardened password resets",
+        "Defined the architecture: three Django apps for catches, education and a community timeline",
+        "A custom user model with roles for fishermen, educators and admins",
+        "An admin that does the work, tuned against N+1 queries",
       ],
-      results: [
-        { v: "#3", l: "national expo" },
-        { v: "3", l: "developers I led" },
+      outcome: "Ranked fifth nationally alongside the Water ATM, with an MIT licensed codebase and a contributing guide so others can pick it up.",
+    },
+    {
+      title: "Curtmag",
+      period: "In progress",
+      kind: "In progress",
+      url: "curtmag.vercel.app",
+      liveUrl: "https://curtmag.vercel.app/",
+      live: true,
+      mock: mock("C", "Bookings", "Live", [
+        { l: "Booking", v: "Number plate" },
+        { l: "Account", v: "Not needed" },
+      ], ["Book a slot", "Get a quote", "Visit us", "My bookings"]),
+      problem:
+        "A garage in Embakasi Jua Kali wanted customers to book a same day service with just a number plate, and to know the price before any work starts.",
+      approach: [
+        "Booking with a number plate and a phone number, no account",
+        "Roles for customers, mechanics and admins",
+        "Price confirmed before work; M‑Pesa, cash or card after",
       ],
+      outcome: "Results land here when it ships.",
     },
   ] satisfies CaseStudy[],
+}
+
+/** Builds told in words until their screenshots are in. */
+export const ALSO_BUILT = {
+  heading: "Also built",
+  items: [
+    {
+      title: "Solar Water ATM",
+      award: "#3, Enactus Kenya 2025",
+      body: "Led three developers moving solar water kiosks from Flask to Django: metered usage with automatic pricing, closed injection gaps and hardened password resets.",
+      href: "/work/solar-powered-water-atm",
+    },
+  ],
 }
 
 export const SKILLS_TEASER = {
@@ -260,7 +302,7 @@ export const CAREER = {
     ms("2023", "Sep 2023 to Mar 2024", "Dynamic Cryptosuite Selection", "Project", "Benchmarked ciphers on time, CPU and memory. The panel called it the best project in the class.", ["Applied crypto", "Benchmarking"], "dynamic-cryptosuite-selection-capstone", { key: true, mark: "!", markLabel: "Best project in class" }),
     ms("2024", "May to Aug 2024", "ICT attachment, KenGen", "Work", "Moved key department records to Google Drive and supported networking while senior staff were away.", ["Networks", "Service desk"], "ict-attachment-kengen"),
     ms("2024", "Oct 2024", "Graduated, BSc Computer Forensics Science", "Education", "Specialised in cybersecurity.", [], "graduated-bsc-computer-forensics-science", { key: true, mark: "!", markLabel: "Milestone" }),
-    ms("2025", "Apr 2025 to now", "Full stack engineer, Wamumbi", "Work", "Took a charity platform from mock data to a live dashboard the foundation can trust.", ["Next.js", "tRPC", "PostgreSQL"], "full-stack-engineer-wamumbi", { key: true, mark: "!", markLabel: "Turning point" }),
+    ms("2025", "Apr 2025 to now", "Full stack engineer, Wamumbi", "Work", "Built the foundation’s platform for the public and its officials: nine roles, approvals and real event photos.", ["Next.js", "tRPC", "PostgreSQL"], "full-stack-engineer-wamumbi", { key: true, mark: "!", markLabel: "Turning point" }),
     ms("2025", "Jun to Jul 2025", "#3 and #5 at the Enactus Kenya National Expo", "Award", "Led three developers on the Solar Water ATM (#3) and built Sustainable Fishing (#5).", ["Team lead", "Django"], "enactus-kenya-national-expo-3-and-5", { tone: "award", key: true, mark: "!!", markLabel: "Brilliant move" }),
     ms("2025", "Aug to Dec 2025", "ALX ProDev back end and front end, with Project Nexus", "Training", "Both diplomas at once, then a solo social platform that earned one of the highest scores in the cohort.", ["Django REST", "Next.js", "CI"], "project-nexus-capstone", { key: true, mark: "!", markLabel: "Strong move" }),
     ms("2026", "Aug 2026", "Associate AI Engineer for Developers", "Certificate", "Ten DataCamp courses: LLM APIs, embeddings, Pinecone, LangChain and MCP.", ["OpenAI API", "LangChain", "MCP"], "associate-ai-engineer-for-developers"),

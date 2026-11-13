@@ -82,3 +82,13 @@ Load the skill before doing the kind of work it covers.
     - Codewars: LewisMagangi
     - Lichess: Lique
     - Chess.com: liquelaliqour
+
+## Standing rules added in v9
+
+- **Frames:** a frame shows the live site (Afya Bora, Project Nexus, Curtmag) or real screenshots (`public/work/`), never a stand in screen. One device at a time: the bar switches desktop (1440) and phone (390) in a stage that keeps its height.
+- **Open icon:** only deployed builds carry the open in a new tab icon. Builds that aren't running (Sustainable Fishing, Solar Water ATM) show screenshots with no icon, and the copy never says they aren't deployed.
+- **Wamumbi** is the hero frame, from screenshots for now (with the open icon), and the before and after curtain compares the original and the rebuild. It waits for a drag, the arrow keys or "Play the change". Switch it back to a live frame once Wamumbi allows framing.
+- **Solar Water ATM** stays in "Also built" until its screenshots are in; then it joins the carousel like Sustainable Fishing.
+- **Motion budget (impeccable):** the hero words and the tagline reveal are the authored moments; section headings keep a quiet rise; body text and list items do not animate. This replaces the v8 reveal timings for body and lists.
+- **Case studies:** the period sits under the title (no labels above headings), and the result reads as one sentence, not a stat row.
+- **Hero heading:** solid colour, semibold (600). No gradient text.
