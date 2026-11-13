@@ -286,7 +286,7 @@ export default function AdminBooksPage() {
                 </Field>
               </div>
               {shelfDraft === "READING" && (
-                <div className="grid grid-cols-[1fr_96px] gap-3">
+                <div className="grid grid-cols-[minmax(0,1fr)_128px] gap-3">
                   <Field id="b-pos" label="Where I am" optional>
                     <input id="b-pos" name="position" defaultValue={cur?.position ?? ""} placeholder="Chapter 10, batch processing" className={control} />
                   </Field>
