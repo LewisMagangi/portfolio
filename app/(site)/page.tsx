@@ -20,7 +20,6 @@ import { SplitWords } from "@/components/site/split-words"
 import { buttonVariants } from "@/components/ui/button"
 import {
   CAREER,
-  CERTS,
   CLOSE,
   CV_HREF,
   FAQ,
@@ -34,6 +33,7 @@ import {
   TRUST,
   WORK,
 } from "@/lib/content/home"
+import { getCertificates } from "@/lib/certificates"
 import { getApprovedClientReviews } from "@/lib/reviews"
 import { getServices } from "@/lib/services"
 import { BOOK_HREF } from "@/lib/site"
@@ -89,7 +89,7 @@ function Head({ id, title, lead, as: H = "h2", titleClass = "heading" }: { id: s
 }
 
 export default async function HomePage() {
-  const [clientReviews, offer] = await Promise.all([getApprovedClientReviews(), getServices("home")])
+  const [clientReviews, offer, certs] = await Promise.all([getApprovedClientReviews(), getServices("home"), getCertificates()])
   const refs = [...TRUST.refs, ...clientReviews]
 
   return (
@@ -243,7 +243,7 @@ export default async function HomePage() {
           <h3 className="title m-0">{TRUST.certsHeading}</h3>
           <p className="m-0 text-sm text-ink-muted">{TRUST.certsLead}</p>
         </div>
-        <CertificateCarousel items={CERTS} id="cert-track" label="Certificates" />
+        <CertificateCarousel items={certs.carousel} id="cert-track" label="Certificates" />
         <div>
           <Link href="/certificates" className={buttonVariants({ variant: "outline" })}>
             {TRUST.certsAll}

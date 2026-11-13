@@ -446,6 +446,57 @@ enum SkillLevel {
 }
 
 // ===================================
+// CERTIFICATES (Admin › Certificates)
+// ===================================
+
+// AI_DATA, SOFTWARE and PROFESSIONAL are the groups on /certificates; OTHER is "Other certificates".
+// Featured certificates with an image also show in the carousel on Home and /certificates.
+model Certificate {
+  id          String              @id @default(uuid())
+  title       String
+  // Under the image in the carousel, when it differs from the card title
+  fullTitle   String?             @map("full_title")
+  // On the card, e.g. "DataCamp, career track"
+  issuer      String
+  // Short issuer under the carousel image, e.g. "DataCamp"
+  org         String?
+  // Card monogram, e.g. "DC"
+  mark        String?
+  category    CertificateCategory
+  status      CertificateStatus   @default(VERIFIED)
+  // As shown, e.g. "Nov 2026" or "27 Oct to 19 Dec 2025"
+  date        String
+  length      String?
+  note        String?
+  tag         String?
+  learned     String[]
+  verifyUrl   String?             @map("verify_url")
+  image       String?
+  imageWidth  Int?                @map("image_width")
+  imageHeight Int?                @map("image_height")
+  alt         String?
+  featured    Boolean             @default(false)
+  orderIndex  Int                 @default(0) @map("order_index")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+
+  @@index([category, orderIndex], name: "certificate_category_order_idx")
+  @@map("certificates")
+}
+
+enum CertificateCategory {
+  AI_DATA
+  SOFTWARE
+  PROFESSIONAL
+  OTHER
+}
+
+enum CertificateStatus {
+  VERIFIED
+  IN_PROGRESS
+}
+
+// ===================================
 // LEARNING TRACKS (DataCamp course stories)
 // ===================================
 
