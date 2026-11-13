@@ -58,10 +58,17 @@ export default function ProjectPage({ params }: Props) {
             </div>
           ))}
         </dl>
-        {/* v9: only deployed sites get a frame; a build that is not running keeps its words, never a stand in screen. */}
-        {p.liveUrl && (
+        {/* v9: a frame shows the live site or real screenshots, never a stand in screen. */}
+        {(p.liveUrl || p.shots) && (
           <div className="mt-4 max-w-[1040px]">
-            <DeviceMockup url={p.shot} liveUrl={p.liveUrl} mock={p.mock} caption={p.mockCaption} />
+            <DeviceMockup
+              url={p.shot}
+              liveUrl={p.liveUrl}
+              shots={p.shots}
+              openHref={p.liveUrl}
+              mock={p.mock}
+              caption={p.mockCaption}
+            />
           </div>
         )}
         {p.video && (

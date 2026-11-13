@@ -55,7 +55,13 @@ export function CaseStudyCard({ study, href }: { study: CaseStudy; href?: string
         </div>
       </div>
       <div className="gb-case-shot">
-        <DeviceMockup url={study.url} liveUrl={study.live ? study.liveUrl : undefined} mock={study.mock} compact />
+        <DeviceMockup
+          url={study.url}
+          liveUrl={study.live ? study.liveUrl : undefined}
+          shots={study.shots}
+          mock={study.mock}
+          compact
+        />
       </div>
     </article>
   )

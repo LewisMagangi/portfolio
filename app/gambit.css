@@ -113,7 +113,11 @@
 .gb-device .gb-frame-open { position: relative; right: auto; top: auto; transform: none; flex: none; }
 .gb-device .gb-frame-open::after { inset: -4px; }
 .gb-device-stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 0 0 var(--radius-lg) var(--radius-lg); background: var(--bg); }
-.gb-device-stage > .gb-live, .gb-device-stage > .gb-mock, .gb-device-stage > .gb-curtain-wrap { position: absolute; inset: 0; }
+.gb-device-stage > .gb-live, .gb-device-stage > .gb-mock, .gb-device-stage > .gb-curtain-wrap, .gb-device-stage > .gb-shot { position: absolute; inset: 0; }
+.gb-shot { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; background: var(--bg); user-select: none; -webkit-user-select: none; }
+.gb-curtain-layer > .gb-shot { position: absolute; inset: 0; }
+.gb-device-phone .gb-phone-view > .gb-shot { position: absolute; inset: 0; }
+@media (max-width: 640px) { .gb-device:not(.is-phone) .gb-shot { object-fit: contain; object-position: top center; } }
 .gb-device-phone { position: absolute; inset: 16px 0; display: flex; justify-content: center; }
 .gb-device-phone .gb-phone-body { height: 100%; aspect-ratio: 9 / 19; box-sizing: border-box; padding: 8px; border-radius: 32px; box-shadow: inset 0 0 0 4px var(--bg), 0 24px 48px #00000059; }
 .gb-device-phone .gb-phone-notch { top: 14px; width: 56px; margin-left: -28px; height: 16px; }

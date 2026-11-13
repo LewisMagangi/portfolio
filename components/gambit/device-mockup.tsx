@@ -216,6 +216,26 @@ export function LiveView({
   )
 }
 
+/** A screenshot pair for one build: desktop (1440 by 900) and phone (390 by 844). */
+export type Shots = { desktop: string; phone: string; alt: string }
+
+/** A screenshot in the frame, top aligned so the page reads from its first screen. */
+function ShotView({ shots, phone }: { shots: Shots; phone: boolean }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- fixed-size local screenshots in a fixed frame
+    <img
+      className="gb-shot"
+      src={phone ? shots.phone : shots.desktop}
+      alt={phone ? `${shots.alt}, on a phone` : shots.alt}
+      width={phone ? 390 : 1440}
+      height={phone ? 844 : 900}
+      loading="lazy"
+      decoding="async"
+      draggable={false}
+    />
+  )
+}
+
 const EASE = (k: number) => (k === 1 ? 1 : 1 - Math.pow(2, -10 * k))
 
 /**
@@ -226,13 +246,9 @@ const EASE = (k: number) => (k === 1 ? 1 : 1 - Math.pow(2, -10 * k))
 function Curtain({
   before,
   after,
-  phone,
-  mock,
 }: {
-  before: { src: string; label: string }
-  after: { src: string; label: string }
-  phone: boolean
-  mock: ReactNode
+  before: { view: ReactNode; label: string }
+  after: { view: ReactNode; label: string }
 }) {
   const [pos, setPos] = useState(62)
   const stage = useRef<HTMLDivElement>(null)
@@ -261,8 +277,6 @@ function Curtain({
     setPos(100)
     raf.current = requestAnimationFrame(step)
   }
-  const vp = phone ? 390 : 1440
-
   return (
     <div className="gb-curtain-wrap">
       <div
@@ -278,11 +292,9 @@ function Curtain({
         onPointerUp={() => (drag.current = false)}
         onPointerCancel={() => (drag.current = false)}
       >
-        <div className="gb-curtain-layer">
-          <LiveView src={before.src} title={before.label} poster={mock} viewport={vp} phone={phone} still />
-        </div>
+        <div className="gb-curtain-layer">{before.view}</div>
         <div className="gb-curtain-layer" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-          <LiveView src={after.src} title={after.label} poster={mock} viewport={vp} phone={phone} still />
+          {after.view}
         </div>
         <span className="gb-curtain-tag is-before" aria-hidden>
           Before
@@ -332,14 +344,22 @@ export function DeviceMockup({
   caption,
   compact = false,
   before,
+  shots,
+  openHref,
 }: {
   url?: string
+  /** Runs the real site in the frame. Ignored when `shots` is given. */
   liveUrl?: string
   mock: Mock
   mobileMock?: Mock
   caption?: string
   compact?: boolean
-  before?: { url: string; liveUrl: string }
+  /** The original build, shown under the current one in the before and after curtain. */
+  before?: { url: string; shots: Shots }
+  /** Screenshots in place of a live frame. */
+  shots?: Shots
+  /** Where the open-in-a-new-tab icon goes (deployed builds only). Defaults to `liveUrl`. */
+  openHref?: string
 }) {
   const label = url || host(liveUrl)
   const [phone, setPhone] = useState(false)
@@ -354,19 +374,20 @@ export function DeviceMockup({
   }, [])
 
   const poster = phone ? <MockScreen mock={mobileMock || mock} phone /> : <MockScreen mock={mock} />
-  const showCurtain = curtain && before && liveUrl
+  const showCurtain = Boolean(curtain && before && shots)
+  const open = openHref ?? (shots ? undefined : liveUrl)
+  const switchable = Boolean(shots || liveUrl)
 
   let view: ReactNode
-  if (!liveUrl) view = poster
-  else if (showCurtain)
+  if (showCurtain && before && shots)
     view = (
       <Curtain
-        before={{ src: before.liveUrl, label: before.url }}
-        after={{ src: liveUrl, label }}
-        phone={phone}
-        mock={poster}
+        before={{ view: <ShotView shots={before.shots} phone={phone} />, label: before.url }}
+        after={{ view: <ShotView shots={shots} phone={phone} />, label }}
       />
     )
+  else if (shots) view = <ShotView shots={shots} phone={phone} />
+  else if (!liveUrl) view = poster
   else
     view = (
       <LiveView
@@ -388,9 +409,9 @@ export function DeviceMockup({
           <i />
         </span>
         <span className="gb-browser-url" translate="no">
-          {showCurtain ? `${before.url} → ${label}` : label}
+          {showCurtain && before ? `${before.url} → ${label}` : label}
         </span>
-        {before && liveUrl && (
+        {before && shots && (
           <button
             type="button"
             className="gb-frame-btn"
@@ -401,7 +422,7 @@ export function DeviceMockup({
             <span className="max-sm:sr-only">Before and after</span>
           </button>
         )}
-        {liveUrl && (
+        {switchable && (
           <div className="gb-frame-seg" role="group" aria-label="View as">
             <button type="button" aria-pressed={!phone} aria-label="Desktop" onClick={() => setPhone(false)}>
               <Icon name="desktop" size={16} />
@@ -411,10 +432,10 @@ export function DeviceMockup({
             </button>
           </div>
         )}
-        {liveUrl && !showCurtain && (
+        {open && !showCurtain && (
           <a
             className="gb-frame-open"
-            href={liveUrl}
+            href={open}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Open ${label} in a new tab`}

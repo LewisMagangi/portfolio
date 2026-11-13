@@ -10,9 +10,16 @@ export function ProjectCard({ p }: { p: FeaturedCard }) {
   const href = p.caseStudy === false ? p.liveUrl : `/work/${p.slug}`
   return (
     <article className="group/card relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-lg border border-line bg-surface p-6 text-ink transition-[box-shadow,transform] duration-fast ease-out hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-      {p.live && p.liveUrl && (
+      {((p.live && p.liveUrl) || p.shots) && (
         <div className="-mx-6 -mt-6 rounded-t-lg border-b border-line bg-bg p-6">
-          <DeviceMockup url={host} liveUrl={p.liveUrl} mock={p.mock} compact />
+          <DeviceMockup
+            url={host}
+            liveUrl={p.live ? p.liveUrl : undefined}
+            shots={p.shots}
+            openHref={p.live ? p.liveUrl : undefined}
+            mock={p.mock}
+            compact
+          />
         </div>
       )}
       <div className="mt-3 flex flex-col gap-1">

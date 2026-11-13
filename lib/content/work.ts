@@ -2,6 +2,19 @@
 // (the board scripts evaluated, so the copy is verbatim). Edit here; the boards are the reference.
 import type { Mock } from "@/lib/content/home"
 
+export type Shots = { desktop: string; phone: string; alt: string }
+
+const WAMUMBI_SHOTS: Shots = {
+  desktop: "/work/wamumbi-after-desk.jpg",
+  phone: "/work/wamumbi-after-phone.jpg",
+  alt: "Wamumbi home page: Bringing hope to orphaned children, with Donate now and See our work",
+}
+const FISHING_SHOTS: Shots = {
+  desktop: "/work/fishing-desk.jpg",
+  phone: "/work/fishing-phone.jpg",
+  alt: "Sustainable Fishing home page: a community for responsible fishermen and marine conservation",
+}
+
 export type Fact = { k: string; v: string }
 export type Project = {
   slug: string
@@ -14,6 +27,8 @@ export type Project = {
   facts: Fact[]
   shot: string
   liveUrl?: string
+  /** Screenshots in place of a live frame. */
+  shots?: Shots
   mock: Mock
   mockCaption: string
   video?: { embed: string; href: string; title: string; caption: string }
@@ -29,7 +44,7 @@ export type Project = {
 
 export const INTRO = {
   title: "Shipped for charities, communities and competitions.",
-  lead: "Nine projects across full stack web, accessibility, security and systems. Live sites first; the rest follow.",
+  lead: "Nine projects across full stack web, accessibility, security and systems. Featured work first; the rest follow.",
 }
 
 export const FILTERS = ["All", "Next.js", "Django", "Security", "Systems", "Award winning"] as const
@@ -47,6 +62,8 @@ export type FeaturedCard = {
   liveUrl?: string
   repoUrl?: string
   live: boolean
+  /** Screenshots in place of a live frame. */
+  shots?: Shots
   tags: string[]
   thumb: string
   mock: Mock
@@ -65,6 +82,7 @@ export const FEATURED: FeaturedCard[] = [
     liveUrl: "https://wamumbi-red.vercel.app/",
     repoUrl: "https://github.com/LewisMagangi/wamumbi",
     live: true,
+    shots: WAMUMBI_SHOTS,
     tags: ["Next.js", "tRPC", "Prisma", "Neon"],
     thumb: "wamumbi-red.vercel.app",
     mock: {
@@ -137,6 +155,30 @@ export const FEATURED: FeaturedCard[] = [
     filters: ["Next.js", "Django", "Security"],
   },
   {
+    slug: "sustainable-fishing",
+    title: "Sustainable Fishing",
+    summary:
+      "Architected three Django apps for catch logging, education and a community timeline, with role based access and a custom admin.",
+    period: "Jun to Jul 2025",
+    award: "#5, Enactus Kenya 2025",
+    repoUrl: "https://github.com/LewisMagangi/Sustainable_Fishing",
+    live: false,
+    shots: FISHING_SHOTS,
+    tags: ["Django", "RBAC", "PostgreSQL"],
+    thumb: "Sustainable Fishing",
+    mock: {
+      brand: "SF",
+      title: "Catch log",
+      badge: "Live",
+      stats: [
+        { l: "Apps", v: "3" },
+        { l: "Roles", v: "3" },
+      ],
+      rows: ["Catch logged, tilapia", "Lesson: closed seasons", "Community post", "Finance entry"],
+    },
+    filters: ["Django", "Award winning"],
+  },
+  {
     slug: "curtmag",
     title: "Curtmag",
     summary:
@@ -170,14 +212,6 @@ export const ARCHIVE: ArchiveRow[] = [
     award: "#3, Enactus Kenya 2025",
     line: "Led the Flask to Django 5.2 migration for solar water kiosks: metered billing, hardened auth and XSS fixes, leading three developers.",
     filters: ["Django", "Security", "Award winning"],
-  },
-  {
-    slug: "sustainable-fishing",
-    year: "Jun to Jul 2025",
-    title: "Sustainable Fishing",
-    award: "#5, Enactus Kenya 2025",
-    line: "Architected three Django apps for catch logging, education and a community timeline, with role based access and a custom admin.",
-    filters: ["Django", "Award winning"],
   },
   {
     slug: "sne-portal",
@@ -223,6 +257,7 @@ export const PROJECTS: Project[] = [
     ],
     shot: "wamumbi-red.vercel.app",
     liveUrl: "https://wamumbi-red.vercel.app/",
+    shots: WAMUMBI_SHOTS,
     mock: {
       brand: "W",
       title: "Campaigns",
@@ -234,7 +269,7 @@ export const PROJECTS: Project[] = [
       ],
       rows: ["Donations", "Campaigns", "Volunteers", "Events"],
     },
-    mockCaption: "Deployed on real data ahead of launch. Select the screen to use the site, or open it in a new tab.",
+    mockCaption: "Deployed on real data ahead of launch. Open it in a new tab to use it.",
     problem:
       "A charity foundation needed one site for the public and for its officials: campaigns, events, donations and volunteers in one place, with each official seeing only what their role allows, and nothing going public without review.",
     did: [
@@ -558,7 +593,8 @@ export const PROJECTS: Project[] = [
         v: "Django, Python, Render",
       },
     ],
-    shot: "sustainable-fishing, catch-log",
+    shot: "Sustainable Fishing",
+    shots: FISHING_SHOTS,
     mock: {
       brand: "SF",
       title: "Catch log",

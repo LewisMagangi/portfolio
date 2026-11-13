@@ -43,8 +43,20 @@ export const HERO = {
   device: {
     url: "wamumbi-red.vercel.app",
     liveUrl: "https://wamumbi-red.vercel.app/",
-    before: { url: "wamumbi.vercel.app", liveUrl: "https://wamumbi.vercel.app/" },
-    caption: "Wamumbi, a charity platform I rebuilt, deployed on real data ahead of launch. Select the screen to use it, or compare it with the original.",
+    shots: {
+      desktop: "/work/wamumbi-after-desk.jpg",
+      phone: "/work/wamumbi-after-phone.jpg",
+      alt: "Wamumbi home page: Bringing hope to orphaned children, with Donate now and See our work",
+    },
+    before: {
+      url: "wamumbi.vercel.app",
+      shots: {
+        desktop: "/work/wamumbi-before-desk.jpg",
+        phone: "/work/wamumbi-before-phone.jpg",
+        alt: "The original Wamumbi home page: Bringing Hope to Orphaned Children, with Donate now and Learn more",
+      },
+    },
+    caption: "Wamumbi, a charity platform I rebuilt, deployed on real data ahead of launch. Open it in a new tab, or compare it with the original.",
     mock: mock("W", "Campaigns", "Live", [
       { l: "Roles", v: "9" },
       { l: "Events", v: "9" },
@@ -69,11 +81,13 @@ export type CaseStudy = {
   outcome: string
   /** Case study page slug; a build without one links to its live site instead. */
   slug?: string
+  /** Screenshots in place of a live frame (no open link unless liveUrl is set). */
+  shots?: { desktop: string; phone: string; alt: string }
 }
 
 export const WORK = {
   heading: "Recent work, problem first.",
-  lead: "Three builds running now: what was broken, what I did, and what changed. Each frame runs the live site.",
+  lead: "What was broken, what I did, and what changed, with the product beside each one.",
   allLabel: "All nine projects",
   cases: [
     {
@@ -119,6 +133,31 @@ export const WORK = {
       outcome: "150+ commits and 46 pull requests, solo in five weeks, and one of the top scores in the cohort.",
     },
     {
+      title: "Sustainable Fishing",
+      period: "Enactus JOOUST, Jun to Jul 2025",
+      award: "#5, Enactus Kenya 2025",
+      url: "Sustainable Fishing",
+      live: false,
+      slug: "sustainable-fishing",
+      shots: {
+        desktop: "/work/fishing-desk.jpg",
+        phone: "/work/fishing-phone.jpg",
+        alt: "Sustainable Fishing home page: a community for responsible fishermen and marine conservation",
+      },
+      mock: mock("SF", "Catch log", "Live", [
+        { l: "Apps", v: "3" },
+        { l: "Roles", v: "3" },
+      ], ["Catch logged", "Lesson: closed seasons", "Community post", "Finance entry"]),
+      problem:
+        "Communities around the lake needed one place to record what is caught, learn sustainable practice and talk to each other, with roles so the right people can publish and moderate.",
+      approach: [
+        "Defined the architecture: three Django apps for catches, education and a community timeline",
+        "A custom user model with roles for fishermen, educators and admins",
+        "An admin that does the work, tuned against N+1 queries",
+      ],
+      outcome: "Ranked fifth nationally alongside the Water ATM, with an MIT licensed codebase and a contributing guide so others can pick it up.",
+    },
+    {
       title: "Curtmag",
       period: "In progress",
       kind: "In progress",
@@ -141,21 +180,15 @@ export const WORK = {
   ] satisfies CaseStudy[],
 }
 
-/** Built before, not deployed now: their words stay, with no frames or stand in screens. */
+/** Builds told in words until their screenshots are in. */
 export const ALSO_BUILT = {
-  heading: "Also built, not deployed now",
+  heading: "Also built",
   items: [
     {
       title: "Solar Water ATM",
       award: "#3, Enactus Kenya 2025",
       body: "Led three developers moving solar water kiosks from Flask to Django: metered usage with automatic pricing, closed injection gaps and hardened password resets.",
       href: "/work/solar-powered-water-atm",
-    },
-    {
-      title: "Sustainable Fishing",
-      award: "#5, Enactus Kenya 2025",
-      body: "Three Django apps for catch logging, education and a community timeline, with role based access and a custom admin.",
-      href: "/work/sustainable-fishing",
     },
   ],
 }

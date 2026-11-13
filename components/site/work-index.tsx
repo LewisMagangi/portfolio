@@ -34,7 +34,7 @@ export function WorkIndex() {
       {featured.length > 0 && (
         <section aria-labelledby="featured-h">
           <h2 id="featured-h" className="title m-0 mb-6">
-            Running now
+            Featured work
           </h2>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,440px),1fr))] gap-6">
             {featured.map((p) => (
@@ -47,7 +47,7 @@ export function WorkIndex() {
       {archive.length > 0 && (
         <section aria-labelledby="more-h" className="flex flex-col gap-3">
           <h2 id="more-h" className="title m-0">
-            Built before, not deployed now
+            More projects
           </h2>
           <ul className="m-0 list-none overflow-hidden rounded-lg border border-line bg-surface p-0">
             {archive.map((m, i) => (

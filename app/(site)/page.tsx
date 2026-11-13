@@ -136,6 +136,8 @@ export default async function HomePage() {
               liveUrl={HERO.device.liveUrl}
               mock={HERO.device.mock}
               mobileMock={HERO.device.mobileMock}
+              shots={HERO.device.shots}
+              openHref={HERO.device.liveUrl}
               before={HERO.device.before}
               caption={HERO.device.caption}
             />
