@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 
 import { Accordion } from "@/components/gambit/accordion"
 import { CarouselControls } from "@/components/gambit/carousel"
+import { AwardCard } from "@/components/gambit/award-card"
 import { CaseStudyCard } from "@/components/gambit/case-study-card"
 import { FEATURED } from "@/lib/content/work"
 import { CertificateCarousel } from "@/components/gambit/certificate-carousel"
@@ -20,7 +21,6 @@ import { SplitWords } from "@/components/site/split-words"
 import { buttonVariants } from "@/components/ui/button"
 import {
   CAREER,
-  CERTS,
   CLOSE,
   CV_HREF,
   FAQ,
@@ -34,6 +34,11 @@ import {
   TRUST,
   WORK,
 } from "@/lib/content/home"
+import { getAwards } from "@/lib/awards"
+import { getShelf } from "@/lib/books"
+import { getCertificates } from "@/lib/certificates"
+import { getChallenges } from "@/lib/challenges"
+import { AWARDS_HEAD } from "@/lib/content/awards"
 import { getApprovedClientReviews } from "@/lib/reviews"
 import { getServices } from "@/lib/services"
 import { BOOK_HREF } from "@/lib/site"
@@ -89,7 +94,14 @@ function Head({ id, title, lead, as: H = "h2", titleClass = "heading" }: { id: s
 }
 
 export default async function HomePage() {
-  const [clientReviews, offer] = await Promise.all([getApprovedClientReviews(), getServices("home")])
+  const [clientReviews, offer, certs, awards, shelf, challenges] = await Promise.all([
+    getApprovedClientReviews(),
+    getServices("home"),
+    getCertificates(),
+    getAwards(),
+    getShelf(),
+    getChallenges(),
+  ])
   const refs = [...TRUST.refs, ...clientReviews]
 
   return (
@@ -214,6 +226,18 @@ export default async function HomePage() {
         </div>
       </Section>
 
+      {/* Awards: rankings and honours, each linked to the work behind it */}
+      {awards.length > 0 && (
+        <Section id="awards" labelledBy="awards-h">
+          <Head id="awards-h" title={AWARDS_HEAD.heading} lead={AWARDS_HEAD.lead} />
+          <div className="grid grid-cols-2 gap-x-12 max-lg:grid-cols-1">
+            {awards.map((a) => (
+              <AwardCard key={`${a.rank}-${a.title}`} award={a} />
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* References and certificates */}
       <Section id="trust" labelledBy="trust-h">
         <Head id="trust-h" title={TRUST.heading} lead={TRUST.lead} />
@@ -243,7 +267,7 @@ export default async function HomePage() {
           <h3 className="title m-0">{TRUST.certsHeading}</h3>
           <p className="m-0 text-sm text-ink-muted">{TRUST.certsLead}</p>
         </div>
-        <CertificateCarousel items={CERTS} id="cert-track" label="Certificates" />
+        <CertificateCarousel items={certs.carousel} id="cert-track" label="Certificates" />
         <div>
           <Link href="/certificates" className={buttonVariants({ variant: "outline" })}>
             {TRUST.certsAll}
@@ -265,11 +289,11 @@ export default async function HomePage() {
           }
         />
         <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start gap-12 max-lg:grid-cols-1">
-          <ChallengeBoard items={OFF.challenges} live />
+          <ChallengeBoard items={challenges.home} live />
           <div className="flex flex-col gap-4">
             <h3 className="m-0 text-lg font-medium">{OFF.readingHeading}</h3>
             <ul className="m-0 list-none p-0">
-              {OFF.reading.map((b) => (
+              {shelf.home.map((b) => (
                 <li key={b.title} className="flex flex-col border-t border-line py-3">
                   <strong className="font-medium">{b.title}</strong>
                   <span className="text-sm text-ink-muted">{b.where}</span>

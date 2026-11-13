@@ -12,6 +12,7 @@ export const STORY = [
   { id: "skills", label: "Skills" },
   { id: "services", label: "Services" },
   { id: "career", label: "How I got here" },
+  { id: "awards", label: "Awards" },
   { id: "trust", label: "References" },
   { id: "off", label: "Off the clock" },
   { id: "faq", label: "Questions" },

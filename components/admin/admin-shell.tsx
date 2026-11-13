@@ -3,7 +3,9 @@
 import {
   CalendarBlank,
   ArrowSquareOut,
+  Books,
   Briefcase,
+  Certificate,
   ChartBar,
   FileText,
   Folder,
@@ -16,7 +18,9 @@ import {
   SignOut,
   SquaresFour,
   Stack,
+  Target,
   Tray,
+  Trophy,
   User,
   type Icon,
 } from "@phosphor-icons/react"
@@ -47,7 +51,11 @@ const GROUPS: { title: string; items: Item[] }[] = [
       { label: "Experience", href: "/admin/experiences", icon: Briefcase },
       { label: "Education", href: "/admin/education", icon: GraduationCap },
       { label: "Skills", href: "/admin/skills", icon: Stack },
+      { label: "Certificates", href: "/admin/certificates", icon: Certificate },
+      { label: "Awards", href: "/admin/awards", icon: Trophy },
       { label: "Chess", href: "/admin/chess", icon: Horse },
+      { label: "Challenges", href: "/admin/challenges", icon: Target },
+      { label: "Books", href: "/admin/books", icon: Books },
     ],
   },
   {

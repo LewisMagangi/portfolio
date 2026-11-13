@@ -158,4 +158,5 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 
 ## Decided since (13 Nov 2026)
 - The ML Engineer track certificate verifies at its DataCamp statement of accomplishment; the cards link to it.
+- Awards are back on Home (Lewis, 13 Nov): a "Judged by others." section after How I got here, from the Gambit AwardCard, edited in Admin › Awards. The reading battery gains an Awards item.
 - Client reviews reach Lewis as a daily digest at 07:00 EAT (`/api/cron/reviews`), listing the whole queue, rather than one email per review.

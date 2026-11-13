@@ -3,25 +3,29 @@ import type { Metadata } from "next"
 
 import { CertificateCarousel } from "@/components/gambit/certificate-carousel"
 import { CertGroups } from "@/components/site/cert-groups"
-import { GROUPS, INTRO, OTHERS } from "@/lib/content/certificates"
-import { CERTS } from "@/lib/content/home"
+import { getCertificates } from "@/lib/certificates"
+import { INTRO } from "@/lib/content/certificates"
 
 export const metadata: Metadata = {
   title: "Certificates",
   description: INTRO.lead,
 }
 
-export default function CertificatesPage() {
+// Admin › Certificates refreshes this on save; the hour is a backstop.
+export const revalidate = 3600
+
+export default async function CertificatesPage() {
+  const { lead, carousel, groups, others } = await getCertificates()
   return (
     <div className="mx-auto box-border flex max-w-content flex-col gap-12 px-[clamp(16px,4vw,32px)] pb-24 pt-[72px]">
       <div className="flex flex-col gap-[18px]">
         <h1 className="display m-0">{INTRO.title}</h1>
-        <p className="lead m-0 max-w-[640px] text-ink-muted">{INTRO.lead}</p>
+        <p className="lead m-0 max-w-[640px] text-ink-muted">{lead}</p>
       </div>
 
-      <CertificateCarousel items={CERTS} id="cert-all" label="Certificates" />
+      <CertificateCarousel items={carousel} id="cert-all" label="Certificates" />
 
-      <CertGroups groups={GROUPS} />
+      <CertGroups groups={groups} />
 
       <section aria-labelledby="other-h" data-reveal="" className="flex flex-col gap-4 border-t border-line pt-12">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
@@ -31,7 +35,7 @@ export default function CertificatesPage() {
           <span className="text-sm text-ink-muted">Short courses, career prep and chess</span>
         </div>
         <ul className="m-0 flex list-none flex-col p-0">
-          {OTHERS.map((o) => (
+          {others.map((o) => (
             <li key={o.title} className="flex flex-wrap items-center gap-4 border-t border-line py-4 last:border-b">
               <img src={o.image} alt={o.alt} width={112} height={80} loading="lazy" className="h-20 w-28 flex-none rounded-md border border-line bg-surface object-cover" />
               <div className="flex min-w-[min(100%,240px)] flex-1 flex-col gap-0.5">

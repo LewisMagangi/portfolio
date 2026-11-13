@@ -446,6 +446,149 @@ enum SkillLevel {
 }
 
 // ===================================
+// CERTIFICATES (Admin › Certificates)
+// ===================================
+
+// AI_DATA, SOFTWARE and PROFESSIONAL are the groups on /certificates; OTHER is "Other certificates".
+// Featured certificates with an image also show in the carousel on Home and /certificates.
+model Certificate {
+  id          String              @id @default(uuid())
+  title       String
+  // Under the image in the carousel, when it differs from the card title
+  fullTitle   String?             @map("full_title")
+  // On the card, e.g. "DataCamp, career track"
+  issuer      String
+  // Short issuer under the carousel image, e.g. "DataCamp"
+  org         String?
+  // Card monogram, e.g. "DC"
+  mark        String?
+  category    CertificateCategory
+  status      CertificateStatus   @default(VERIFIED)
+  // As shown, e.g. "Nov 2026" or "27 Oct to 19 Dec 2025"
+  date        String
+  length      String?
+  note        String?
+  tag         String?
+  learned     String[]
+  verifyUrl   String?             @map("verify_url")
+  image       String?
+  imageWidth  Int?                @map("image_width")
+  imageHeight Int?                @map("image_height")
+  alt         String?
+  featured    Boolean             @default(false)
+  orderIndex  Int                 @default(0) @map("order_index")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+
+  @@index([category, orderIndex], name: "certificate_category_order_idx")
+  @@map("certificates")
+}
+
+enum CertificateCategory {
+  AI_DATA
+  SOFTWARE
+  PROFESSIONAL
+  OTHER
+}
+
+enum CertificateStatus {
+  VERIFIED
+  IN_PROGRESS
+}
+
+// ===================================
+// AWARDS (Admin › Awards)
+// ===================================
+
+// The rankings and honours on Home. Each links to the work behind it.
+model Award {
+  id         String    @id @default(uuid())
+  // Short result: #3, 7/9, Best, Top
+  rank       String
+  title      String
+  event      String
+  year       String
+  // RANKING shows the rank in amber; QUIET (no placing) in ink
+  tone       AwardTone @default(RANKING)
+  href       String?
+  linkLabel  String?   @map("link_label")
+  // Certificate or letter link
+  proofUrl   String?   @map("proof_url")
+  featured   Boolean   @default(true)
+  orderIndex Int       @default(0) @map("order_index")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@index([orderIndex], name: "award_order_idx")
+  @@map("awards")
+}
+
+enum AwardTone {
+  RANKING
+  QUIET
+}
+
+// ===================================
+// BOOKS (Admin › Books)
+// ===================================
+
+// The shelf on /reading. Books reading now and switched on also show on Home.
+model Book {
+  id         String    @id @default(uuid())
+  title      String
+  author     String?
+  shelf      BookShelf
+  // Groups the want to read list, e.g. AI and ML
+  genre      String?
+  // Where I am, e.g. Chapter 10, batch processing
+  position   String?
+  // Up next: why it's next. Reading now: added after the position on /reading
+  note       String?
+  // Percent read, optional
+  progress   Int?
+  featured   Boolean   @default(false)
+  orderIndex Int       @default(0) @map("order_index")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@index([shelf, orderIndex], name: "book_shelf_order_idx")
+  @@map("books")
+}
+
+enum BookShelf {
+  READING
+  UP_NEXT
+  FINISHED
+  WANT
+}
+
+// ===================================
+// CHALLENGES (Admin › Challenges)
+// ===================================
+
+// The platforms on the Chess page and, when switched on, in Off the clock on Home.
+model Challenge {
+  id         String   @id @default(uuid())
+  // lichess, chesscom, leetcode, codewars or other: picks the live rating loader
+  platform   String
+  label      String
+  handle     String
+  invite     String
+  cta        String
+  href       String
+  // knight, crown, code or puzzle
+  icon       String
+  live       Boolean  @default(true)
+  featured   Boolean  @default(true)
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([orderIndex], name: "challenge_order_idx")
+  @@map("challenges")
+}
+
+// ===================================
 // LEARNING TRACKS (DataCamp course stories)
 // ===================================
 
