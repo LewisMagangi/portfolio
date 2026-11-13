@@ -3,6 +3,7 @@
 import {
   CalendarBlank,
   ArrowSquareOut,
+  Books,
   Briefcase,
   Certificate,
   ChartBar,
@@ -17,6 +18,7 @@ import {
   SignOut,
   SquaresFour,
   Stack,
+  Target,
   Tray,
   Trophy,
   User,
@@ -52,6 +54,8 @@ const GROUPS: { title: string; items: Item[] }[] = [
       { label: "Certificates", href: "/admin/certificates", icon: Certificate },
       { label: "Awards", href: "/admin/awards", icon: Trophy },
       { label: "Chess", href: "/admin/chess", icon: Horse },
+      { label: "Challenges", href: "/admin/challenges", icon: Target },
+      { label: "Books", href: "/admin/books", icon: Books },
     ],
   },
   {

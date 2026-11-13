@@ -6,6 +6,7 @@ import { StoryRail } from "@/components/gambit/story-rail"
 import { Shader } from "@/components/site/shader"
 import { SplitWords } from "@/components/site/split-words"
 import { getBestWins } from "@/lib/chess-games"
+import { getChallenges } from "@/lib/challenges"
 import { EVENTS, EVENTS_HEAD, HERO, ONLINE, PLAY, RAIL } from "@/lib/content/chess"
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ function Head({ id, title, children }: { id: string; title: string; children: Re
 }
 
 export default async function ChessPage() {
-  const games = await getBestWins()
+  const [games, challenges] = await Promise.all([getBestWins(), getChallenges()])
 
   return (
     <>
@@ -103,7 +104,7 @@ export default async function ChessPage() {
               </h2>
               <p className="lead m-0 text-ink-muted">{PLAY.lead}</p>
             </div>
-            <ChallengeBoard items={PLAY.challenges} live />
+            <ChallengeBoard items={challenges.all} live />
           </div>
         </section>
       </div>

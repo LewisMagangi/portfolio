@@ -35,7 +35,9 @@ import {
   WORK,
 } from "@/lib/content/home"
 import { getAwards } from "@/lib/awards"
+import { getShelf } from "@/lib/books"
 import { getCertificates } from "@/lib/certificates"
+import { getChallenges } from "@/lib/challenges"
 import { AWARDS_HEAD } from "@/lib/content/awards"
 import { getApprovedClientReviews } from "@/lib/reviews"
 import { getServices } from "@/lib/services"
@@ -92,7 +94,14 @@ function Head({ id, title, lead, as: H = "h2", titleClass = "heading" }: { id: s
 }
 
 export default async function HomePage() {
-  const [clientReviews, offer, certs, awards] = await Promise.all([getApprovedClientReviews(), getServices("home"), getCertificates(), getAwards()])
+  const [clientReviews, offer, certs, awards, shelf, challenges] = await Promise.all([
+    getApprovedClientReviews(),
+    getServices("home"),
+    getCertificates(),
+    getAwards(),
+    getShelf(),
+    getChallenges(),
+  ])
   const refs = [...TRUST.refs, ...clientReviews]
 
   return (
@@ -280,11 +289,11 @@ export default async function HomePage() {
           }
         />
         <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start gap-12 max-lg:grid-cols-1">
-          <ChallengeBoard items={OFF.challenges} live />
+          <ChallengeBoard items={challenges.home} live />
           <div className="flex flex-col gap-4">
             <h3 className="m-0 text-lg font-medium">{OFF.readingHeading}</h3>
             <ul className="m-0 list-none p-0">
-              {OFF.reading.map((b) => (
+              {shelf.home.map((b) => (
                 <li key={b.title} className="flex flex-col border-t border-line py-3">
                   <strong className="font-medium">{b.title}</strong>
                   <span className="text-sm text-ink-muted">{b.where}</span>

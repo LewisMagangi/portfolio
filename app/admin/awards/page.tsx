@@ -1,9 +1,10 @@
 "use client"
 
 import { ArrowDown, ArrowUp, MagnifyingGlass, PencilSimple, Trash } from "@phosphor-icons/react"
-import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from "react"
+import { useCallback, useEffect, useState, type FormEvent } from "react"
 
 import { PageHeader } from "@/components/admin/admin-shell"
+import { Field, Toggle, control } from "@/components/admin/fields"
 import { buttonVariants } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
@@ -22,44 +23,6 @@ type Award = {
 type Link = { href: string; label: string }
 type Data = { awards: Award[]; links: Link[] }
 type Editing = { id: string | null } | null
-
-const control =
-  "box-border min-h-11 w-full rounded-md border border-line-strong bg-bg px-3 py-2.5 font-sans text-base text-ink placeholder:text-ink-subtle focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--focus)]"
-
-function Field({ id, label, hint, optional, children }: { id: string; label: string; hint?: string; optional?: boolean; children: ReactNode }) {
-  return (
-    <div className="flex min-w-0 flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium">
-        {label}
-        {optional && <em className="ml-1.5 font-normal not-italic text-ink-subtle">optional</em>}
-      </label>
-      {children}
-      {hint && <span className="text-xs text-ink-subtle">{hint}</span>}
-    </div>
-  )
-}
-
-function Toggle({ checked, onChange, label, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; disabled?: boolean }) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      aria-label={label}
-      disabled={disabled}
-      onClick={() => onChange(!checked)}
-      className={cn(
-        "relative inline-flex h-6 w-10 shrink-0 cursor-pointer items-center rounded-full border border-line-strong transition-colors duration-200 disabled:opacity-60",
-        checked ? "bg-ink" : "bg-surface-raised",
-      )}
-    >
-      <span
-        aria-hidden
-        className={cn("block size-4 rounded-full transition-transform duration-200 motion-reduce:transition-none", checked ? "translate-x-[19px] bg-bg" : "translate-x-[3px] bg-ink-muted")}
-      />
-    </button>
-  )
-}
 
 /** Admin › Awards (Admin-Awards board): the rankings and honours on Home. */
 export default function AdminAwardsPage() {

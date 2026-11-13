@@ -529,6 +529,66 @@ enum AwardTone {
 }
 
 // ===================================
+// BOOKS (Admin › Books)
+// ===================================
+
+// The shelf on /reading. Books reading now and switched on also show on Home.
+model Book {
+  id         String    @id @default(uuid())
+  title      String
+  author     String?
+  shelf      BookShelf
+  // Groups the want to read list, e.g. AI and ML
+  genre      String?
+  // Where I am, e.g. Chapter 10, batch processing
+  position   String?
+  // Up next: why it's next. Reading now: added after the position on /reading
+  note       String?
+  // Percent read, optional
+  progress   Int?
+  featured   Boolean   @default(false)
+  orderIndex Int       @default(0) @map("order_index")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@index([shelf, orderIndex], name: "book_shelf_order_idx")
+  @@map("books")
+}
+
+enum BookShelf {
+  READING
+  UP_NEXT
+  FINISHED
+  WANT
+}
+
+// ===================================
+// CHALLENGES (Admin › Challenges)
+// ===================================
+
+// The platforms on the Chess page and, when switched on, in Off the clock on Home.
+model Challenge {
+  id         String   @id @default(uuid())
+  // lichess, chesscom, leetcode, codewars or other: picks the live rating loader
+  platform   String
+  label      String
+  handle     String
+  invite     String
+  cta        String
+  href       String
+  // knight, crown, code or puzzle
+  icon       String
+  live       Boolean  @default(true)
+  featured   Boolean  @default(true)
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([orderIndex], name: "challenge_order_idx")
+  @@map("challenges")
+}
+
+// ===================================
 // LEARNING TRACKS (DataCamp course stories)
 // ===================================
 

@@ -15,6 +15,8 @@ export type Challenge = {
   invite: string
   cta: string
   href: string
+  /** Set false in Admin › Challenges to skip the live rating. */
+  live?: boolean
 }
 
 // Public profile APIs: a live rating when the platform shares one. Silent on failure.
@@ -40,7 +42,7 @@ function ChallengeItem({ item, live }: { item: Challenge; live: boolean }) {
 
   useEffect(() => {
     const load = LIVE[item.platform]
-    if (!live || !load) return
+    if (!live || item.live === false || !load) return
     const ctrl = new AbortController()
     const timer = window.setTimeout(() => ctrl.abort(), 5000)
     load(item.handle, ctrl.signal)
@@ -52,7 +54,7 @@ function ChallengeItem({ item, live }: { item: Challenge; live: boolean }) {
       window.clearTimeout(timer)
       ctrl.abort()
     }
-  }, [item.platform, item.handle, live])
+  }, [item.platform, item.handle, item.live, live])
 
   return (
     <li className="gb-challenge">
@@ -86,7 +88,7 @@ export function ChallengeBoard({ items, live = false }: { items: readonly Challe
   return (
     <ul className="gb-challenges">
       {items.map((c) => (
-        <ChallengeItem key={c.platform} item={c} live={live} />
+        <ChallengeItem key={`${c.platform}-${c.handle}`} item={c} live={live} />
       ))}
     </ul>
   )
