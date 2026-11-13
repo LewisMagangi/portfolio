@@ -27,21 +27,7 @@ export async function createClientReview(input: ReviewInput) {
     },
   })
 
-  // Sent straight away; a daily digest is still undecided (design/v8/HANDOFF.md, "Not decided yet").
-  await sendAlert({
-    replyTo: input.email,
-    subject: `New review from ${input.name}`,
-    text: [
-      `${input.name}, ${[input.role, input.org].filter(Boolean).join(", ")}`,
-      `${input.relation}${input.project ? `, ${input.project}` : ""}`,
-      ...(input.link ? [`Link: ${input.link}`] : []),
-      "",
-      input.review,
-      "",
-      `Confirm you worked together, then approve or decline: ${SITE}/admin/testimonials`,
-    ].join("\n"),
-  })
-
+  // No email here: Lewis gets one daily digest of the queue (sendReviewDigest, /api/cron/reviews).
   return row
 }
 
@@ -91,4 +77,48 @@ export async function decideClientReview(id: string, decision: ReviewDecision) {
   })
   if (review.status === "APPROVED") revalidatePath("/")
   return updated
+}
+
+const DAY = 24 * 60 * 60 * 1000
+
+/**
+ * The daily email to Lewis: every review still waiting in the queue, newest first, with the ones that
+ * arrived in the last day marked new. It lists the whole queue, so a review can't fall between two runs,
+ * and nothing is sent while the queue is empty.
+ */
+export async function sendReviewDigest(now = new Date()) {
+  const waiting = await prisma.testimonial.findMany({
+    where: { source: "CLIENT_REVIEW", status: "PENDING" },
+    orderBy: { createdAt: "desc" },
+  })
+  if (!waiting.length) return { waiting: 0, fresh: 0, sent: false }
+
+  const since = now.getTime() - DAY
+  const fresh = waiting.filter((r) => r.createdAt.getTime() > since).length
+  const count = (n: number) => `${n} review${n === 1 ? "" : "s"}`
+
+  const blocks = waiting.map((r) =>
+    [
+      `${r.createdAt.getTime() > since ? "New: " : ""}${r.name}, ${[r.role, r.company].filter(Boolean).join(", ")}`,
+      `${r.relation ?? "Relationship not given"}${r.project ? `, ${r.project}` : ""}`,
+      ...(r.email ? [`Email: ${r.email}`] : []),
+      ...(r.link ? [`Link: ${r.link}`] : []),
+      "",
+      r.content,
+    ].join("\n"),
+  )
+
+  const sent = await sendAlert({
+    subject: fresh
+      ? `${count(fresh)} new, ${waiting.length} waiting for you`
+      : `${count(waiting.length)} still waiting for you`,
+    text: [
+      `${count(waiting.length)} waiting in Admin › References${fresh ? `, ${fresh} new since yesterday` : ""}.`,
+      "Confirm you worked together, then approve or decline:",
+      `${SITE}/admin/testimonials`,
+      "",
+      blocks.join("\n\n---\n\n"),
+    ].join("\n"),
+  })
+  return { waiting: waiting.length, fresh, sent }
 }

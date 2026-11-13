@@ -3,7 +3,7 @@
 import { createClientReview, firstName } from "@/lib/client-reviews"
 import { reviewSchema, type ReviewField, type ReviewState } from "@/lib/review-schema"
 
-/** Saves a review as PENDING and emails Lewis. It stays hidden until he approves it in Admin › References. */
+/** Saves a review as PENDING; Lewis sees it in the daily digest. It stays hidden until he approves it in Admin › References. */
 export async function submitReview(_prev: ReviewState, form: FormData): Promise<ReviewState> {
   // Bots fill the hidden field; a person never sees it. Pretend it worked so they don't retry.
   if (String(form.get("website") ?? "")) return { status: "sent", firstName: "you" }

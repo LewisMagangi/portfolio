@@ -429,7 +429,12 @@ export const TRACKS: {
       org: "DataCamp, career track",
       dates: "1 Oct to 9 Nov 2026",
       result: "12 courses, 43 hours",
-      links: [],
+      links: [
+        {
+          label: "Track certificate",
+          href: "https://www.datacamp.com/completed/statement-of-accomplishment/track/13caa7481279bc4aff0dcb5697ad2bac1169b302",
+        },
+      ],
       groups: [
         {
           name: "Models",

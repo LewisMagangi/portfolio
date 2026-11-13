@@ -156,6 +156,6 @@ Read `CLAUDE.md` first. The standing rules there still apply. Load the project s
 - Chess.com's **"neo" pieces are proprietary.** Don't ship them. The green theme pairs those board colours with cburnett pieces.
 - cburnett is GPLv2+: keep `public/pieces/cburnett/LICENSE.md` and the credit line under the board.
 
-## Not decided yet
-- A public verify link for the ML Engineer track certificate. The card hides Verify until there is one.
-- Whether the client reviews queue should email Lewis immediately or as a daily digest.
+## Decided since (13 Nov 2026)
+- The ML Engineer track certificate verifies at its DataCamp statement of accomplishment; the cards link to it.
+- Client reviews reach Lewis as a daily digest at 07:00 EAT (`/api/cron/reviews`), listing the whole queue, rather than one email per review.
