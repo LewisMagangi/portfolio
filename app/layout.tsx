@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { GeistMono } from "geist/font/mono"
 import { Poppins } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 
 import { Cursor } from "@/components/site/cursor"
 import { RevealObserver } from "@/components/site/reveal-observer"
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <RevealObserver />
           <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
