@@ -36,6 +36,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.15.6",
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "chess.js": "^1.4.0",
     "class-variance-authority": "^0.7.0",
